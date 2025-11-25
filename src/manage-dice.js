@@ -21,10 +21,10 @@ diceArray.forEach((dice) => {
   <div class="group flex flex-col items-center">
       <h1>Dice ID: ${dice.id}</h1>
           <div
-            class="flex h-40 w-40 items-center justify-center rounded-4xl bg-gray-300 duration-400 group-hover:cursor-pointer group-hover:bg-gray-200"
+            class="dice-box"
           >
             <h1
-              class="text-8xl text-red-500 duration-400 group-hover:text-red-400"
+              class="dice-letter"
             >
               ${dice.mainFace}
             </h1>
