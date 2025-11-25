@@ -9,11 +9,11 @@
 }
 
 .dice-box {
-  @apply flex h-15 w-15 items-center justify-center rounded-xl bg-gray-300 duration-400 group-hover:cursor-pointer group-hover:bg-gray-200 md:h-30 md:w-30;
+  @apply flex h-20 w-20 items-center justify-center rounded-xl bg-gray-300 duration-400 group-hover:cursor-pointer group-hover:bg-gray-200 md:h-30 md:w-30;
 }
 
 .dice-letter {
-  @apply text-4xl text-red-500 duration-400 group-hover:text-red-400 md:text-7xl;
+  @apply text-5xl text-red-500 duration-400 group-hover:text-red-400 md:text-7xl;
 }
 
 .main-container {
