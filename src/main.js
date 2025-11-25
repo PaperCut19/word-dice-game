@@ -1,13 +1,32 @@
 import "./style.css";
 
-const frontPageDice = ["W", "O", "R", "D", "S"];
+let frontPageDice = ["W", "O", "R", "D", "S"];
+let userText = "";
 
 const frontPageDiceDiv = document.querySelector("#frontPageDice");
+const diceTextInput = document.querySelector("#diceTextInput");
+const changeDiceSubmit = document.querySelector("#changeDiceSubmit");
 
-frontPageDice.forEach((dice) => {
-  const diceElement = document.createElement("div");
+diceTextInput.addEventListener("input", (event) => {
+  userText = event.target.value;
+});
+changeDiceSubmit.addEventListener("click", () => {
+  if (userText) {
+    userText = userText.toUpperCase();
+    frontPageDice = [...userText];
+    displayDice();
+  }
+});
 
-  diceElement.innerHTML = `
+displayDice();
+
+function displayDice() {
+  frontPageDiceDiv.innerHTML = "";
+
+  frontPageDice.forEach((dice) => {
+    const diceElement = document.createElement("div");
+
+    diceElement.innerHTML = `
   <div class="group">
           <div
             class="flex h-40 w-40 items-center justify-center rounded-4xl bg-gray-300 duration-400 group-hover:cursor-pointer group-hover:bg-gray-200"
@@ -21,5 +40,6 @@ frontPageDice.forEach((dice) => {
         </div>
   `;
 
-  frontPageDiceDiv.appendChild(diceElement);
-});
+    frontPageDiceDiv.appendChild(diceElement);
+  });
+}
