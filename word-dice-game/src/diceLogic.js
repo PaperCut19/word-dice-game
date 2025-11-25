@@ -8,8 +8,8 @@ export class Dice {
     const messagesGroup = [];
     this.faces.forEach((face, index) => {
       const message = `Face ${index + 1} value: ${face}`;
-      messagesGroup.push(message);
+      messagesGroup.push(` ${message}`);
     });
-    console.log(messagesGroup);
+    alert(messagesGroup);
   }
 }
