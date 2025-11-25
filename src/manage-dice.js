@@ -1,5 +1,5 @@
 import "./style.css";
-import { Dice } from "./diceLogic";
+import { Dice } from "./diceClass";
 
 const dice1 = new Dice(1);
 const dice2 = new Dice(2);
