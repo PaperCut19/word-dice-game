@@ -10,13 +10,13 @@ const changeDiceSubmit = document.querySelector("#changeDiceSubmit");
 diceTextInput.addEventListener("input", (event) => {
   userText = event.target.value;
 });
-changeDiceSubmit.addEventListener("click", () => {
-  if (userText) {
-    userText = userText.toUpperCase();
-    frontPageDice = [...userText];
-    displayDice();
+diceTextInput.addEventListener("keydown", (event) => {
+  if (event.key === "Enter") {
+    updateDice();
   }
 });
+
+changeDiceSubmit.addEventListener("click", updateDice);
 
 displayDice();
 
@@ -42,4 +42,12 @@ function displayDice() {
 
     frontPageDiceDiv.appendChild(diceElement);
   });
+}
+
+function updateDice() {
+  if (userText) {
+    userText = userText.toUpperCase();
+    frontPageDice = [...userText];
+    displayDice();
+  }
 }
