@@ -11,10 +11,15 @@ const faceValueButton = document.querySelector("#faceValueButton");
 const diceBlockDiv = document.querySelector("#diceBlockDiv");
 const toggleMenuButton = document.querySelector("#toggleMenuButton");
 const menu = document.querySelector("#menu");
+const createBlocksDiv = document.querySelector("#createBlocksDiv");
 
 toggleMenuButton.addEventListener("click", () => {
   console.log("toggle menu");
   menu.classList.toggle("hidden");
+
+  if (!createBlocksDiv.classList.contains("hidden")) {
+    createBlocksDiv.classList.toggle("hidden");
+  }
 });
 faceValueButton.addEventListener("click", () => {
   dice1.showFaces();
