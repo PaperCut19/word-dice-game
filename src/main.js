@@ -18,7 +18,8 @@ diceArray.forEach((dice) => {
   const diceElement = document.createElement("div");
 
   diceElement.innerHTML = `
-  <div class="group">
+  <div class="group flex flex-col items-center">
+      <h1>Dice ID: ${dice.id}</h1>
           <div
             class="flex h-40 w-40 items-center justify-center rounded-4xl bg-gray-300 duration-400 group-hover:cursor-pointer group-hover:bg-gray-200"
           >
