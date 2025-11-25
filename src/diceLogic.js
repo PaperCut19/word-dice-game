@@ -2,6 +2,7 @@ export class Dice {
   constructor(id) {
     this.id = id;
     this.faces = ["A", "B", "C", "D", "E", "F"];
+    this.mainFace = "A";
   }
 
   showFaces() {
