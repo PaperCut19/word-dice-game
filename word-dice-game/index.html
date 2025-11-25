@@ -8,12 +8,25 @@
   </head>
   <body class="bg-amber-100">
     <div id="app">
-      <div class="flex justify-center items-center h-screen">
-        <div
-          class="flex items-center justify-center w-40 h-40 bg-gray-300 rounded-4xl hover:cursor-pointer hover:bg-gray-200 duration-400"
-        >
-          <h1 class="text-red-500 text-8xl">C</h1>
+      <!-- main container -->
+      <div class="flex flex-col gap-2 justify-center items-center h-screen">
+        <!-- dice block -->
+        <div class="group">
+          <div
+            class="flex items-center justify-center w-40 h-40 bg-gray-300 rounded-4xl group-hover:cursor-pointer group-hover:bg-gray-200 duration-400"
+          >
+            <h1
+              class="text-red-500 text-8xl group-hover:text-red-400 duration-400"
+            >
+              C
+            </h1>
+          </div>
         </div>
+
+        <!-- website link -->
+        <a href="manage-dice.html" class="underline underline-offset-4"
+          >Manage Your Dice</a
+        >
       </div>
     </div>
     <script type="module" src="/src/main.js"></script>
