@@ -1,1 +1,9 @@
 @import "tailwindcss";
+
+.button-primary {
+  @apply rounded-lg bg-blue-300 p-2 duration-200 hover:cursor-pointer hover:bg-blue-200;
+}
+
+.button-secondary {
+  @apply rounded-lg bg-gray-300 p-2 duration-200 hover:cursor-pointer hover:bg-gray-200;
+}
