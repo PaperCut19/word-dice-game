@@ -9,7 +9,13 @@ diceArray.push(dice1, dice2);
 
 const faceValueButton = document.querySelector("#faceValueButton");
 const diceBlockDiv = document.querySelector("#diceBlockDiv");
+const toggleMenuButton = document.querySelector("#toggleMenuButton");
+const menu = document.querySelector("#menu");
 
+toggleMenuButton.addEventListener("click", () => {
+  console.log("toggle menu");
+  menu.classList.toggle("hidden");
+});
 faceValueButton.addEventListener("click", () => {
   dice1.showFaces();
 });
