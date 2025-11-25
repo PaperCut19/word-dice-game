@@ -15,3 +15,7 @@
 .dice-letter {
   @apply text-4xl text-red-500 duration-400 group-hover:text-red-400 md:text-7xl;
 }
+
+.main-container {
+  @apply container mx-auto flex min-h-screen flex-col items-center justify-center gap-4;
+}
