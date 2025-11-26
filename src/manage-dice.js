@@ -70,7 +70,7 @@ manageDiceElements.createDiceTextArea.addEventListener("click", (event) => {
       resetInputDice();
       displayDice();
       alert(
-        `this dice object has been uploaded to local storage. the name of the dice is: ${inputDice.id}. This is the object: ${JSON.stringify(newDice)}`,
+        `this dice object has been uploaded to local storage. the name of the dice is "${newDice.name}". This is the object: ${JSON.stringify(newDice)}`,
       );
     } else {
       alert("There's another dice with the same name. Use a different name");
