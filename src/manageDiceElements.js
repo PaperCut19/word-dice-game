@@ -5,4 +5,5 @@ export const manageDiceElements = {
   createDiceTextArea: document.querySelector("#createDiceTextArea"),
   nameOfNewDiceHeader: document.querySelector("#nameOfNewDiceHeader"),
   menu: document.querySelector("#menu"),
+  deleteAllButton: document.querySelector("#deleteAllButton"),
 };
