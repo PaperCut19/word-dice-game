@@ -14,6 +14,7 @@ const {
   createDiceTextArea,
   nameOfNewDiceHeader,
   menu,
+  deleteDiceArea,
 } = manageDiceElements;
 
 // diceArray.push(dice1, dice2);
@@ -32,6 +33,7 @@ const inputDice = {
 
 // const inputDiceArray = [];
 
+// menu area
 menuArea.addEventListener("click", (event) => {
   if (event.target.matches("#createDiceButton")) {
     toggle(menu);
@@ -41,12 +43,17 @@ menuArea.addEventListener("click", (event) => {
   if (event.target.matches("#toggleMenuButton")) {
     toggle(menu);
 
-    if (!createBlocksDiv.classList.contains("hidden")) {
-      toggle(createBlocksDiv);
-    }
+    toggleIfOpen(createBlocksDiv);
+    toggleIfOpen(deleteDiceArea);
+  }
+
+  if (event.target.matches("#deleteDiceButton")) {
+    toggle(menu);
+    toggle(deleteDiceArea);
   }
 });
 
+// create dice text area on input
 createDiceTextArea.addEventListener("input", (event) => {
   if (event.target.id.startsWith("createDiceText")) {
     const number = event.target.id.replace("createDiceText", "");
@@ -60,6 +67,7 @@ createDiceTextArea.addEventListener("input", (event) => {
   }
 });
 
+// create dice text area on click
 createDiceTextArea.addEventListener("click", (event) => {
   if (event.target.matches("#createDiceSubmit")) {
     inputDice.id = Date.now();
@@ -138,4 +146,10 @@ function resetInputDice() {
 
 function toggle(element) {
   element.classList.toggle("hidden");
+}
+
+function toggleIfOpen(element) {
+  if (!element.classList.contains("hidden")) {
+    toggle(element);
+  }
 }
