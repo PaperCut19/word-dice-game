@@ -9,7 +9,7 @@ const diceArray = [];
 diceArray.push(dice1, dice2);
 
 const inputDice = {
-  id: "First dice",
+  id: "",
   text1: "",
   text2: "",
   text3: "",
@@ -51,6 +51,7 @@ createDiceTextArea.addEventListener("input", (event) => {
 
 createDiceTextArea.addEventListener("click", (event) => {
   if (event.target.matches("#createDiceSubmit")) {
+    inputDice.id = Date.now();
     inputDiceArray.push(inputDice);
     diceStorage.uploadAllDice(inputDiceArray);
     alert(`this dice has been uploaded ${JSON.stringify(inputDice)}`);
