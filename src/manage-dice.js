@@ -7,7 +7,7 @@ const dice2 = new Dice(2);
 const diceArray = [];
 diceArray.push(dice1, dice2);
 
-const inputArray = {
+const inputObject = {
   text1: "",
   text2: "",
   text3: "",
@@ -41,7 +41,7 @@ createDiceTextArea.addEventListener("input", (event) => {
   if (event.target.id.startsWith("createDiceText")) {
     const number = event.target.id.replace("createDiceText", "");
 
-    inputArray[`text${number}`] = event.target.value;
+    inputObject[`text${number}`] = event.target.value;
   }
 });
 
