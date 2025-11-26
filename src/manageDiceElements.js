@@ -4,4 +4,5 @@ export const manageDiceElements = {
   createBlocksDiv: document.querySelector("#createBlocksDiv"),
   createDiceTextArea: document.querySelector("#createDiceTextArea"),
   nameOfNewDiceHeader: document.querySelector("#nameOfNewDiceHeader"),
+  menu: document.querySelector("#menu"),
 };

@@ -27,11 +27,11 @@ const inputDice = {
 manageDiceElements.menuArea.addEventListener("click", (event) => {
   if (event.target.matches("#createDiceButton")) {
     manageDiceElements.createBlocksDiv.classList.toggle("hidden");
-    menu.classList.toggle("hidden");
+    manageDiceElements.menu.classList.toggle("hidden");
   }
 
   if (event.target.matches("#toggleMenuButton")) {
-    menu.classList.toggle("hidden");
+    manageDiceElements.menu.classList.toggle("hidden");
 
     if (!manageDiceElements.createBlocksDiv.classList.contains("hidden")) {
       manageDiceElements.createBlocksDiv.classList.toggle("hidden");
