@@ -60,11 +60,19 @@ createDiceTextArea.addEventListener("input", (event) => {
 
 createDiceTextArea.addEventListener("click", (event) => {
   if (event.target.matches("#createDiceSubmit")) {
-    const newDice = { ...inputDice, id: Date.now(), mainFace: inputDice.text1 };
-    diceArray.push(newDice);
-    diceStorage.uploadAllDice(diceArray);
-    displayDice();
-    alert(`this dice has been uploaded ${JSON.stringify(newDice)}`);
+    if (!diceArray.some((dice) => dice.name === inputDice.name)) {
+      const newDice = {
+        ...inputDice,
+        id: Date.now(),
+        mainFace: inputDice.text1,
+      };
+      diceArray.push(newDice);
+      diceStorage.uploadAllDice(diceArray);
+      displayDice();
+      alert(`this dice has been uploaded ${JSON.stringify(newDice)}`);
+    } else {
+      alert("There's another dice with the same name. Use a different name");
+    }
   }
 });
 
@@ -82,6 +90,7 @@ function displayDice() {
 
     diceElement.innerHTML = `
   <div class="group flex flex-col items-center">
+  <h1>Dice Name: ${dice.name || ""}</h1>
       <h1>Dice ID: ${dice.id}</h1>
           <div
             class="dice-box"
