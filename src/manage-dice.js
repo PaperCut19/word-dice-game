@@ -10,6 +10,7 @@ console.log(diceArray);
 // diceArray.push(dice1, dice2);
 
 const inputDice = {
+  name: "",
   id: "",
   text1: "",
   text2: "",
@@ -27,6 +28,7 @@ const diceBlockDiv = document.querySelector("#diceBlockDiv");
 const menuArea = document.querySelector("#menuArea");
 const createBlocksDiv = document.querySelector("#createBlocksDiv");
 const createDiceTextArea = document.querySelector("#createDiceTextArea");
+const nameOfNewDiceHeader = document.querySelector("#nameOfNewDiceHeader");
 
 menuArea.addEventListener("click", (event) => {
   if (event.target.matches("#createDiceButton")) {
@@ -48,6 +50,11 @@ createDiceTextArea.addEventListener("input", (event) => {
     const number = event.target.id.replace("createDiceText", "");
 
     inputDice[`text${number}`] = event.target.value[0] || "";
+  }
+
+  if (event.target.matches("#nameOfNewDiceText")) {
+    inputDice.name = event.target.value;
+    nameOfNewDiceHeader.textContent = `Name: ${inputDice.name}`;
   }
 });
 

@@ -41,18 +41,30 @@
       <div class="hidden" id="createBlocksDiv">
         <div class="border-main flex flex-col gap-2 md:flex-row">
           <!-- dice block -->
-          <div class="flex items-center justify-center">
+
+          <div class="flex flex-col items-center justify-center">
+            <h1 class="max-w-[100px] wrap-break-word" id="nameOfNewDiceHeader">
+              Name:
+            </h1>
             <div class="dice-box">
               <h1 class="dice-letter"></h1>
             </div>
           </div>
           <!-- text input -->
-          <div class="flex flex-col gap-2" id="createDiceTextArea">
+          <div class="flex flex-col gap-2 md:ml-5" id="createDiceTextArea">
+            <label for="nameOfNewDiceText">Name of Dice</label>
+            <input type="text" id="nameOfNewDiceText" class="text-input" />
+            <label for="createDiceText1">Side 1</label>
             <input type="text" id="createDiceText1" class="text-input" />
+            <label for="createDiceText2">Side 2</label>
             <input type="text" id="createDiceText2" class="text-input" />
+            <label for="createDiceText3">Side 3</label>
             <input type="text" id="createDiceText3" class="text-input" />
+            <label for="createDiceText4">Side 4</label>
             <input type="text" id="createDiceText4" class="text-input" />
+            <label for="createDiceText5">Side 5</label>
             <input type="text" id="createDiceText5" class="text-input" />
+            <label for="createDiceText6">Side 6</label>
             <input type="text" id="createDiceText6" class="text-input" />
             <!-- submit button -->
             <button class="button-secondary" id="createDiceSubmit">
