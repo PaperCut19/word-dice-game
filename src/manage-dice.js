@@ -8,12 +8,12 @@ const diceArray = [];
 diceArray.push(dice1, dice2);
 
 const inputArray = {
-  text1: [],
-  text2: [],
-  text3: [],
-  text4: [],
-  text5: [],
-  text6: [],
+  text1: "",
+  text2: "",
+  text3: "",
+  text4: "",
+  text5: "",
+  text6: "",
 };
 
 const faceValueButton = document.querySelector("#faceValueButton");
