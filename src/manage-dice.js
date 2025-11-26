@@ -25,16 +25,18 @@ const inputDice = {
 // const inputDiceArray = [];
 
 manageDiceElements.menuArea.addEventListener("click", (event) => {
+  const { menu, createBlocksDiv } = manageDiceElements;
+
   if (event.target.matches("#createDiceButton")) {
-    manageDiceElements.createBlocksDiv.classList.toggle("hidden");
-    manageDiceElements.menu.classList.toggle("hidden");
+    toggle(menu);
+    toggle(createBlocksDiv);
   }
 
   if (event.target.matches("#toggleMenuButton")) {
-    manageDiceElements.menu.classList.toggle("hidden");
+    toggle(menu);
 
     if (!manageDiceElements.createBlocksDiv.classList.contains("hidden")) {
-      manageDiceElements.createBlocksDiv.classList.toggle("hidden");
+      toggle(createBlocksDiv);
     }
   }
 });
@@ -128,4 +130,8 @@ function resetInputDice() {
       input.value = "";
     });
   manageDiceElements.nameOfNewDiceHeader.textContent = "Name:";
+}
+
+function toggle(element) {
+  element.classList.toggle("hidden");
 }
