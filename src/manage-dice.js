@@ -9,23 +9,21 @@ diceArray.push(dice1, dice2);
 
 const faceValueButton = document.querySelector("#faceValueButton");
 const diceBlockDiv = document.querySelector("#diceBlockDiv");
-const toggleMenuButton = document.querySelector("#toggleMenuButton");
-const menu = document.querySelector("#menu");
+const menuArea = document.querySelector("#menuArea");
 const createBlocksDiv = document.querySelector("#createBlocksDiv");
-const createDiceButton = document.querySelector("#createDiceButton");
-const editDiceButton = document.querySelector("#editDiceButton");
-const deleteDiceButton = document.querySelector("#deleteDiceButton");
 
-createDiceButton.addEventListener("click", () => {
-  createBlocksDiv.classList.toggle("hidden");
-  menu.classList.toggle("hidden");
-});
-
-toggleMenuButton.addEventListener("click", () => {
-  menu.classList.toggle("hidden");
-
-  if (!createBlocksDiv.classList.contains("hidden")) {
+menuArea.addEventListener("click", (event) => {
+  if (event.target.matches("#createDiceButton")) {
     createBlocksDiv.classList.toggle("hidden");
+    menu.classList.toggle("hidden");
+  }
+
+  if (event.target.matches("#toggleMenuButton")) {
+    menu.classList.toggle("hidden");
+
+    if (!createBlocksDiv.classList.contains("hidden")) {
+      createBlocksDiv.classList.toggle("hidden");
+    }
   }
 });
 

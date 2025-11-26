@@ -9,23 +9,32 @@
     <!-- main container -->
     <div class="main-container">
       <h1 class="text-4xl">Manage Your Dice</h1>
+
       <!-- menu area -->
-      <!-- toggle button -->
-      <button id="toggleMenuButton" class="button-secondary">
-        Toggle Menu
-      </button>
-      <!-- menu -->
       <div
-        id="menu"
-        class="border-main flex flex-col items-center justify-center gap-2"
+        id="menuArea"
+        class="flex flex-col items-center justify-center gap-2"
       >
-        <button class="button-secondary" id="createDiceButton">
-          Create Dice
+        <!-- toggle button -->
+        <button id="toggleMenuButton" class="button-secondary">
+          Toggle Menu
         </button>
-        <button class="button-secondary" id="editDiceButton">Edit Dice</button>
-        <button class="button-secondary" id="deleteDiceButton">
-          Delete Dice
-        </button>
+
+        <!-- menu -->
+        <div
+          class="border-main flex flex-col items-center justify-center gap-2"
+          id="menu"
+        >
+          <button class="button-secondary" id="createDiceButton">
+            Create Dice
+          </button>
+          <button class="button-secondary" id="editDiceButton">
+            Edit Dice
+          </button>
+          <button class="button-secondary" id="deleteDiceButton">
+            Delete Dice
+          </button>
+        </div>
       </div>
 
       <!-- create blocks -->
