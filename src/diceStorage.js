@@ -13,4 +13,8 @@ export const diceStorage = {
     const stringified = JSON.stringify(diceArray);
     localStorage.setItem("diceArray", stringified);
   },
+
+  clearAllDice() {
+    localStorage.removeItem("diceArray");
+  },
 };

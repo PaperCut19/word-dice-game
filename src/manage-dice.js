@@ -94,6 +94,15 @@ createDiceTextArea.addEventListener("click", (event) => {
   }
 });
 
+// delete dice area
+deleteDiceArea.addEventListener("click", (event) => {
+  if (event.target.matches("#deleteAllButton")) {
+    diceStorage.clearAllDice();
+    diceArray.length = 0;
+    displayDice();
+  }
+});
+
 // faceValueButton.addEventListener("click", () => {
 //   dice1.showFaces();
 // });
