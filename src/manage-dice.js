@@ -17,6 +17,7 @@ const inputDice = {
   text4: "",
   text5: "",
   text6: "",
+  mainFace: "",
 };
 
 // const inputDiceArray = [];
@@ -46,13 +47,13 @@ createDiceTextArea.addEventListener("input", (event) => {
   if (event.target.id.startsWith("createDiceText")) {
     const number = event.target.id.replace("createDiceText", "");
 
-    inputDice[`text${number}`] = event.target.value;
+    inputDice[`text${number}`] = event.target.value[0] || "";
   }
 });
 
 createDiceTextArea.addEventListener("click", (event) => {
   if (event.target.matches("#createDiceSubmit")) {
-    const newDice = { ...inputDice, id: Date.now() };
+    const newDice = { ...inputDice, id: Date.now(), mainFace: inputDice.text1 };
     diceArray.push(newDice);
     diceStorage.uploadAllDice(diceArray);
     displayDice();
