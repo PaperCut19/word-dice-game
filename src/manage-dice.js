@@ -56,7 +56,7 @@ createDiceTextArea.addEventListener("click", (event) => {
     diceArray.push(newDice);
     diceStorage.uploadAllDice(diceArray);
     displayDice();
-    alert(`this dice has been uploaded ${JSON.stringify(inputDice)}`);
+    alert(`this dice has been uploaded ${JSON.stringify(newDice)}`);
   }
 });
 
