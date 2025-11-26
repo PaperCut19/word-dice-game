@@ -7,6 +7,14 @@ import { manageDiceElements } from "./manageDiceElements";
 // const dice2 = new Dice(2);
 
 const diceArray = diceStorage.getAllDice();
+const {
+  diceBlockDiv,
+  menuArea,
+  createBlocksDiv,
+  createDiceTextArea,
+  nameOfNewDiceHeader,
+  menu,
+} = manageDiceElements;
 
 // diceArray.push(dice1, dice2);
 
@@ -24,9 +32,7 @@ const inputDice = {
 
 // const inputDiceArray = [];
 
-manageDiceElements.menuArea.addEventListener("click", (event) => {
-  const { menu, createBlocksDiv } = manageDiceElements;
-
+menuArea.addEventListener("click", (event) => {
   if (event.target.matches("#createDiceButton")) {
     toggle(menu);
     toggle(createBlocksDiv);
@@ -35,13 +41,13 @@ manageDiceElements.menuArea.addEventListener("click", (event) => {
   if (event.target.matches("#toggleMenuButton")) {
     toggle(menu);
 
-    if (!manageDiceElements.createBlocksDiv.classList.contains("hidden")) {
+    if (!createBlocksDiv.classList.contains("hidden")) {
       toggle(createBlocksDiv);
     }
   }
 });
 
-manageDiceElements.createDiceTextArea.addEventListener("input", (event) => {
+createDiceTextArea.addEventListener("input", (event) => {
   if (event.target.id.startsWith("createDiceText")) {
     const number = event.target.id.replace("createDiceText", "");
 
@@ -50,11 +56,11 @@ manageDiceElements.createDiceTextArea.addEventListener("input", (event) => {
 
   if (event.target.matches("#nameOfNewDiceText")) {
     inputDice.name = event.target.value;
-    manageDiceElements.nameOfNewDiceHeader.textContent = `Name: ${inputDice.name}`;
+    nameOfNewDiceHeader.textContent = `Name: ${inputDice.name}`;
   }
 });
 
-manageDiceElements.createDiceTextArea.addEventListener("click", (event) => {
+createDiceTextArea.addEventListener("click", (event) => {
   if (event.target.matches("#createDiceSubmit")) {
     inputDice.id = Date.now();
 
@@ -87,7 +93,7 @@ manageDiceElements.createDiceTextArea.addEventListener("click", (event) => {
 displayDice();
 
 function displayDice() {
-  manageDiceElements.diceBlockDiv.innerHTML = "";
+  diceBlockDiv.innerHTML = "";
 
   diceArray.forEach((dice) => {
     const diceElement = document.createElement("div");
@@ -108,7 +114,7 @@ function displayDice() {
         </div>
   `;
 
-    manageDiceElements.diceBlockDiv.appendChild(diceElement);
+    diceBlockDiv.appendChild(diceElement);
   });
 }
 
@@ -123,13 +129,11 @@ function resetInputDice() {
   inputDice.mainFace = "";
 
   document
-    .querySelectorAll(
-      '#manageDiceElements.createDiceTextArea input[type="text"]',
-    )
+    .querySelectorAll('#createDiceTextArea input[type="text"]')
     .forEach((input) => {
       input.value = "";
     });
-  manageDiceElements.nameOfNewDiceHeader.textContent = "Name:";
+  nameOfNewDiceHeader.textContent = "Name:";
 }
 
 function toggle(element) {
