@@ -1,5 +1,6 @@
 import "./style.css";
 import { Dice } from "./diceClass";
+import { diceStorage } from "./diceStorage";
 
 const dice1 = new Dice(1);
 const dice2 = new Dice(2);
@@ -7,7 +8,8 @@ const dice2 = new Dice(2);
 const diceArray = [];
 diceArray.push(dice1, dice2);
 
-const inputObject = {
+const inputDice = {
+  id: "First dice",
   text1: "",
   text2: "",
   text3: "",
@@ -15,6 +17,8 @@ const inputObject = {
   text5: "",
   text6: "",
 };
+
+const inputDiceArray = [];
 
 const faceValueButton = document.querySelector("#faceValueButton");
 const diceBlockDiv = document.querySelector("#diceBlockDiv");
@@ -41,7 +45,15 @@ createDiceTextArea.addEventListener("input", (event) => {
   if (event.target.id.startsWith("createDiceText")) {
     const number = event.target.id.replace("createDiceText", "");
 
-    inputObject[`text${number}`] = event.target.value;
+    inputDice[`text${number}`] = event.target.value;
+  }
+});
+
+createDiceTextArea.addEventListener("click", (event) => {
+  if (event.target.matches("#createDiceSubmit")) {
+    inputDiceArray.push(inputDice);
+    diceStorage.uploadAllDice(inputDiceArray);
+    alert(`this dice has been uploaded ${JSON.stringify(inputDice)}`);
   }
 });
 
