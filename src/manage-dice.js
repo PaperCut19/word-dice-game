@@ -6,7 +6,7 @@ import { diceStorage } from "./diceStorage";
 // const dice2 = new Dice(2);
 
 const diceArray = diceStorage.getAllDice();
-console.log(diceArray);
+
 // diceArray.push(dice1, dice2);
 
 const inputDice = {
@@ -60,16 +60,24 @@ createDiceTextArea.addEventListener("input", (event) => {
 
 createDiceTextArea.addEventListener("click", (event) => {
   if (event.target.matches("#createDiceSubmit")) {
+    inputDice.id = Date.now();
+
+    if (!inputDice.name) {
+      inputDice.name = inputDice.id;
+    }
+
     if (!diceArray.some((dice) => dice.name === inputDice.name)) {
       const newDice = {
         ...inputDice,
-        id: Date.now(),
         mainFace: inputDice.text1,
       };
       diceArray.push(newDice);
       diceStorage.uploadAllDice(diceArray);
+      resetInputDice();
       displayDice();
-      alert(`this dice has been uploaded ${JSON.stringify(newDice)}`);
+      alert(
+        `this dice object has been uploaded to local storage. the name of the dice is: ${inputDice.id}. This is the object: ${JSON.stringify(newDice)}`,
+      );
     } else {
       alert("There's another dice with the same name. Use a different name");
     }
@@ -106,4 +114,22 @@ function displayDice() {
 
     diceBlockDiv.appendChild(diceElement);
   });
+}
+
+function resetInputDice() {
+  inputDice.name = "";
+  inputDice.text1 = "";
+  inputDice.text2 = "";
+  inputDice.text3 = "";
+  inputDice.text4 = "";
+  inputDice.text5 = "";
+  inputDice.text6 = "";
+  inputDice.mainFace = "";
+
+  document
+    .querySelectorAll('#createDiceTextArea input[type="text"]')
+    .forEach((input) => {
+      input.value = "";
+    });
+  nameOfNewDiceHeader.textContent = "Name:";
 }
