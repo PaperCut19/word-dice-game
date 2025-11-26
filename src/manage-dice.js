@@ -2,11 +2,11 @@ import "./style.css";
 import { Dice } from "./diceClass";
 import { diceStorage } from "./diceStorage";
 
-const dice1 = new Dice(1);
-const dice2 = new Dice(2);
+// const dice1 = new Dice(1);
+// const dice2 = new Dice(2);
 
 const diceArray = [];
-diceArray.push(dice1, dice2);
+// diceArray.push(dice1, dice2);
 
 const inputDice = {
   id: "",
@@ -20,7 +20,7 @@ const inputDice = {
 
 const inputDiceArray = [];
 
-const faceValueButton = document.querySelector("#faceValueButton");
+// const faceValueButton = document.querySelector("#faceValueButton");
 const diceBlockDiv = document.querySelector("#diceBlockDiv");
 const menuArea = document.querySelector("#menuArea");
 const createBlocksDiv = document.querySelector("#createBlocksDiv");
@@ -58,9 +58,9 @@ createDiceTextArea.addEventListener("click", (event) => {
   }
 });
 
-faceValueButton.addEventListener("click", () => {
-  dice1.showFaces();
-});
+// faceValueButton.addEventListener("click", () => {
+//   dice1.showFaces();
+// });
 
 diceArray.forEach((dice) => {
   const diceElement = document.createElement("div");
