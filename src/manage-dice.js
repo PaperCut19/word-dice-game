@@ -5,7 +5,8 @@ import { diceStorage } from "./diceStorage";
 // const dice1 = new Dice(1);
 // const dice2 = new Dice(2);
 
-const diceArray = [];
+const diceArray = diceStorage.getAllDice();
+console.log(diceArray);
 // diceArray.push(dice1, dice2);
 
 const inputDice = {
@@ -18,7 +19,7 @@ const inputDice = {
   text6: "",
 };
 
-const inputDiceArray = [];
+// const inputDiceArray = [];
 
 // const faceValueButton = document.querySelector("#faceValueButton");
 const diceBlockDiv = document.querySelector("#diceBlockDiv");
@@ -51,9 +52,10 @@ createDiceTextArea.addEventListener("input", (event) => {
 
 createDiceTextArea.addEventListener("click", (event) => {
   if (event.target.matches("#createDiceSubmit")) {
-    inputDice.id = Date.now();
-    inputDiceArray.push(inputDice);
-    diceStorage.uploadAllDice(inputDiceArray);
+    const newDice = { ...inputDice, id: Date.now() };
+    diceArray.push(newDice);
+    diceStorage.uploadAllDice(diceArray);
+    displayDice();
     alert(`this dice has been uploaded ${JSON.stringify(inputDice)}`);
   }
 });
@@ -62,10 +64,15 @@ createDiceTextArea.addEventListener("click", (event) => {
 //   dice1.showFaces();
 // });
 
-diceArray.forEach((dice) => {
-  const diceElement = document.createElement("div");
+displayDice();
 
-  diceElement.innerHTML = `
+function displayDice() {
+  diceBlockDiv.innerHTML = "";
+
+  diceArray.forEach((dice) => {
+    const diceElement = document.createElement("div");
+
+    diceElement.innerHTML = `
   <div class="group flex flex-col items-center">
       <h1>Dice ID: ${dice.id}</h1>
           <div
@@ -80,5 +87,6 @@ diceArray.forEach((dice) => {
         </div>
   `;
 
-  diceBlockDiv.appendChild(diceElement);
-});
+    diceBlockDiv.appendChild(diceElement);
+  });
+}
