@@ -17,7 +17,7 @@
 }
 
 .main-container {
-  @apply container mx-auto flex min-h-screen flex-col items-center justify-center gap-4;
+  @apply container mx-auto mt-5 mb-5 flex min-h-screen flex-col items-center justify-center gap-4;
 }
 
 .text-input {
