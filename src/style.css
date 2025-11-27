@@ -27,3 +27,8 @@
 .border-main {
   @apply rounded-lg border-4 border-red-300 p-4;
 }
+
+@theme {
+  --font-fancyLetters: "Edu Australia VIC WA NT Hand Guides", cursive;
+  --font-sans: "Schoolbell", sans-serif;
+}
