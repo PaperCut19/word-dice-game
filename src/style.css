@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
+html {
+  font-size: 20px; /* Changes base size from default 16px */
+}
+
 .button-primary {
   @apply rounded-lg bg-blue-300 p-2 duration-200 hover:cursor-pointer hover:bg-blue-200;
 }
