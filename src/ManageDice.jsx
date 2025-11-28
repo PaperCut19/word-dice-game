@@ -89,6 +89,11 @@ function ManageDice({ setCurrentPage }) {
         alert('all dice got deleted!');
     };
 
+    // delete one dice
+    const handleDeleteOne = () => {
+
+    }
+
     return (
     <div className="main-container">
         <h1 className="font-fancyLetters text-4xl">Manage Your Dice</h1>
@@ -191,6 +196,13 @@ function ManageDice({ setCurrentPage }) {
             <Button>Delete One Dice</Button>
         </div>
         )}
+
+        {/* delete one dice section */}
+        <div className="border-main flex flex-col gap-2">
+            <label htmlFor="diceToDelete">Name of dice to delete</label>
+            <input className="text-input" type="text" />
+            <Button>Submit</Button>
+        </div>
 
         {/* display all dice */}
         <div className="flex flex-wrap items-center justify-center gap-3">
