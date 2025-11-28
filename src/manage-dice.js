@@ -15,6 +15,7 @@ const {
   nameOfNewDiceHeader,
   menu,
   deleteDiceArea,
+  diceLetterCreation,
 } = manageDiceElements;
 
 // diceArray.push(dice1, dice2);
@@ -59,6 +60,10 @@ createDiceTextArea.addEventListener("input", (event) => {
     const number = event.target.id.replace("createDiceText", "");
 
     inputDice[`text${number}`] = event.target.value[0] || "";
+  }
+
+  if (event.target.matches("#createDiceText1")) {
+    diceLetterCreation.textContent = event.target.value[0];
   }
 
   if (event.target.matches("#nameOfNewDiceText")) {

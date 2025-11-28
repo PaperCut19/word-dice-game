@@ -7,4 +7,5 @@ export const manageDiceElements = {
   menu: document.querySelector("#menu"),
   deleteAllButton: document.querySelector("#deleteAllButton"),
   deleteDiceArea: document.querySelector("#deleteDiceArea"),
+  diceLetterCreation: document.querySelector("#diceLetterCreation"),
 };
