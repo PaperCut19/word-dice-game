@@ -8,6 +8,7 @@ function ManageDice({ setCurrentPage }) {
     // State
     const [diceArray, setDiceArray] = useState([]);
     const [activeSection, setActiveSection] = useState(null); // can be: null, 'create', or 'delete'
+    const [diceToDelete, setDiceToDelete] = useState('');
 
     // Form inputs
     const [diceName, setDiceName] = useState('');
@@ -18,13 +19,13 @@ function ManageDice({ setCurrentPage }) {
     const [text5, setText5] = useState('');
     const [text6, setText6] = useState('');
 
-    // load dice from local storage
+    // load dice from browser storage
     useEffect(() => {
         const loadedDice = diceStorage.getAllDice();
         setDiceArray(loadedDice);
     }, []);
 
-    // auto-save to local storage when diceArray changes
+    // auto-save to browser storage when diceArray changes
     useEffect(() => {
         if (diceArray.length > 0) {
             diceStorage.uploadAllDice(diceArray);
@@ -82,17 +83,37 @@ function ManageDice({ setCurrentPage }) {
         alert(`dice "${newDice.name}" has been created!`);
     };
 
-    // delete all dice
+    // delete all dice - just update React state
     const handleDeleteAll = () => {
-        diceStorage.clearAllDice();
         setDiceArray([]);
-        alert('all dice got deleted!');
+        alert('All dice got deleted!');
     };
 
-    // delete one dice
-    const handleDeleteOne = () => {
+    // delete one dice button event handler
+    const handleDeleteOneMenu = () => {
+        setActiveSection('deleteOne');
+    };
 
-    }
+
+    // delete one dice - just filter React state
+    const handleDeleteOne = () => {
+        if (!diceToDelete) {
+            alert('Please enter a dice name to delete');
+            return;
+        }
+
+        const diceExists = diceArray.some(dice => dice.name === diceToDelete);
+        
+        if (!diceExists) {
+            alert(`No dice found with name "${diceToDelete}"`);
+            return;
+        }
+
+        const filteredArray = diceArray.filter(dice => dice.name !== diceToDelete);
+        setDiceArray(filteredArray); // useEffect saves automatically
+        setDiceToDelete('');
+        alert(`Dice "${diceToDelete}" deleted!`);
+    };
 
     return (
     <div className="main-container">
@@ -193,16 +214,24 @@ function ManageDice({ setCurrentPage }) {
         {activeSection === 'delete' && (
         <div className="border-main flex flex-col gap-2">
             <Button onClick={handleDeleteAll}>Delete All</Button>
-            <Button>Delete One Dice</Button>
+            <Button onClick={handleDeleteOneMenu}>Delete One Dice</Button>
         </div>
         )}
 
         {/* delete one dice section */}
+        {activeSection === 'deleteOne' && (
         <div className="border-main flex flex-col gap-2">
             <label htmlFor="diceToDelete">Name of dice to delete</label>
-            <input className="text-input" type="text" />
-            <Button>Submit</Button>
+            <input 
+                className="text-input" 
+                type="text" 
+                id="diceToDelete" 
+                value={diceToDelete} 
+                onChange={(event) => setDiceToDelete(event.target.value)}
+            />
+            <Button onClick={handleDeleteOne}>Submit</Button>
         </div>
+        )}
 
         {/* display all dice */}
         <div className="flex flex-wrap items-center justify-center gap-3">

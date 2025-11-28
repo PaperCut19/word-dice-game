@@ -1,20 +1,10 @@
 export const diceStorage = {
   getAllDice() {
     const stored = localStorage.getItem("diceArray");
-
-    if (!stored) {
-      return [];
-    }
-
-    return JSON.parse(stored);
+    return stored ? JSON.parse(stored) : [];
   },
 
   uploadAllDice(diceArray) {
-    const stringified = JSON.stringify(diceArray);
-    localStorage.setItem("diceArray", stringified);
-  },
-
-  clearAllDice() {
-    localStorage.removeItem("diceArray");
+    localStorage.setItem("diceArray", JSON.stringify(diceArray));
   },
 };
