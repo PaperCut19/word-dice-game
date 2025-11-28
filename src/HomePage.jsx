@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { diceStorage } from "./diceStorage";
 import DiceBlock from "./components/DiceBlock";
+import Button from "./components/Button";
 
 function HomePage({ setCurrentPage }) {
     const [diceArray, setDiceArray] = useState([]);
@@ -48,17 +49,10 @@ function HomePage({ setCurrentPage }) {
             className="text-input w-50 text-center"
             />
 
-            <button className="button-secondary" onClick={handleSubmit}>
-                Submit
-            </button>
+            <Button onClick={handleSubmit}>Submit</Button>
 
             {/* navigate to manage page */}
-            <button 
-            className="button-primary"
-            onClick={() => setCurrentPage('manage')}
-            >
-                Manage Your Dice
-            </button>
+            <Button className="button-primary" onClick={() => setCurrentPage('manage')}>Manage Your Dice</Button>
         </div>
     )
 }
