@@ -34,13 +34,11 @@ function ManageDice({ setCurrentPage }) {
 
     // open create dice section
     const handleCreateDice = () => {
-        setMenuOpen(false);
         setCreateDiceOpen(true);
     };
 
     // open delete dice section
     const handleDeleteDice = () => {
-        setMenuOpen(false);
         setDeleteDiceOpen(true);
     }
 
