@@ -89,6 +89,7 @@ createDiceTextArea.addEventListener("click", (event) => {
       diceArray.push(newDice);
       diceStorage.uploadAllDice(diceArray);
       resetInputDice();
+      diceLetterCreation.textContent = "";
       displayDice();
       alert(
         `this dice object has been uploaded to local storage. the name of the dice is "${newDice.name}". This is the object: ${JSON.stringify(newDice)}`,
