@@ -7,8 +7,7 @@ import ManageMenu from "./components/ManageMenu";
 function ManageDice({ setCurrentPage }) {
     // State
     const [diceArray, setDiceArray] = useState([]);
-    const [createDiceOpen, setCreateDiceOpen] = useState(false);
-    const [deleteDiceOpen, setDeleteDiceOpen] = useState(false);
+    const [activeSection, setActiveSection] = useState(null); // can be: null, 'create', or 'delete'
 
     // Form inputs
     const [diceName, setDiceName] = useState('');
@@ -34,13 +33,15 @@ function ManageDice({ setCurrentPage }) {
 
     // open create dice section
     const handleCreateDice = () => {
-        setCreateDiceOpen(true);
+        setActiveSection('create');
     };
+
 
     // open delete dice section
     const handleDeleteDice = () => {
-        setDeleteDiceOpen(true);
-    }
+        setActiveSection('delete');
+    };
+
 
     // submit new dice
     const handleSubmit = () => {
@@ -99,7 +100,7 @@ function ManageDice({ setCurrentPage }) {
         </div>
 
         {/* create dice section */}
-        {createDiceOpen && (
+        {activeSection === 'create' && (
         <div className="border-main flex flex-col gap-2 md:flex-row items-center">
             {/* dice preview - NO metadata, just shows the dice you're building */}
             <DiceDataBlock 
@@ -174,12 +175,11 @@ function ManageDice({ setCurrentPage }) {
 
                 <Button onClick={handleSubmit}>Submit</Button>
             </div>
-            
         </div>
         )}
     
         {/* delete dice section */}
-        {deleteDiceOpen && (
+        {activeSection === 'delete' && (
         <div className="border-main">
             <Button onClick={handleDeleteAll}>Delete All</Button>
         </div>
