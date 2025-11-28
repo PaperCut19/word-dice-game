@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { diceStorage } from "./diceStorage";
+import DiceBlock from "./components/DiceBlock";
 
 function HomePage({ setCurrentPage }) {
     const [diceArray, setDiceArray] = useState([]);
@@ -32,11 +33,7 @@ function HomePage({ setCurrentPage }) {
             <div className="flex flex-wrap items-center justify-center gap-3">
                 {frontPageDice.map((letter, index) => {
                     return (
-                    <div key={index} className="group flex flex-col items-center">
-                        <div className="dice-box">
-                            <h1 className="dice-letter">{letter}</h1>
-                         </div>
-                    </div>
+                    <DiceBlock key={index} letter={letter} />
                     )
                     
                 })}                
