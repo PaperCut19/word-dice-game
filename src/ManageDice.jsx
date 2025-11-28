@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import { diceStorage } from "./diceStorage";
+import DiceDataBlock from "./components/DiceDataBlock";
+DiceDataBlock
 
 function ManageDice({ setCurrentPage }) {
     // State
@@ -120,16 +122,11 @@ function ManageDice({ setCurrentPage }) {
 
         {/* create dice section */}
         {createDiceOpen && (
-        <div className="border-main flex flex-col gap-2 md:flex-row">
-            {/* dice preview */}
-            <div className="flex flex-col items-center justify-center">
-                <h1 className="max-w-[100px] wrap-break-word">
-                    Name: {diceName || 'N/A'}
-                </h1>
-                <div className="dice-box">
-                    <h1 className="dice-letter">{text1 || ''}</h1>
-                </div>
-            </div>
+        <div className="border-main flex flex-col gap-2 md:flex-row items-center">
+            {/* dice preview - NO metadata, just shows the dice you're building */}
+            <DiceDataBlock 
+                dice={{ name: diceName, text1: text1 }}
+            />
 
             {/* form inputs */}
             <div className="flex flex-col gap-2 md:ml-5">
