@@ -4,36 +4,14 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>word-dice-game</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Edu+AU+VIC+WA+NT+Guides:wght@400..700&family=Schoolbell&display=swap"
       rel="stylesheet"
     />
+    <title>dice-react-version</title>
   </head>
   <body class="bg-amber-100">
-    <div id="app">
-      <!-- main container -->
-      <div class="main-container">
-        <!-- dice blocks -->
-        <div
-          id="frontPageDice"
-          class="flex flex-wrap items-center justify-center gap-3"
-        ></div>
-        <!-- changing dice -->
-        <input
-          type="text"
-          id="diceTextInput"
-          placeholder="Change 'words' to what?"
-          class="text-input w-50 text-center"
-        />
-        <button class="button-secondary" id="changeDiceSubmit">Submit</button>
-
-        <!-- website link -->
-        <a href="manage-dice.html" class="button-primary">Manage Your Dice</a>
-      </div>
-    </div>
-    <script type="module" src="/src/main.js"></script>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
