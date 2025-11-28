@@ -2,11 +2,11 @@ import { useState, useEffect } from "react";
 import { diceStorage } from "./diceStorage";
 import DiceDataBlock from "./components/DiceDataBlock";
 import Button from "./components/Button";
+import ManageMenu from "./components/ManageMenu";
 
 function ManageDice({ setCurrentPage }) {
     // State
     const [diceArray, setDiceArray] = useState([]);
-    const [menuOpen, setMenuOpen] = useState(false);
     const [createDiceOpen, setCreateDiceOpen] = useState(false);
     const [deleteDiceOpen, setDeleteDiceOpen] = useState(false);
 
@@ -31,14 +31,6 @@ function ManageDice({ setCurrentPage }) {
             diceStorage.uploadAllDice(diceArray);
         }
     }, [diceArray])
-
-    // toggle menu
-    const handleToggleMenu = () => {
-        setMenuOpen(!menuOpen);
-        // close other sections if open
-        if (createDiceOpen) setCreateDiceOpen(false);
-        if (deleteDiceOpen) setDeleteDiceOpen(false);
-    };
 
     // open create dice section
     const handleCreateDice = () => {
@@ -99,17 +91,13 @@ function ManageDice({ setCurrentPage }) {
 
         {/* Menu Area */}
         <div className="flex flex-col items-center justify-center gap-2">
-            {/* toggle menu button */}
-            <Button onClick={handleToggleMenu}>Toggle Menu</Button>
 
-            {/* Menu */}
-            {menuOpen && (
-                <div className="border-main flex flex-col items-center justify-center gap-2">
-                    <Button onClick={handleCreateDice}>Create Dice</Button>
-                    <Button onClick={() => alert('edit feature coming soon!')}>Edit Dice</Button>
-                    <Button onClick={handleDeleteDice}>Delete Dice</Button>
-                </div>
-            )}
+            {/* Permanent Menu - always visible */}
+            <ManageMenu 
+                onCreateDice={handleCreateDice}
+                onEditDice={() => alert('edit feature coming soon!')}
+                onDeleteDice={handleDeleteDice}
+            />
         </div>
 
         {/* create dice section */}
