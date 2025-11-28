@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { diceStorage } from "./diceStorage";
 import DiceDataBlock from "./components/DiceDataBlock";
-DiceDataBlock
+import Button from "./components/Button";
 
 function ManageDice({ setCurrentPage }) {
     // State
@@ -107,15 +107,9 @@ function ManageDice({ setCurrentPage }) {
             {/* Menu */}
             {menuOpen && (
                 <div className="border-main flex flex-col items-center justify-center gap-2">
-                    <button className="button-secondary" onClick={handleCreateDice}>
-                        Create Dice
-                    </button>
-                    <button className="button-secondary" onClick={() => alert('edit feature coming soon!')}>
-                        Edit Dice
-                    </button>
-                    <button className="button-secondary" onClick={handleDeleteDice}>
-                        Delete Dice
-                    </button>
+                    <Button onClick={handleCreateDice}> Create Dice </Button>
+                    <Button onClick={() => alert('edit feature coming soon!')}> Edit Dice </Button>
+                    <Button onClick={handleDeleteDice}> Delete Dice </Button>
                 </div>
             )}
         </div>
