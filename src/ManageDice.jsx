@@ -100,16 +100,14 @@ function ManageDice({ setCurrentPage }) {
         {/* Menu Area */}
         <div className="flex flex-col items-center justify-center gap-2">
             {/* toggle menu button */}
-            <button className="button-secondary" onClick={handleToggleMenu}>
-                Toggle Menu
-            </button>
+            <Button onClick={handleToggleMenu}>Toggle Menu</Button>
 
             {/* Menu */}
             {menuOpen && (
                 <div className="border-main flex flex-col items-center justify-center gap-2">
-                    <Button onClick={handleCreateDice}> Create Dice </Button>
-                    <Button onClick={() => alert('edit feature coming soon!')}> Edit Dice </Button>
-                    <Button onClick={handleDeleteDice}> Delete Dice </Button>
+                    <Button onClick={handleCreateDice}>Create Dice</Button>
+                    <Button onClick={() => alert('edit feature coming soon!')}>Edit Dice</Button>
+                    <Button onClick={handleDeleteDice}>Delete Dice</Button>
                 </div>
             )}
         </div>
@@ -188,9 +186,7 @@ function ManageDice({ setCurrentPage }) {
                 maxLength={1}
                 />
 
-                <button className="button-secondary" onClick={handleSubmit}>
-                    Submit
-                </button>
+                <Button onClick={handleSubmit}>Submit</Button>
             </div>
             
         </div>
@@ -199,9 +195,7 @@ function ManageDice({ setCurrentPage }) {
         {/* delete dice section */}
         {deleteDiceOpen && (
         <div className="border-main">
-            <button className="button-secondary" onClick={handleDeleteAll}>
-                Delete All
-            </button>
+            <Button onClick={handleDeleteAll}>Delete All</Button>
         </div>
         )}
 
@@ -213,9 +207,7 @@ function ManageDice({ setCurrentPage }) {
         </div>
         
         {/* home button */}
-        <button className="button-primary" onClick={() => setCurrentPage('home')}>
-            Home Page
-        </button>
+        <Button className="button-primary" onClick={() => setCurrentPage('home')}>Home Page</Button>
     </div>
     )
 }
