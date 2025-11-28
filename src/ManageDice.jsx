@@ -42,6 +42,11 @@ function ManageDice({ setCurrentPage }) {
         setActiveSection('delete');
     };
 
+    // clear menu handler
+    const handleClear = () => {
+        setActiveSection(null);
+    };
+
 
     // submit new dice
     const handleSubmit = () => {
@@ -96,6 +101,7 @@ function ManageDice({ setCurrentPage }) {
                 onCreateDice={handleCreateDice}
                 onEditDice={() => alert('edit feature coming soon!')}
                 onDeleteDice={handleDeleteDice}
+                onClear={handleClear}
             />
         </div>
 
