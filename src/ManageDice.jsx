@@ -213,14 +213,8 @@ function ManageDice({ setCurrentPage }) {
 
         {/* display all dice */}
         <div className="flex flex-wrap items-center justify-center gap-3">
-            {diceArray.map((dice) => (  
-                <div className="group flex flex-col items-center">
-                <h1>Dice Name: {dice.name || ''}</h1>
-                <h1>Dice ID: {dice.id || ''}</h1>
-                <div className="dice-box">
-                    <h1 className="dice-letter">{dice.mainFace}</h1>
-                </div>
-            </div>
+            {diceArray.map((dice) => (
+                <DiceDataBlock key={dice.id} dice={dice} />
             ))}
         </div>
         
