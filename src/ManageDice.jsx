@@ -186,8 +186,9 @@ function ManageDice({ setCurrentPage }) {
     
         {/* delete dice section */}
         {activeSection === 'delete' && (
-        <div className="border-main">
+        <div className="border-main flex flex-col gap-2">
             <Button onClick={handleDeleteAll}>Delete All</Button>
+            <Button>Delete One Dice</Button>
         </div>
         )}
 
