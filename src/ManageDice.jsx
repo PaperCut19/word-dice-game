@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { diceStorage } from "./diceStorage";
 import DiceDataBlock from "./components/DiceDataBlock";
 import Button from "./components/Button";
@@ -9,6 +9,9 @@ function ManageDice({ setCurrentPage }) {
     const [diceArray, setDiceArray] = useState([]);
     const [activeSection, setActiveSection] = useState(null); // can be: null, 'create', or 'delete'
     const [diceToDelete, setDiceToDelete] = useState('');
+
+    // using ref so we can tell the computer to only upload changes to browser storage after the first render of the local copy, this makes sure that when ManageDice component mounts, an empty array isn't immediately being uploaded to the browser storage
+    const isFirstRender = useRef(true);
 
     // Form inputs
     const [diceName, setDiceName] = useState('');
@@ -27,10 +30,13 @@ function ManageDice({ setCurrentPage }) {
 
     // auto-save to browser storage when diceArray changes
     useEffect(() => {
-        if (diceArray.length > 0) {
-            diceStorage.uploadAllDice(diceArray);
+    if (isFirstRender.current) {
+            isFirstRender.current = false;
+            return; // Skip saving on first render
         }
-    }, [diceArray])
+        diceStorage.uploadAllDice(diceArray);
+    }, [diceArray]);
+
 
     // open create dice section
     const handleCreateDice = () => {
