@@ -3,6 +3,7 @@ import { diceStorage } from "./diceStorage";
 import DiceDataBlock from "./components/DiceDataBlock";
 import Button from "./components/Button";
 import ManageMenu from "./components/ManageMenu";
+import AskUser from "./components/AskUser";
 
 function ManageDice({ setCurrentPage }) {
   // State
@@ -221,17 +222,14 @@ function ManageDice({ setCurrentPage }) {
 
       {/* delete one dice section */}
       {activeSection === "deleteOne" && (
-        <div className="border-main flex flex-col gap-2">
-          <label htmlFor="diceToDelete">Name of dice to delete</label>
-          <input
-            className="text-input"
-            type="text"
-            id="diceToDelete"
-            value={diceToDelete}
-            onChange={(event) => setDiceToDelete(event.target.value)}
-          />
-          <Button onClick={handleDeleteOne}>Submit</Button>
-        </div>
+        <AskUser
+          label="Name of dice to delete"
+          placeholder="Enter dice name"
+          value={diceToDelete}
+          onChange={(event) => setDiceToDelete(event.target.value)}
+          onSubmit={handleDeleteOne}
+          buttonText="Delete"
+        />
       )}
 
       {/* display all dice */}
