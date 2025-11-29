@@ -1,13 +1,14 @@
 import Button from "./Button";
+import { useState } from "react";
 
-function AskUser({
-  label,
-  placeholder,
-  value,
-  onChange,
-  onSubmit,
-  buttonText = "Submit",
-}) {
+function AskUser({ label, placeholder, onSubmit, buttonText = "Submit" }) {
+  const [inputValue, setInputValue] = useState("");
+
+  const handleSubmit = () => {
+    onSubmit(inputValue); // pass the value to parent
+    setInputValue(""); // clear after submit
+  };
+
   return (
     <div className="border-main flex flex-col gap-2">
       <label htmlFor="userInput">{label}</label>
@@ -16,10 +17,10 @@ function AskUser({
         type="text"
         id="userInput"
         placeholder={placeholder}
-        value={value}
-        onChange={onChange}
+        value={inputValue}
+        onChange={(event) => setInputValue(event.target.value)}
       />
-      <Button onClick={onSubmit}>{buttonText}</Button>
+      <Button onClick={handleSubmit}>{buttonText}</Button>
     </div>
   );
 }

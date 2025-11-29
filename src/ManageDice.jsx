@@ -10,8 +10,6 @@ function ManageDice({ setCurrentPage }) {
   // State
   const [diceArray, setDiceArray] = useState([]);
   const [activeSection, setActiveSection] = useState(null); // can be: null, 'create', or 'delete'
-  const [diceToDelete, setDiceToDelete] = useState("");
-  const [diceToEdit, setDiceToEdit] = useState(""); // ← ADD THIS LINE
   const [foundDice, setFoundDice] = useState(null); // For storing the actual dice object
 
   // using ref so we can tell the computer to only upload changes to browser storage after the first render of the local copy, this makes sure that when ManageDice component mounts, an empty array isn't immediately being uploaded to the browser storage
@@ -50,16 +48,16 @@ function ManageDice({ setCurrentPage }) {
   };
 
   // handler for edit menu 1, find dice to edit
-  const handleFindDiceToEdit = () => {
-    if (!diceToEdit) {
+  const handleFindDiceToEdit = (diceName) => {
+    if (!diceName) {
       alert("Please enter a dice name to edit");
       return;
     }
 
-    const found = diceArray.find((dice) => dice.name === diceToEdit);
+    const found = diceArray.find((dice) => dice.name === diceName);
 
     if (!found) {
-      alert(`No dice found with name "${diceToEdit}"`);
+      alert(`No dice found with name "${diceName}"`);
       return;
     }
 
@@ -107,31 +105,28 @@ function ManageDice({ setCurrentPage }) {
     alert("All dice got deleted!");
   };
 
-  // delete one dice button event handler
+  // handler for activating delete one dice menu
   const handleDeleteOneMenu = () => {
     setActiveSection("deleteOne");
   };
 
-  // delete one dice - just filter React state
-  const handleDeleteOne = () => {
-    if (!diceToDelete) {
+  // handler for delete one dice
+  const handleDeleteOne = (diceName) => {
+    if (!diceName) {
       alert("Please enter a dice name to delete");
       return;
     }
 
-    const diceExists = diceArray.some((dice) => dice.name === diceToDelete);
+    const diceExists = diceArray.some((dice) => dice.name === diceName);
 
     if (!diceExists) {
-      alert(`No dice found with name "${diceToDelete}"`);
+      alert(`No dice found with name "${diceName}"`);
       return;
     }
 
-    const filteredArray = diceArray.filter(
-      (dice) => dice.name !== diceToDelete,
-    );
-    setDiceArray(filteredArray); // useEffect saves automatically
-    setDiceToDelete("");
-    alert(`Dice "${diceToDelete}" deleted!`);
+    const filteredArray = diceArray.filter((dice) => dice.name !== diceName);
+    setDiceArray(filteredArray);
+    alert(`Dice "${diceName}" deleted!`);
   };
 
   return (
@@ -159,10 +154,8 @@ function ManageDice({ setCurrentPage }) {
         <AskUser
           label="Name of dice to edit"
           placeholder="Enter dice name"
-          value={diceToEdit}
-          onChange={(event) => setDiceToEdit(event.target.value)}
           onSubmit={handleFindDiceToEdit}
-          buttonText="Edit Dice"
+          buttonText="Find Dice"
         />
       )}
 
@@ -184,8 +177,6 @@ function ManageDice({ setCurrentPage }) {
         <AskUser
           label="Name of dice to delete"
           placeholder="Enter dice name"
-          value={diceToDelete}
-          onChange={(event) => setDiceToDelete(event.target.value)}
           onSubmit={handleDeleteOne}
           buttonText="Delete"
         />
