@@ -32,12 +32,24 @@ function ManageDice({ setCurrentPage }) {
     diceStorage.uploadAllDice(diceArray);
   }, [diceArray]);
 
-  // handler edit menu 1
+  // handler for edit menu 2, submitting the edited dice to local copy
+  const handleEditSubmit = (diceData) => {
+    const updatedArray = diceArray.map((dice) =>
+      dice.id === foundDice.id
+        ? { ...dice, ...diceData, mainFace: diceData.text1 }
+        : dice,
+    );
+
+    setDiceArray(updatedArray);
+    alert(`Dice "${diceData.name}" has been updated!`);
+  };
+
+  // handler to activate 'edit menu 1'
   const handleEditMenu1 = () => {
     setActiveSection("editMenu1");
   };
 
-  // handler find dice to edit
+  // handler for edit menu 1, find dice to edit
   const handleFindDiceToEdit = () => {
     if (!diceToEdit) {
       alert("Please enter a dice name to edit");
@@ -52,8 +64,7 @@ function ManageDice({ setCurrentPage }) {
     }
 
     setFoundDice(found);
-    alert(`Found dice "${found.name}"! (Edit form will come next)`);
-    // Later: setActiveSection('editMenu2');
+    setActiveSection("editMenu2");
   };
 
   // open create dice section
@@ -153,6 +164,11 @@ function ManageDice({ setCurrentPage }) {
           onSubmit={handleFindDiceToEdit}
           buttonText="Edit Dice"
         />
+      )}
+
+      {/* Edit Menu 2 - DiceCreation component */}
+      {activeSection === "editMenu2" && foundDice && (
+        <DiceCreation onSubmit={handleEditSubmit} diceToEdit={foundDice} />
       )}
 
       {/* delete dice section */}
