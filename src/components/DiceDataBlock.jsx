@@ -1,4 +1,4 @@
-function DiceDataBlock({ dice, showMetadata = true }) {
+function DiceDataBlock({ dice, showMetadata = true, onClick = () => {} }) {
   const getDiceBoxColor = () => {
     // If custom color set, use it
     if (dice.color) {
@@ -21,14 +21,16 @@ function DiceDataBlock({ dice, showMetadata = true }) {
   };
 
   return (
-    <div className="group flex flex-col items-center">
+    <div className="group flex flex-col items-center" onClick={onClick}>
       {showMetadata && (
         <>
           <h1>Dice Name: {dice.name || "N/A"}</h1>
           <h1>Dice ID: {dice.id || ""}</h1>
         </>
       )}
-      <div className={`dice-box ${getDiceBoxColor()}`}>
+      <div
+        className={`dice-box ${getDiceBoxColor()} ${dice.isClickable && "border-10 border-yellow-500"}`}
+      >
         <h1 className="dice-letter">{dice.mainFace || dice.text1 || ""}</h1>
       </div>
     </div>
