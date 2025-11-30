@@ -18,6 +18,14 @@ function PlayArea({ setCurrentPage }) {
     const shouldBeClickable =
       manageMode === "delete" || manageMode === "freeze";
 
+    // check to see if delete handler should be given to dice
+    if (manageMode === "delete") {
+      onClick = () => {
+        const newArray = activeDice.filter((d) => d.playId !== dice.playId);
+        setActiveDice(newArray);
+      };
+    }
+
     return {
       ...dice,
       // Pass the computed value to the component prop
