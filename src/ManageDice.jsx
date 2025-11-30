@@ -16,19 +16,27 @@ function ManageDice({ setCurrentPage }) {
   // using ref so we can tell the computer to only upload changes to browser storage after the first render of the local copy, this makes sure that when ManageDice component mounts, an empty array isn't immediately being uploaded to the browser storage
   const isFirstRender = useRef(true);
 
-  // makes calculations on the dice
+  // takes the local copy of the dice and analyzes what the user is currently trying to do with the dice to create a final group of dice to display
   const displayDiceArray = diceArray.map((dice) => {
     let onClick = () => {};
 
-    // sees if dice should be clickable
+    // checks if dice should be clickable
     const shouldBeClickable = manageMode === "edit" || manageMode === "delete";
 
-    // sees if dice should have delete handler
+    // checks if dice should have delete handler
     if (manageMode === "delete") {
       onClick = () => {
         const newArray = diceArray.filter((d) => d.id !== dice.id);
         setDiceArray(newArray);
         alert(`Dice "${dice.name}" deleted!`);
+      };
+    }
+
+    // checks if dice should have edit handler
+    if (manageMode === "edit") {
+      onClick = () => {
+        setFoundDice(dice);
+        setActiveSection("editMenu2");
       };
     }
 

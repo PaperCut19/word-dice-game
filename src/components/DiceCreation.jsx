@@ -1,16 +1,28 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import DiceDataBlock from "./DiceDataBlock";
 import Button from "./Button";
 
 function DiceCreation({ onSubmit, diceToEdit = null }) {
   // Form inputs - pre-fill if editing
   const [diceName, setDiceName] = useState(diceToEdit?.name || "");
-  const [text1, setText1] = useState(diceToEdit?.text1 || "");
-  const [text2, setText2] = useState(diceToEdit?.text2 || "");
-  const [text3, setText3] = useState(diceToEdit?.text3 || "");
-  const [text4, setText4] = useState(diceToEdit?.text4 || "");
-  const [text5, setText5] = useState(diceToEdit?.text5 || "");
-  const [text6, setText6] = useState(diceToEdit?.text6 || "");
+  const [text1, setText1] = useState("");
+  const [text2, setText2] = useState("");
+  const [text3, setText3] = useState("");
+  const [text4, setText4] = useState("");
+  const [text5, setText5] = useState("");
+  const [text6, setText6] = useState("");
+
+  useEffect(() => {
+    if (diceToEdit) {
+      setDiceName(diceToEdit.name);
+      setText1(diceToEdit.text1);
+      setText2(diceToEdit.text2);
+      setText3(diceToEdit.text3);
+      setText4(diceToEdit.text4);
+      setText5(diceToEdit.text5);
+      setText6(diceToEdit.text6);
+    }
+  }, [diceToEdit]);
 
   const handleSubmit = () => {
     const diceData = {
@@ -44,9 +56,7 @@ function DiceCreation({ onSubmit, diceToEdit = null }) {
     <div className="border-main">
       {/* Header - only shows when editing */}
       {diceToEdit && (
-        <h2 className="yellow-underlined-heading">
-          Editing: {diceToEdit.name}
-        </h2>
+        <h2 className="yellow-underlined-heading">Editing: {diceName}</h2>
       )}
       <div className="flex flex-col items-center gap-2 md:flex-row">
         {/* dice preview */}
