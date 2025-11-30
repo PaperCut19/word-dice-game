@@ -16,16 +16,17 @@ function ManageDice({ setCurrentPage }) {
   // using ref so we can tell the computer to only upload changes to browser storage after the first render of the local copy, this makes sure that when ManageDice component mounts, an empty array isn't immediately being uploaded to the browser storage
   const isFirstRender = useRef(true);
 
-  useEffect(() => {
-    if (manageMode === "edit") {
-      const newArray = diceArray.map((dice) => {
-        return {
-          ...dice,
-          isClickable: true,
-        };
-      });
-      setDiceArray(newArray);
-    }
+  // This array is computed fresh every time the component renders.
+  // It takes the permanent diceArray and adds the temporary isClickable property.
+  const displayDiceArray = diceArray.map((dice) => {
+    // We check the manageMode state directly to derive the property.
+    const shouldBeClickable = manageMode === "edit";
+
+    return {
+      ...dice,
+      // Pass the computed value to the component prop
+      isClickable: shouldBeClickable,
+    };
   });
 
   // auto-save to browser storage when diceArray changes
@@ -86,6 +87,7 @@ function ManageDice({ setCurrentPage }) {
   // clear menu handler
   const handleClear = () => {
     setActiveSection(null);
+    setManageMode("");
   };
 
   // handler create new dice
@@ -192,7 +194,7 @@ function ManageDice({ setCurrentPage }) {
 
       {/* display all dice */}
       <div className="flex flex-wrap items-center justify-center gap-3">
-        {diceArray.map((dice) => (
+        {displayDiceArray.map((dice) => (
           <DiceDataBlock key={dice.id} dice={dice} />
         ))}
       </div>
