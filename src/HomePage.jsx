@@ -1,31 +1,21 @@
-import { useState, useEffect } from "react";
-import { diceStorage } from "./diceStorage";
-import DiceBlock from "./components/DiceBlock";
+import { useState } from "react";
+import DiceDataBlock from "./components/DiceDataBlock";
 import Button from "./components/Button";
 
 function HomePage({ setCurrentPage }) {
-  const [diceArray, setDiceArray] = useState([]);
-  const [frontPageDice, setFrontPageDice] = useState(["W", "O", "R", "D", "S"]);
   const [inputValue, setInputValue] = useState("");
-
-  // load dice from localStorage when component mounts
-  useEffect(() => {
-    const loadedDice = diceStorage.getAllDice();
-    setDiceArray(loadedDice);
-  }, []);
+  const [frontPageDice, setFrontPageDice] = useState(["W", "O", "R", "D", "S"]);
 
   const handleSubmit = () => {
-    if (inputValue) {
-      const upperCaseText = inputValue.toUpperCase();
-      setFrontPageDice([...upperCaseText]); //split string into array of letters
-      setInputValue(""); // clear input after submit
+    if (!inputValue.trim()) {
+      alert("Please enter a word");
+      return;
     }
-  };
 
-  const handleKeyDown = (event) => {
-    if (event.key === "Enter") {
-      handleSubmit();
-    }
+    // Convert input to array of letters
+    const newLetters = inputValue.toUpperCase().split("");
+    setFrontPageDice(newLetters);
+    setInputValue(""); // Clear input after submit
   };
 
   return (
@@ -33,7 +23,13 @@ function HomePage({ setCurrentPage }) {
       {/* front page dice blocks */}
       <div className="flex flex-wrap items-center justify-center gap-3">
         {frontPageDice.map((letter, index) => {
-          return <DiceBlock key={index} letter={letter} />;
+          return (
+            <DiceDataBlock
+              key={index}
+              dice={{ text1: letter }}
+              showMetadata={false}
+            />
+          );
         })}
       </div>
 
@@ -42,7 +38,7 @@ function HomePage({ setCurrentPage }) {
         type="text"
         value={inputValue}
         onChange={(event) => setInputValue(event.target.value)}
-        onKeyDown={handleKeyDown}
+        onKeyDown={(event) => event.key === "Enter" && handleSubmit()}
         placeholder="Change 'words' to what?"
         className="text-input w-50 text-center"
       />
