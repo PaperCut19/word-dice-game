@@ -6,6 +6,17 @@ import DiceDataBlock from "./components/DiceDataBlock";
 function PlayArea({ setCurrentPage }) {
   // load dice from storage
   const [diceArray, setDiceArray] = useState(() => diceStorage.getAllDice());
+  // track active dice in play area
+  const [activeDice, setActiveDice] = useState([]);
+
+  // handler to add dice to play area
+  const handleAddDice = (dice) => {
+    const newDice = {
+      ...dice,
+      playId: Date.now(),
+    };
+    setActiveDice([...activeDice, newDice]);
+  };
 
   return (
     <div className="main-container">
@@ -20,7 +31,9 @@ function PlayArea({ setCurrentPage }) {
           {/* display all dice */}
           <div className="flex flex-col gap-3">
             {diceArray.map((dice) => (
-              <DiceDataBlock key={dice.id} dice={dice} />
+              <div key={dice.id} onClick={() => handleAddDice(dice)}>
+                <DiceDataBlock dice={dice} />
+              </div>
             ))}
           </div>
         </div>
@@ -28,7 +41,17 @@ function PlayArea({ setCurrentPage }) {
         {/* right section, play area */}
         <div className="border-main">
           <h2 className="text-2xl font-bold">Play Area</h2>
-          <p>Active dice will go here</p>
+
+          {/* display active dice */}
+          <div className="mb-4 flex flex-wrap gap-3">
+            {activeDice.map((dice) => (
+              <DiceDataBlock key={dice.playId} dice={dice} />
+            ))}
+          </div>
+
+          <p className="text-gray-500">
+            Click a dice on the left to add it here
+          </p>
         </div>
       </div>
 
