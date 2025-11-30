@@ -18,6 +18,28 @@ function PlayArea({ setCurrentPage }) {
     setActiveDice([...activeDice, newDice]);
   };
 
+  // handler to roll all active dice
+  const handleRoll = () => {
+    const rolledDice = activeDice.map((dice) => {
+      // get all 6 faces
+      const faces = [
+        dice.text1,
+        dice.text2,
+        dice.text3,
+        dice.text4,
+        dice.text5,
+        dice.text6,
+      ].filter((face) => face && face.trim() !== ""); //remove empty/blank faces
+      // pick random face
+      const randomFace = faces[Math.floor(Math.random() * faces.length)];
+      console.log("Old face:", dice.mainFace, "New face:", randomFace);
+
+      // update mainFace with random result
+      return { ...dice, mainFace: randomFace };
+    });
+    setActiveDice(rolledDice);
+  };
+
   return (
     <div className="main-container">
       <h1 className="mb-8 font-fancyLetters text-4xl">Play Area</h1>
@@ -52,6 +74,12 @@ function PlayArea({ setCurrentPage }) {
           <p className="text-gray-500">
             Click a dice on the left to add it here
           </p>
+
+          {/* buttons */}
+          <div className="flex gap-2">
+            <Button onClick={handleRoll}>Roll Dice</Button>
+            <Button onClick={() => setActiveDice([])}>Clear All</Button>
+          </div>
         </div>
       </div>
 
