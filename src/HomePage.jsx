@@ -45,7 +45,11 @@ function HomePage({ setCurrentPage }) {
 
       <Button onClick={handleSubmit}>Submit</Button>
 
-      {/* navigate to manage page */}
+      {/* navigate buttons */}
+      <Button className="button-primary" onClick={() => setCurrentPage("play")}>
+        Play with Dice
+      </Button>
+
       <Button
         className="button-primary"
         onClick={() => setCurrentPage("manage")}
