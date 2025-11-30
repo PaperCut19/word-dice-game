@@ -8,6 +8,23 @@ function PlayArea({ setCurrentPage }) {
   const [diceArray, setDiceArray] = useState(() => diceStorage.getAllDice());
   // track active dice in play area
   const [activeDice, setActiveDice] = useState([]);
+  const [manageMode, setManageMode] = useState("");
+
+  // take local copy of dice and analyze what the user wants to do with them to create a final group of dice
+  const displayDiceArray = activeDice.map((dice) => {
+    let onClick = () => {};
+
+    // check to see if dice should be clickable
+    const shouldBeClickable =
+      manageMode === "delete" || manageMode === "freeze";
+
+    return {
+      ...dice,
+      // Pass the computed value to the component prop
+      isClickable: shouldBeClickable,
+      onClick: onClick,
+    };
+  });
 
   // handler to add dice to play area
   const handleAddDice = (dice) => {
@@ -66,7 +83,7 @@ function PlayArea({ setCurrentPage }) {
 
           {/* display active dice */}
           <div className="mb-4 flex flex-wrap gap-3">
-            {activeDice.map((dice) => (
+            {displayDiceArray.map((dice) => (
               <DiceDataBlock key={dice.playId} dice={dice} />
             ))}
           </div>
@@ -78,7 +95,15 @@ function PlayArea({ setCurrentPage }) {
           {/* buttons */}
           <div className="flex gap-2">
             <Button onClick={handleRoll}>Roll Dice</Button>
-            <Button onClick={() => setActiveDice([])}>Clear All</Button>
+            <Button onClick={() => setActiveDice([])}>Delete All</Button>
+            <Button onClick={() => setManageMode("delete")}>Delete</Button>
+            <Button onClick={() => setManageMode("freeze")}>Freeze</Button>
+            <Button
+              onClick={() => setManageMode("")}
+              className="button-primary"
+            >
+              Finished Editing
+            </Button>
           </div>
         </div>
       </div>

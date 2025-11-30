@@ -35,6 +35,7 @@ function DiceCreation({ onSubmit, diceToEdit = null }) {
       text6,
       isClickable: false,
       onClick: () => {},
+      frozen: false,
     };
 
     // Pass data back to parent
