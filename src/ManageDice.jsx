@@ -11,9 +11,22 @@ function ManageDice({ setCurrentPage }) {
   const [diceArray, setDiceArray] = useState(() => diceStorage.getAllDice()); // load dice from browser storage
   const [activeSection, setActiveSection] = useState(null); // can be: null, 'create', or 'delete'
   const [foundDice, setFoundDice] = useState(null); // For storing the actual dice object
+  const [manageMode, setManageMode] = useState("");
 
   // using ref so we can tell the computer to only upload changes to browser storage after the first render of the local copy, this makes sure that when ManageDice component mounts, an empty array isn't immediately being uploaded to the browser storage
   const isFirstRender = useRef(true);
+
+  useEffect(() => {
+    if (manageMode === "edit") {
+      const newArray = diceArray.map((dice) => {
+        return {
+          ...dice,
+          isClickable: true,
+        };
+      });
+      setDiceArray(newArray);
+    }
+  });
 
   // auto-save to browser storage when diceArray changes
   useEffect(() => {
@@ -39,6 +52,7 @@ function ManageDice({ setCurrentPage }) {
   // handler to activate 'edit menu 1'
   const handleEditMenu1 = () => {
     setActiveSection("editMenu1");
+    setManageMode("edit");
   };
 
   // handler for edit menu 1, find dice to edit
