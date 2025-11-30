@@ -22,6 +22,7 @@ function DiceCreation({ onSubmit, diceToEdit = null }) {
       text5,
       text6,
       isClickable: false,
+      onClick: () => {},
     };
 
     // Pass data back to parent

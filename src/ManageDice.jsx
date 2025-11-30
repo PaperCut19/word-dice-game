@@ -16,16 +16,27 @@ function ManageDice({ setCurrentPage }) {
   // using ref so we can tell the computer to only upload changes to browser storage after the first render of the local copy, this makes sure that when ManageDice component mounts, an empty array isn't immediately being uploaded to the browser storage
   const isFirstRender = useRef(true);
 
-  // This array is computed fresh every time the component renders.
-  // It takes the permanent diceArray and adds the temporary isClickable property.
+  // makes calculations on the dice
   const displayDiceArray = diceArray.map((dice) => {
-    // We check the manageMode state directly to derive the property.
+    let onClick = () => {};
+
+    // sees if dice should be clickable
     const shouldBeClickable = manageMode === "edit" || manageMode === "delete";
+
+    // sees if dice should have delete handler
+    if (manageMode === "delete") {
+      onClick = () => {
+        const newArray = diceArray.filter((d) => d.id !== dice.id);
+        setDiceArray(newArray);
+        alert(`Dice "${dice.name}" deleted!`);
+      };
+    }
 
     return {
       ...dice,
       // Pass the computed value to the component prop
       isClickable: shouldBeClickable,
+      onClick: onClick,
     };
   });
 
