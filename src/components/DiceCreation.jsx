@@ -42,11 +42,11 @@ function DiceCreation({ onSubmit, diceToEdit = null }) {
     <div className="border-main">
       {/* Header - only shows when editing */}
       {diceToEdit && (
-        <h2 className="text-2xl font-bold text-center mb-5">
+        <h2 className="yellow-underlined-heading">
           Editing: {diceToEdit.name}
         </h2>
       )}
-      <div className=" flex flex-col gap-2 md:flex-row items-center">
+      <div className="flex flex-col items-center gap-2 md:flex-row">
         {/* dice preview */}
         <DiceDataBlock dice={{ name: diceName, text1: text1 }} />
 

@@ -37,6 +37,10 @@ body {
   @apply rounded-lg border-4 border-red-300 p-4;
 }
 
+.yellow-underlined-heading {
+  @apply mb-3 text-center text-2xl font-bold text-yellow-600 underline underline-offset-5;
+}
+
 @theme {
   --font-fancyLetters: "Edu Australia VIC WA NT Hand Guides", cursive;
   --font-sans: "Schoolbell", sans-serif;

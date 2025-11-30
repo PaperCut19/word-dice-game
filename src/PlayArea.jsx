@@ -48,7 +48,7 @@ function PlayArea({ setCurrentPage }) {
       <div className="flex flex-col gap-4 md:flex-row">
         {/* left section, dice selector */}
         <div className="border-main">
-          <h2 className="text-2xl font-bold">Your Dice</h2>
+          <h2 className="yellow-underlined-heading">Your Dice</h2>
 
           {/* display all dice */}
           <div className="flex flex-col gap-3">
@@ -62,7 +62,7 @@ function PlayArea({ setCurrentPage }) {
 
         {/* right section, play area */}
         <div className="border-main">
-          <h2 className="text-2xl font-bold">Play Area</h2>
+          <h2 className="yellow-underlined-heading">Play Area</h2>
 
           {/* display active dice */}
           <div className="mb-4 flex flex-wrap gap-3">
