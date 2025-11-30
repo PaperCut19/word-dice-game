@@ -20,7 +20,7 @@ function ManageDice({ setCurrentPage }) {
   // It takes the permanent diceArray and adds the temporary isClickable property.
   const displayDiceArray = diceArray.map((dice) => {
     // We check the manageMode state directly to derive the property.
-    const shouldBeClickable = manageMode === "edit";
+    const shouldBeClickable = manageMode === "edit" || manageMode === "delete";
 
     return {
       ...dice,
@@ -77,11 +77,13 @@ function ManageDice({ setCurrentPage }) {
   // open create dice section
   const handleCreateDice = () => {
     setActiveSection("create");
+    setManageMode("create");
   };
 
   // open delete dice section
   const handleDeleteDice = () => {
     setActiveSection("delete");
+    setManageMode("delete");
   };
 
   // clear menu handler
@@ -118,6 +120,7 @@ function ManageDice({ setCurrentPage }) {
   // handler for activating delete one dice menu
   const handleDeleteOneMenu = () => {
     setActiveSection("deleteOne");
+    setManageMode("delete");
   };
 
   // handler for delete one dice
