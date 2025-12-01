@@ -216,7 +216,7 @@ function ManageDice({ setCurrentPage }) {
 
       {/* display all dice */}
       <div className="w-full overflow-x-auto">
-        <div className="mx-auto grid w-max auto-cols-max grid-flow-col grid-rows-2 gap-3 md:grid-rows-4">
+        <div className="mx-auto grid w-max auto-cols-max grid-flow-col grid-rows-2 gap-3">
           {displayDiceArray.map((dice) => (
             <DiceDataBlock key={dice.id} dice={dice} />
           ))}
