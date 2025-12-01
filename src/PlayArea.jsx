@@ -96,7 +96,7 @@ function PlayArea({ setCurrentPage }) {
           <h2 className="yellow-underlined-heading">Your Dice</h2>
 
           {/* display all dice */}
-          <div className="flex flex-col gap-3">
+          <div className="grid grid-flow-col grid-rows-2 gap-3 overflow-x-auto">
             {diceArray.map((dice) => (
               <div key={dice.id} onClick={() => handleAddDice(dice)}>
                 <DiceDataBlock dice={dice} />
