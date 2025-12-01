@@ -26,6 +26,16 @@ function PlayArea({ setCurrentPage }) {
       };
     }
 
+    // check to see if block should be given an onClick value that allows the block to be freeze itself
+    if (manageMode === "freeze") {
+      onClick = () => {
+        const newArray = activeDice.map((d) =>
+          d.id === dice.id ? { ...d, frozen: !d.frozen } : d,
+        );
+        setActiveDice(newArray);
+      };
+    }
+
     return {
       ...dice,
       // Pass the computed value to the component prop

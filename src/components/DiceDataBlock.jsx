@@ -26,6 +26,7 @@ function DiceDataBlock({ dice, showMetadata = true }) {
         <>
           <h1>Dice Name: {dice.name || "N/A"}</h1>
           <h1>Dice ID: {dice.id || ""}</h1>
+          {dice.frozen && <h1>Frozen</h1>}
         </>
       )}
       <div
