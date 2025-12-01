@@ -124,8 +124,22 @@ function PlayArea({ setCurrentPage }) {
           <div className="flex gap-2">
             <Button onClick={handleRoll}>Roll Dice</Button>
             <Button onClick={handleDeleteAll}>Delete All</Button>
-            <Button onClick={() => setManageMode("delete")}>Delete</Button>
-            <Button onClick={() => setManageMode("freeze")}>Freeze</Button>
+            <Button
+              className={
+                manageMode === "delete" ? "button-primary" : "button-secondary"
+              }
+              onClick={() => setManageMode("delete")}
+            >
+              Delete
+            </Button>
+            <Button
+              className={
+                manageMode === "freeze" ? "button-primary" : "button-secondary"
+              }
+              onClick={() => setManageMode("freeze")}
+            >
+              Freeze
+            </Button>
             <Button
               onClick={() => setManageMode("")}
               className="button-primary"
