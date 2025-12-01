@@ -121,7 +121,7 @@ function PlayArea({ setCurrentPage }) {
           </p>
 
           {/* buttons */}
-          <div className="flex gap-2">
+          <div className="flex flex-wrap gap-2">
             <Button onClick={handleRoll}>Roll Dice</Button>
             <Button onClick={handleDeleteAll}>Delete All</Button>
             <Button
