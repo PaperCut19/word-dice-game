@@ -161,6 +161,7 @@ function ManageDice({ setCurrentPage }) {
   // handler to activate 'edit menu 1'
   const handleEditButton = () => {
     setManageMode("edit");
+    setActiveSection("");
   };
 
   // open create dice section
