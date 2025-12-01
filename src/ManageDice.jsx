@@ -225,12 +225,6 @@ function ManageDice({ setCurrentPage }) {
     alert("All dice got deleted!");
   };
 
-  // handler for activating delete one dice menu
-  const handleDeleteOneMenu = () => {
-    setActiveSection("deleteOne");
-    setManageMode("delete");
-  };
-
   // handler for delete one dice
   const handleDeleteOne = (diceName) => {
     if (!diceName) {
@@ -291,18 +285,7 @@ function ManageDice({ setCurrentPage }) {
       {activeSection === "delete" && (
         <div className="border-main flex flex-col gap-2">
           <Button onClick={handleDeleteAll}>Delete All</Button>
-          <Button onClick={handleDeleteOneMenu}>Delete One Dice</Button>
         </div>
-      )}
-
-      {/* delete one dice section */}
-      {activeSection === "deleteOne" && (
-        <AskUser
-          label="Name of dice to delete"
-          placeholder="Enter dice name"
-          onSubmit={handleDeleteOne}
-          buttonText="Delete"
-        />
       )}
 
       {/* display all dice */}
