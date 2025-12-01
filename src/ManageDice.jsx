@@ -28,7 +28,7 @@ function ManageDice({ setCurrentPage }) {
       onClick = () => {
         const newArray = diceArray.filter((d) => d.id !== dice.id);
         setDiceArray(newArray);
-        alert(`Dice "${dice.name}" deleted!`);
+        console.log(`Dice "${dice.name}" deleted!`);
       };
     }
 
@@ -155,7 +155,7 @@ function ManageDice({ setCurrentPage }) {
     );
 
     setDiceArray(updatedArray);
-    alert(`Dice "${diceData.name}" has been updated!`);
+    console.log(`Dice "${diceData.name}" has been updated!`);
   };
 
   // handler to activate 'edit menu 1'
@@ -197,13 +197,13 @@ function ManageDice({ setCurrentPage }) {
     }
 
     setDiceArray([...diceArray, newDice]);
-    alert(`dice "${newDice.name}" has been created!`);
+    console.log(`dice "${newDice.name}" has been created!`);
   };
 
   // delete all dice - just update React state
   const handleDeleteAll = () => {
     setDiceArray([]);
-    alert("All dice got deleted!");
+    console.log("All dice got deleted!");
   };
 
   return (
