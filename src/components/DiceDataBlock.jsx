@@ -26,7 +26,11 @@ function DiceDataBlock({ dice, showMetadata = true }) {
         <>
           <h1>Dice Name: {dice.name || "N/A"}</h1>
           <h1>Dice ID: {dice.id || ""}</h1>
-          {dice.frozen && <h1>Frozen</h1>}
+          {dice.frozen && (
+            <h1 className="pb-2 text-xl text-blue-400 underline underline-offset-4">
+              Frozen
+            </h1>
+          )}
         </>
       )}
       <div
