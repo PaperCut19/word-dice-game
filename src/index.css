@@ -9,40 +9,42 @@ body {
   padding: 0;
 }
 
-.button-primary {
-  @apply rounded-lg bg-blue-300 p-2 duration-200 hover:cursor-pointer hover:bg-blue-200;
-}
+@layer components {
+  .button-primary {
+    @apply rounded-lg bg-blue-300 p-2 duration-200 hover:cursor-pointer hover:bg-blue-200;
+  }
 
-.button-secondary {
-  @apply rounded-lg bg-gray-300 p-2 duration-200 hover:cursor-pointer hover:bg-gray-200;
-}
+  .button-secondary {
+    @apply rounded-lg bg-gray-300 p-2 duration-200 hover:cursor-pointer hover:bg-gray-200;
+  }
 
-.dice-box {
-  @apply flex h-20 w-20 items-center justify-center rounded-xl duration-400 hover:cursor-pointer md:h-30 md:w-30;
-}
+  .dice-box {
+    @apply flex h-20 w-20 items-center justify-center rounded-xl duration-400 hover:cursor-pointer md:h-30 md:w-30;
+  }
 
-.dice-letter {
-  @apply text-5xl text-white duration-400 md:text-7xl;
-}
+  .dice-letter {
+    @apply text-5xl text-white duration-400 md:text-7xl;
+  }
 
-.main-container {
-  @apply container mx-auto flex min-h-screen flex-col items-center justify-center gap-4 p-5 md:p-12;
-}
+  .main-container {
+    @apply container mx-auto flex min-h-screen flex-col items-center justify-center gap-4 p-5 md:p-12;
+  }
 
-.text-input {
-  @apply rounded border-2 border-dashed border-gray-500 p-1;
-}
+  .text-input {
+    @apply rounded border-2 border-dashed border-gray-500 p-1;
+  }
 
-.border-main {
-  @apply rounded-lg border-4 border-red-300 p-4;
-}
+  .border-main {
+    @apply rounded-lg border-4 border-red-300 p-4;
+  }
 
-.yellow-underlined-heading {
-  @apply mb-3 text-center text-2xl font-bold text-yellow-600 underline underline-offset-5;
-}
+  .yellow-underlined-heading {
+    @apply mb-3 text-center text-2xl font-bold text-yellow-600 underline underline-offset-5;
+  }
 
-.border-clickable {
-  @apply border-6 border-purple-600 md:border-10;
+  .border-clickable {
+    @apply border-6 border-purple-600 md:border-10;
+  }
 }
 
 @theme {
