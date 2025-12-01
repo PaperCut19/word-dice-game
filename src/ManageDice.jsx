@@ -215,7 +215,7 @@ function ManageDice({ setCurrentPage }) {
       )}
 
       {/* display all dice */}
-      <div className="flex flex-wrap items-center justify-center gap-3">
+      <div className="grid w-full grid-flow-col grid-rows-2 gap-3 overflow-x-auto md:grid-rows-4">
         {displayDiceArray.map((dice) => (
           <DiceDataBlock key={dice.id} dice={dice} />
         ))}
