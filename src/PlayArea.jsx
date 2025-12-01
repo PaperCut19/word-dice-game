@@ -56,6 +56,10 @@ function PlayArea({ setCurrentPage }) {
   // handler to roll all active dice
   const handleRoll = () => {
     const rolledDice = activeDice.map((dice) => {
+      if (dice.frozen) {
+        return dice;
+      }
+
       // get all 6 faces
       const faces = [
         dice.text1,
