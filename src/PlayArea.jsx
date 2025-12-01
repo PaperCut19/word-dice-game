@@ -126,7 +126,9 @@ function PlayArea({ setCurrentPage }) {
             <Button onClick={handleDeleteAll}>Delete All</Button>
             <Button
               className={
-                manageMode === "delete" ? "button-primary" : "button-secondary"
+                manageMode === "delete"
+                  ? "button-secondary bg-yellow-500"
+                  : "button-secondary"
               }
               onClick={() => setManageMode("delete")}
             >
@@ -134,7 +136,9 @@ function PlayArea({ setCurrentPage }) {
             </Button>
             <Button
               className={
-                manageMode === "freeze" ? "button-primary" : "button-secondary"
+                manageMode === "freeze"
+                  ? "button-secondary bg-yellow-500"
+                  : "button-secondary"
               }
               onClick={() => setManageMode("freeze")}
             >
@@ -146,6 +150,7 @@ function PlayArea({ setCurrentPage }) {
             >
               Finished Editing
             </Button>
+            <Button>Add All</Button>
           </div>
         </div>
       </div>

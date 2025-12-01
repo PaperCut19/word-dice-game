@@ -43,7 +43,7 @@ body {
   }
 
   .border-clickable {
-    @apply border-6 border-purple-600 md:border-10;
+    @apply border-6 border-yellow-500 md:border-10;
   }
 }
 
