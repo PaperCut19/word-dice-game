@@ -46,7 +46,11 @@ function PlayArea({ setCurrentPage }) {
 
   // handler that adds all dice into the play area
   const handleAddAll = () => {
-    setActiveDice([...activeDice, ...diceArray]);
+    const newArray = diceArray.map((dice) => ({
+      ...dice,
+      playId: Date.now() + Math.random(),
+    }));
+    setActiveDice([...activeDice, ...newArray]);
   };
 
   // handler to delete all dice that aren't frozen
