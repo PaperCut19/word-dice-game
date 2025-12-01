@@ -90,9 +90,9 @@ function PlayArea({ setCurrentPage }) {
       <h1 className="mb-8 font-fancyLetters text-4xl">Play Area</h1>
 
       {/* two sections side by side on desktop */}
-      <div className="flex flex-col gap-4 md:flex-row">
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
         {/* left section, dice selector */}
-        <div className="border-main">
+        <div className="border-main md:col-span-1">
           <h2 className="yellow-underlined-heading">Your Dice</h2>
 
           {/* display all dice */}
@@ -106,11 +106,11 @@ function PlayArea({ setCurrentPage }) {
         </div>
 
         {/* right section, play area */}
-        <div className="border-main">
+        <div className="border-main overflow-hidden md:col-span-3">
           <h2 className="yellow-underlined-heading">Play Area</h2>
 
           {/* display active dice */}
-          <div className="mb-4 flex flex-wrap gap-3">
+          <div className="mb-4 grid grid-flow-col grid-rows-2 gap-3 overflow-x-auto pb-2">
             {displayDiceArray.map((dice) => (
               <DiceDataBlock key={dice.playId} dice={dice} />
             ))}
