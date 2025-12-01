@@ -34,7 +34,7 @@ function DiceDataBlock({ dice, showMetadata = true }) {
         </>
       )}
       <div
-        className={`dice-box ${getDiceBoxColor()} ${dice.isClickable && "border-10 border-yellow-500"}`}
+        className={`dice-box ${getDiceBoxColor()} ${dice.isClickable && "border-clickable"}`}
       >
         <h1 className="dice-letter">{dice.mainFace || dice.text1 || ""}</h1>
       </div>

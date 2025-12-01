@@ -41,6 +41,10 @@ body {
   @apply mb-3 text-center text-2xl font-bold text-yellow-600 underline underline-offset-5;
 }
 
+.border-clickable {
+  @apply border-6 border-purple-600 md:border-10;
+}
+
 @theme {
   --font-fancyLetters: "Edu Australia VIC WA NT Hand Guides", cursive;
   --font-sans: "Schoolbell", sans-serif;
