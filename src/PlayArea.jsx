@@ -30,7 +30,7 @@ function PlayArea({ setCurrentPage }) {
     if (manageMode === "freeze") {
       onClick = () => {
         const newArray = activeDice.map((d) =>
-          d.id === dice.id ? { ...d, frozen: !d.frozen } : d,
+          d.playId === dice.playId ? { ...d, frozen: !d.frozen } : d,
         );
         setActiveDice(newArray);
       };
@@ -43,6 +43,12 @@ function PlayArea({ setCurrentPage }) {
       onClick: onClick,
     };
   });
+
+  // handler to delete all dice that aren't frozen
+  const handleDeleteAll = () => {
+    const newArray = activeDice.filter((dice) => dice.frozen);
+    setActiveDice(newArray);
+  };
 
   // handler to add dice to play area
   const handleAddDice = (dice) => {
@@ -117,7 +123,7 @@ function PlayArea({ setCurrentPage }) {
           {/* buttons */}
           <div className="flex gap-2">
             <Button onClick={handleRoll}>Roll Dice</Button>
-            <Button onClick={() => setActiveDice([])}>Delete All</Button>
+            <Button onClick={handleDeleteAll}>Delete All</Button>
             <Button onClick={() => setManageMode("delete")}>Delete</Button>
             <Button onClick={() => setManageMode("freeze")}>Freeze</Button>
             <Button
