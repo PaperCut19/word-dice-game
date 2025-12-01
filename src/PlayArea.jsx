@@ -169,6 +169,12 @@ function PlayArea({ setCurrentPage }) {
       <Button className="button-primary" onClick={() => setCurrentPage("home")}>
         Home Page
       </Button>
+      <Button
+        className="button-primary"
+        onClick={() => setCurrentPage("manage")}
+      >
+        Manage Your Dice
+      </Button>
     </div>
   );
 }

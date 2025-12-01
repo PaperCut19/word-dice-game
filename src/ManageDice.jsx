@@ -250,9 +250,12 @@ function ManageDice({ setCurrentPage }) {
         </div>
       </div>
 
-      {/* home button */}
+      {/* buttons */}
       <Button className="button-primary" onClick={() => setCurrentPage("home")}>
         Home Page
+      </Button>
+      <Button className="button-primary" onClick={() => setCurrentPage("play")}>
+        Play With Dice
       </Button>
     </div>
   );
