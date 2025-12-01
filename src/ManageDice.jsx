@@ -263,6 +263,7 @@ function ManageDice({ setCurrentPage }) {
           onDeleteDice={handleDeleteDice}
           onClear={handleClear}
           autoCreate={handleAutoCreate}
+          manageMode={manageMode}
         />
       </div>
 
