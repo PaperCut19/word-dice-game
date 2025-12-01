@@ -18,7 +18,7 @@ body {
 }
 
 .dice-box {
-  @apply flex h-20 w-20 items-center justify-center rounded-xl duration-400 group-hover:cursor-pointer md:h-30 md:w-30;
+  @apply flex h-20 w-20 items-center justify-center rounded-xl duration-400 hover:cursor-pointer md:h-30 md:w-30;
 }
 
 .dice-letter {
