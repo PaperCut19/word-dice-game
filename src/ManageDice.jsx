@@ -57,6 +57,95 @@ function ManageDice({ setCurrentPage }) {
     diceStorage.uploadAllDice(diceArray);
   }, [diceArray]);
 
+  // handler that will automatically create a bunch of dice
+  const handleAutoCreate = () => {
+    const newDice = [
+      {
+        id: Date.now(),
+        name: "mildred",
+        text1: "m",
+        text2: "i",
+        text3: "l",
+        text4: "d",
+        text5: "r",
+        text6: "e",
+        mainFace: "m",
+      },
+      {
+        id: Date.now() + 1,
+        name: "daniel",
+        text1: "d",
+        text2: "a",
+        text3: "n",
+        text4: "i",
+        text5: "e",
+        text6: "l",
+        mainFace: "d",
+      },
+      {
+        id: Date.now() + 2,
+        name: "cristian",
+        text1: "c",
+        text2: "r",
+        text3: "i",
+        text4: "s",
+        text5: "t",
+        text6: "i",
+        mainFace: "c",
+      },
+      {
+        id: Date.now() + 3,
+        name: "colleen",
+        text1: "c",
+        text2: "o",
+        text3: "l",
+        text4: "l",
+        text5: "e",
+        text6: "e",
+        mainFace: "c",
+      },
+      {
+        id: Date.now() + 4,
+        name: "don",
+        text1: "d",
+        text2: "o",
+        text3: "n",
+        mainFace: "d",
+      },
+      {
+        id: Date.now() + 5,
+        name: "alyssa",
+        text1: "a",
+        text2: "l",
+        text3: "y",
+        text4: "s",
+        text5: "s",
+        text6: "a",
+        mainFace: "a",
+      },
+      {
+        id: Date.now() + 6,
+        name: "ava",
+        text1: "a",
+        text2: "v",
+        text3: "a",
+        mainFace: "a",
+      },
+      {
+        id: Date.now() + 7,
+        name: "aiden",
+        text1: "a",
+        text2: "i",
+        text3: "d",
+        text4: "e",
+        text5: "n",
+        mainFace: "a",
+      },
+    ];
+
+    setDiceArray([...diceArray, ...newDice]);
+  };
+
   // handler for edit menu 2, submitting the edited dice to local copy
   const handleEditSubmit = (diceData) => {
     const updatedArray = diceArray.map((dice) =>
@@ -173,6 +262,7 @@ function ManageDice({ setCurrentPage }) {
           onEditDice={handleEditMenu1}
           onDeleteDice={handleDeleteDice}
           onClear={handleClear}
+          autoCreate={handleAutoCreate}
         />
       </div>
 

@@ -1,6 +1,12 @@
 import Button from "./Button";
 
-function ManageMenu({ onCreateDice, onEditDice, onDeleteDice, onClear }) {
+function ManageMenu({
+  onCreateDice,
+  onEditDice,
+  onDeleteDice,
+  onClear,
+  autoCreate,
+}) {
   return (
     <div className="border-main flex flex-col items-center justify-center gap-2 md:flex-row">
       <Button onClick={onCreateDice}>Create Dice</Button>
@@ -9,6 +15,7 @@ function ManageMenu({ onCreateDice, onEditDice, onDeleteDice, onClear }) {
       <Button className="button-primary" onClick={onClear}>
         Clear
       </Button>
+      <Button onClick={autoCreate}>Auto-Create</Button>
     </div>
   );
 }
