@@ -44,6 +44,11 @@ function PlayArea({ setCurrentPage }) {
     };
   });
 
+  // handler that adds all dice into the play area
+  const handleAddAll = () => {
+    setActiveDice([...activeDice, ...diceArray]);
+  };
+
   // handler to delete all dice that aren't frozen
   const handleDeleteAll = () => {
     const newArray = activeDice.filter((dice) => dice.frozen);
@@ -152,7 +157,7 @@ function PlayArea({ setCurrentPage }) {
             >
               Finished Editing
             </Button>
-            <Button>Add All</Button>
+            <Button onClick={handleAddAll}>Add All</Button>
           </div>
         </div>
       </div>
