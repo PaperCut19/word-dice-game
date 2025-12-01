@@ -110,10 +110,12 @@ function PlayArea({ setCurrentPage }) {
           <h2 className="yellow-underlined-heading">Play Area</h2>
 
           {/* display active dice */}
-          <div className="mb-4 grid grid-flow-col grid-rows-2 gap-3 overflow-x-auto pb-2">
-            {displayDiceArray.map((dice) => (
-              <DiceDataBlock key={dice.playId} dice={dice} />
-            ))}
+          <div className="w-full overflow-x-auto">
+            <div className="mx-auto mb-4 grid w-max auto-cols-auto grid-flow-col grid-rows-2 gap-3 pb-2">
+              {displayDiceArray.map((dice) => (
+                <DiceDataBlock key={dice.playId} dice={dice} />
+              ))}
+            </div>
           </div>
 
           <p className="text-gray-500">
