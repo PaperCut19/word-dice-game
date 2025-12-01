@@ -159,27 +159,8 @@ function ManageDice({ setCurrentPage }) {
   };
 
   // handler to activate 'edit menu 1'
-  const handleEditMenu1 = () => {
-    setActiveSection("editMenu1");
+  const handleEditButton = () => {
     setManageMode("edit");
-  };
-
-  // handler for edit menu 1, find dice to edit
-  const handleFindDiceToEdit = (diceName) => {
-    if (!diceName) {
-      alert("Please enter a dice name to edit");
-      return;
-    }
-
-    const found = diceArray.find((dice) => dice.name === diceName);
-
-    if (!found) {
-      alert(`No dice found with name "${diceName}"`);
-      return;
-    }
-
-    setFoundDice(found);
-    setActiveSection("editMenu2");
   };
 
   // open create dice section
@@ -225,25 +206,6 @@ function ManageDice({ setCurrentPage }) {
     alert("All dice got deleted!");
   };
 
-  // handler for delete one dice
-  const handleDeleteOne = (diceName) => {
-    if (!diceName) {
-      alert("Please enter a dice name to delete");
-      return;
-    }
-
-    const diceExists = diceArray.some((dice) => dice.name === diceName);
-
-    if (!diceExists) {
-      alert(`No dice found with name "${diceName}"`);
-      return;
-    }
-
-    const filteredArray = diceArray.filter((dice) => dice.name !== diceName);
-    setDiceArray(filteredArray);
-    alert(`Dice "${diceName}" deleted!`);
-  };
-
   return (
     <div className="main-container">
       <h1 className="font-fancyLetters text-4xl">Manage Your Dice</h1>
@@ -253,7 +215,7 @@ function ManageDice({ setCurrentPage }) {
         {/* Permanent Menu - always visible */}
         <ManageMenu
           onCreateDice={handleCreateDice}
-          onEditDice={handleEditMenu1}
+          onEditDice={handleEditButton}
           onDeleteDice={handleDeleteDice}
           onClear={handleClear}
           autoCreate={handleAutoCreate}
@@ -264,16 +226,6 @@ function ManageDice({ setCurrentPage }) {
       {/* create dice section */}
       {activeSection === "create" && (
         <DiceCreation onSubmit={handleCreateSubmit} />
-      )}
-
-      {/* Edit Menu 1 - AskUser component */}
-      {activeSection === "editMenu1" && (
-        <AskUser
-          label="Name of dice to edit"
-          placeholder="Enter dice name"
-          onSubmit={handleFindDiceToEdit}
-          buttonText="Find Dice"
-        />
       )}
 
       {/* Edit Menu 2 - DiceCreation component */}
