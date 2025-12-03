@@ -31,6 +31,15 @@ function Login({ usernameMessage, passwordMessage, submitMessage, onSubmit }) {
           onChange={(event) => setPassword(event.target.value)}
           placeholder={passwordMessage}
           className="text-input w-50 text-center"
+          onKeyDown={(event) => {
+            // 1. check if the key pressed was enter
+            if (event.key === "Enter") {
+              // 2. stop the browser's default submit behavior
+              event.preventDefault();
+              // 3. call your submission logic
+              handleSubmit();
+            }
+          }}
         />
         <p className="text-red-500">{errorMessage}</p>
       </div>
