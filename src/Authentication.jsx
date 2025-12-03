@@ -10,9 +10,9 @@ function Authentication() {
   if (userMode === "none") {
     headerMessage = "Login or Sign Up";
   } else if (userMode === "login") {
-    headerMessage = "Login";
+    headerMessage = "Login Page";
   } else if (userMode === "signup") {
-    headerMessage = "Sign Up";
+    headerMessage = "Sign Up Page";
   }
 
   return (
@@ -21,8 +21,18 @@ function Authentication() {
 
       {userMode === "none" && (
         <div className="border-main flex w-50 flex-col justify-center gap-2">
-          <Button className="button-primary w-full">Login</Button>
-          <Button className="button-secondary w-full">Sign Up</Button>
+          <Button
+            onClick={() => setUserMode("login")}
+            className="button-primary w-full"
+          >
+            Login
+          </Button>
+          <Button
+            onClick={() => setUserMode("signup")}
+            className="button-secondary w-full"
+          >
+            Sign Up
+          </Button>
         </div>
       )}
 
@@ -32,9 +42,22 @@ function Authentication() {
             <Login
               usernameMessage={"Enter Username"}
               passwordMessage={"Enter Password"}
-              submitMessage={"Login"}
-              authenticationTitle={"Login"}
+              submitMessage={"Login Page"}
             />
+            <Button onClick={() => setUserMode("none")}>Back</Button>
+          </div>
+        </>
+      )}
+
+      {userMode === "signup" && (
+        <>
+          <div className="border-main flex flex-col justify-center gap-3">
+            <Login
+              usernameMessage={"Create Username"}
+              passwordMessage={"Create Password"}
+              submitMessage={"Sign Up"}
+            />
+            <Button onClick={() => setUserMode("none")}>Back</Button>
           </div>
         </>
       )}
