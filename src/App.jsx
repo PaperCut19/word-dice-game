@@ -2,10 +2,10 @@ import { useState } from "react";
 import HomePage from "./HomePage";
 import ManageDice from "./ManageDice";
 import PlayArea from "./PlayArea";
-import Login from "./Login";
+import Authentication from "./Authentication";
 
 function App() {
-  const [currentPage, setCurrentPage] = useState("login");
+  const [currentPage, setCurrentPage] = useState("authentication");
 
   return (
     <div>
@@ -14,7 +14,9 @@ function App() {
         <ManageDice setCurrentPage={setCurrentPage} />
       )}
       {currentPage === "play" && <PlayArea setCurrentPage={setCurrentPage} />}
-      {currentPage === "login" && <Login setCurrentPage={setCurrentPage} />}
+      {currentPage === "authentication" && (
+        <Authentication setCurrentPage={setCurrentPage} />
+      )}
     </div>
   );
 }
