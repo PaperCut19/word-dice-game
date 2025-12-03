@@ -42,7 +42,7 @@ function Authentication() {
             <Login
               usernameMessage={"Enter Username"}
               passwordMessage={"Enter Password"}
-              submitMessage={"Login Page"}
+              submitMessage={"Login"}
             />
             <Button onClick={() => setUserMode("none")}>Back</Button>
           </div>
