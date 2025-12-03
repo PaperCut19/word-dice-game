@@ -36,6 +36,40 @@ app.get("/", (req, res) => {
   res.send("Express server is running");
 });
 
+// sign up route
+app.post("/api/register", async (req, res) => {
+  try {
+    const { username, password } = req.body;
+
+    // 1. validation
+    if (!username || !password) {
+      return res
+        .status(400)
+        .json({ error: "Username and password are required" });
+    }
+
+    // 2. hash password
+    const saltRounds = 10;
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
+
+    // insert into database
+    const newUser = await pool.query(
+      "INSERT INTO users (username, password_hash) VALUES ($1, $2) RETURNING id, username",
+      [username, hashedPassword],
+    );
+
+    // respond
+    res.json({ message: "User created!", user: newUser.rows[0] });
+  } catch (error) {
+    console.error(error.message);
+    if (error.code === "23505") {
+      // unique violation code
+      return res.status(409).json({ error: "username already exists" });
+    }
+    res.status(500).send("server error");
+  }
+});
+
 // server start logic
 pool.connect((error) => {
   if (error) {

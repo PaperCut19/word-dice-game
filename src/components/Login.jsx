@@ -1,9 +1,19 @@
 import { useState } from "react";
 
-function Login({ usernameMessage, passwordMessage, submitMessage }) {
+function Login({ usernameMessage, passwordMessage, submitMessage, onSubmit }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+
+  const handleSubmit = () => {
+    if (!username || !password) {
+      setErrorMessage("please enter both fields");
+      return;
+    }
+    setErrorMessage(""); // clear previous errors
+    // pass data up to the parent's function
+    onSubmit(username, password);
+  };
 
   return (
     <>
@@ -24,7 +34,9 @@ function Login({ usernameMessage, passwordMessage, submitMessage }) {
         />
         <p className="text-red-500">{errorMessage}</p>
       </div>
-      <button className="button-primary">{submitMessage}</button>
+      <button className="button-primary" onClick={handleSubmit}>
+        {submitMessage}
+      </button>
     </>
   );
 }
