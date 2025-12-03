@@ -71,6 +71,51 @@ app.post("/api/register", async (req, res) => {
   }
 });
 
+// login route
+app.post("/api/login", async (req, res) => {
+  const { username, password } = req.body;
+
+  try {
+    // 1. look up user by username
+    // we select the id, username, and the stored hash
+    const userResult = await pool.query(
+      "SELECT id, username, password_hash FROM users WHERE username = $1",
+      [username],
+    );
+
+    const user = userResult.rows[0];
+
+    // checkpoint A: user not found
+    // if the user doesn't exist, we send an authentication error
+    if (!user) {
+      return res.status(401).json({ error: "invalid username or password" });
+    }
+
+    // 2. BCRYPT comparison
+    // we compare the submitted password against the hash stored in the database
+    const passwordMatch = await bcrypt.compare(password, user.password_hash);
+
+    // checkpoint B: password does not match
+    if (!passwordMatch) {
+      return res.status(401).json({ error: "invalid username or password" });
+    }
+
+    // JSON web token generation (login successful)
+    // create the token payload with non-sensitive user data
+    const token = jwt.sign(
+      { userId: user.id, username: user.username },
+      process.env.JWT_SECRET, // the secret key from .env file
+      { expiresIn: "1h" }, // token expires in 1 hour
+    );
+
+    // send success and token
+    res.json({ message: "login successful!", token, username: user.username });
+  } catch (error) {
+    console.error("login error:", error);
+    res.status(500).json({ error: "internal server error" });
+  }
+});
+
 // server start logic
 pool.connect((error) => {
   if (error) {

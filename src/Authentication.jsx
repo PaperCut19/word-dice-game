@@ -3,7 +3,7 @@ import { useState } from "react";
 import Button from "./components/Button";
 import axios from "axios";
 
-function Authentication() {
+function Authentication({ setCurrentPage }) {
   const [userMode, setUserMode] = useState("none");
 
   let headerMessage = "";
@@ -41,6 +41,36 @@ function Authentication() {
     }
   };
 
+  // logging in logic
+  const handleLogin = async (username, password) => {
+    try {
+      // 1. send the request to express server running on port 3000
+      const response = await axios.post("http://localhost:3000/api/login", {
+        username: username,
+        password: password,
+      });
+
+      // 2. success. extract the JWT and username
+      const { token, username: loggedInUsername } = response.data;
+
+      // 3. store the JWT securely for future use (important for session management)
+      localStorage.setItem("userToken", token);
+      localStorage.setItem("username", loggedInUsername);
+
+      alert(`welcome back, ${loggedInUsername}`);
+
+      // 4. navigate the user to the main application page
+      setCurrentPage("home");
+    } catch (error) {
+      // 5. error handling
+      const message =
+        error.response?.data?.error ||
+        "login failed. check username and password and try again";
+      alert(message);
+      console.error("login error:", error);
+    }
+  };
+
   return (
     <div className="main-container">
       <h1 className="mb-5 font-fancyLetters text-4xl">{headerMessage}</h1>
@@ -69,6 +99,7 @@ function Authentication() {
               usernameMessage={"Enter Username"}
               passwordMessage={"Enter Password"}
               submitMessage={"Login"}
+              onSubmit={handleLogin}
             />
             <Button onClick={() => setUserMode("none")}>Back</Button>
           </div>
