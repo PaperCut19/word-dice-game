@@ -3,6 +3,7 @@ import express from "express";
 import { Pool } from "pg";
 import cors from "cors";
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
 // initialize the app
 const app = express();
