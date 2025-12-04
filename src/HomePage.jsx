@@ -22,8 +22,8 @@ function HomePage({ setCurrentPage }) {
 
   return (
     <div className="main-container">
-      <div className="grid grid-cols-1 grid-rows-1 gap-3 lg:grid-cols-[13fr_7fr]">
-        <div className="secondary-container border-main gap-4 border-7 p-10 md:flex-col">
+      <div className="grid grid-cols-1 gap-3 lg:grid-cols-[13fr_7fr] lg:grid-rows-1">
+        <div className="secondary-container border-main gap-4 border-7 p-4 md:flex-col lg:p-10">
           <h1 className="yellow-underlined-heading text-4xl">
             Dice Testing Area
           </h1>
