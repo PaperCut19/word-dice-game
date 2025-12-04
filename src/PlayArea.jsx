@@ -2,6 +2,7 @@ import { useState } from "react";
 import Button from "./components/Button";
 import { diceStorage } from "./diceStorage";
 import DiceDataBlock from "./components/DiceDataBlock";
+import NavigationMenu from "./components/NavigationMenu";
 
 function PlayArea({ setCurrentPage }) {
   // load dice from storage
@@ -166,15 +167,7 @@ function PlayArea({ setCurrentPage }) {
         </div>
       </div>
 
-      <Button className="button-primary" onClick={() => setCurrentPage("home")}>
-        Home Page
-      </Button>
-      <Button
-        className="button-primary"
-        onClick={() => setCurrentPage("manage")}
-      >
-        Manage Your Dice
-      </Button>
+      <NavigationMenu setCurrentPage={setCurrentPage} />
     </div>
   );
 }

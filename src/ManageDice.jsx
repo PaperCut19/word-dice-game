@@ -5,6 +5,7 @@ import Button from "./components/Button";
 import ManageMenu from "./components/ManageMenu";
 import AskUser from "./components/AskUser";
 import DiceCreation from "./components/DiceCreation";
+import NavigationMenu from "./components/NavigationMenu";
 
 function ManageDice({ setCurrentPage }) {
   // State
@@ -251,20 +252,7 @@ function ManageDice({ setCurrentPage }) {
       </div>
 
       {/* buttons */}
-      <div className="button-container">
-        <Button
-          className="button-primary"
-          onClick={() => setCurrentPage("home")}
-        >
-          Home Page
-        </Button>
-        <Button
-          className="button-primary"
-          onClick={() => setCurrentPage("play")}
-        >
-          Play With Dice
-        </Button>
-      </div>
+      <NavigationMenu setCurrentPage={setCurrentPage} />
     </div>
   );
 }

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import DiceDataBlock from "./components/DiceDataBlock";
 import Button from "./components/Button";
+import NavigationMenu from "./components/NavigationMenu";
 
 function HomePage({ setCurrentPage }) {
   const [inputValue, setInputValue] = useState("");
@@ -46,24 +47,7 @@ function HomePage({ setCurrentPage }) {
       <Button onClick={handleSubmit}>Submit</Button>
 
       {/* navigate buttons */}
-      <div className="button-container">
-        <Button
-          className="button-primary"
-          onClick={() => setCurrentPage("play")}
-        >
-          Play with Dice
-        </Button>
-
-        <Button
-          className="button-primary"
-          onClick={() => setCurrentPage("manage")}
-        >
-          Manage Your Dice
-        </Button>
-        <Button onClick={() => setCurrentPage("authentication")}>
-          Back To Account Page
-        </Button>
-      </div>
+      <NavigationMenu setCurrentPage={setCurrentPage} />
     </div>
   );
 }

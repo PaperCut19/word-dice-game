@@ -5,7 +5,7 @@ import PlayArea from "./PlayArea";
 import Authentication from "./Authentication";
 
 function App() {
-  const [currentPage, setCurrentPage] = useState("authentication");
+  const [currentPage, setCurrentPage] = useState("home");
 
   return (
     <div>
