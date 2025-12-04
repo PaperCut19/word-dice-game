@@ -47,7 +47,7 @@ body {
   }
 
   .button-container {
-    @apply rounded-lg border-4 border-red-300 p-4 flex flex-col flex-wrap items-center justify-center gap-3 md:flex-row;
+    @apply flex flex-col flex-wrap items-center justify-center gap-3 rounded-lg border-4 border-red-300 p-4 md:flex-row;
   }
 }
 
