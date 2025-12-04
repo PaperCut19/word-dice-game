@@ -46,19 +46,24 @@ function HomePage({ setCurrentPage }) {
       <Button onClick={handleSubmit}>Submit</Button>
 
       {/* navigate buttons */}
-      <Button className="button-primary" onClick={() => setCurrentPage("play")}>
-        Play with Dice
-      </Button>
+      <div className="border-main flex flex-col flex-wrap items-center justify-center gap-3 md:flex-row">
+        <Button
+          className="button-primary"
+          onClick={() => setCurrentPage("play")}
+        >
+          Play with Dice
+        </Button>
 
-      <Button
-        className="button-primary"
-        onClick={() => setCurrentPage("manage")}
-      >
-        Manage Your Dice
-      </Button>
-      <Button onClick={() => setCurrentPage("authentication")}>
-        Back To Account Page
-      </Button>
+        <Button
+          className="button-primary"
+          onClick={() => setCurrentPage("manage")}
+        >
+          Manage Your Dice
+        </Button>
+        <Button onClick={() => setCurrentPage("authentication")}>
+          Back To Account Page
+        </Button>
+      </div>
     </div>
   );
 }
