@@ -21,33 +21,38 @@ function HomePage({ setCurrentPage }) {
 
   return (
     <div className="main-container">
-      {/* front page dice blocks */}
-      <div className="flex flex-wrap items-center justify-center gap-3">
-        {frontPageDice.map((letter, index) => {
-          return (
-            <DiceDataBlock
-              key={index}
-              dice={{ text1: letter }}
-              showMetadata={false}
-            />
-          );
-        })}
+      <div className="secondary-container border-main gap-4 border-7 p-10 md:flex-col">
+        <h1 className="yellow-underlined-heading text-4xl">
+          Dice Testing Area
+        </h1>
+
+        {/* front page dice blocks */}
+        <div className="flex flex-wrap items-center justify-center gap-3">
+          {frontPageDice.map((letter, index) => {
+            return (
+              <DiceDataBlock
+                key={index}
+                dice={{ text1: letter }}
+                showMetadata={false}
+              />
+            );
+          })}
+        </div>
+
+        {/* input */}
+        <input
+          type="text"
+          value={inputValue}
+          onChange={(event) => setInputValue(event.target.value)}
+          onKeyDown={(event) => event.key === "Enter" && handleSubmit()}
+          placeholder="Change 'words' to what?"
+          className="text-input w-50 text-center"
+        />
+
+        <Button className="button-secondary w-50" onClick={handleSubmit}>
+          Submit
+        </Button>
       </div>
-
-      {/* input */}
-      <input
-        type="text"
-        value={inputValue}
-        onChange={(event) => setInputValue(event.target.value)}
-        onKeyDown={(event) => event.key === "Enter" && handleSubmit()}
-        placeholder="Change 'words' to what?"
-        className="text-input w-50 text-center"
-      />
-
-      <Button onClick={handleSubmit}>Submit</Button>
-
-      {/* navigate buttons */}
-      <NavigationMenu setCurrentPage={setCurrentPage} />
     </div>
   );
 }
