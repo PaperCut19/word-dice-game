@@ -100,9 +100,9 @@ function PlayArea({ setCurrentPage }) {
       <h1 className="mb-8 font-fancyLetters text-4xl">Play Area</h1>
 
       {/* two sections side by side on desktop */}
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
+      <div className="grid grid-cols-1 gap-4 xl:grid-cols-4">
         {/* left section, dice selector */}
-        <div className="border-main md:col-span-1">
+        <div className="border-main xl:col-span-1">
           <h2 className="yellow-underlined-heading">Your Dice</h2>
 
           {/* display all dice */}
@@ -116,7 +116,7 @@ function PlayArea({ setCurrentPage }) {
         </div>
 
         {/* right section, play area */}
-        <div className="border-main overflow-hidden md:col-span-3">
+        <div className="border-main overflow-hidden xl:col-span-3">
           <h2 className="yellow-underlined-heading">Play Area</h2>
 
           {/* display active dice */}
