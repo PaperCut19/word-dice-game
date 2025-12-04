@@ -2,6 +2,7 @@ import { useState } from "react";
 import DiceDataBlock from "./components/DiceDataBlock";
 import Button from "./components/Button";
 import NavigationMenu from "./components/NavigationMenu";
+import Authentication from "./Authentication";
 
 function HomePage({ setCurrentPage }) {
   const [inputValue, setInputValue] = useState("");
@@ -21,37 +22,48 @@ function HomePage({ setCurrentPage }) {
 
   return (
     <div className="main-container">
-      <div className="secondary-container border-main gap-4 border-7 p-10 md:flex-col">
-        <h1 className="yellow-underlined-heading text-4xl">
-          Dice Testing Area
-        </h1>
+      <div className="grid grid-cols-1 grid-rows-1 gap-3 xl:grid-cols-4">
+        <div className="secondary-container border-main gap-4 border-7 p-10 md:flex-col xl:col-span-3">
+          <h1 className="yellow-underlined-heading text-4xl">
+            Dice Testing Area
+          </h1>
 
-        {/* front page dice blocks */}
-        <div className="flex flex-wrap items-center justify-center gap-3">
-          {frontPageDice.map((letter, index) => {
-            return (
-              <DiceDataBlock
-                key={index}
-                dice={{ text1: letter }}
-                showMetadata={false}
-              />
-            );
-          })}
+          {/* front page dice blocks */}
+          <div className="flex flex-wrap items-center justify-center gap-3">
+            {frontPageDice.map((letter, index) => {
+              return (
+                <DiceDataBlock
+                  key={index}
+                  dice={{ text1: letter }}
+                  showMetadata={false}
+                />
+              );
+            })}
+          </div>
+
+          {/* input */}
+          <input
+            type="text"
+            value={inputValue}
+            onChange={(event) => setInputValue(event.target.value)}
+            onKeyDown={(event) => event.key === "Enter" && handleSubmit()}
+            placeholder="Change 'words' to what?"
+            className="text-input w-50 text-center"
+          />
+
+          <Button className="button-secondary w-50" onClick={handleSubmit}>
+            Submit
+          </Button>
         </div>
 
-        {/* input */}
-        <input
-          type="text"
-          value={inputValue}
-          onChange={(event) => setInputValue(event.target.value)}
-          onKeyDown={(event) => event.key === "Enter" && handleSubmit()}
-          placeholder="Change 'words' to what?"
-          className="text-input w-50 text-center"
-        />
-
-        <Button className="button-secondary w-50" onClick={handleSubmit}>
-          Submit
-        </Button>
+        <div className="xl:col-span-1">
+          <div className="border-main secondary-container border-7 p-7 md:flex-col">
+            <h1 className="yellow-underlined-heading text-4xl">
+              Full Experience
+            </h1>
+            <Authentication setCurrentPage={setCurrentPage} />
+          </div>
+        </div>
       </div>
     </div>
   );

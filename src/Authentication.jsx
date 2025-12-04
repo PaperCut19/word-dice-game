@@ -62,7 +62,7 @@ function Authentication({ setCurrentPage }) {
       alert(`welcome back, ${loggedInUsername}`);
 
       // 4. navigate the user to the main application page
-      setCurrentPage("home");
+      setCurrentPage("manage");
     } catch (error) {
       // 5. error handling
       const message =
@@ -74,8 +74,8 @@ function Authentication({ setCurrentPage }) {
   };
 
   return (
-    <div className="main-container">
-      <h1 className="mb-5 font-fancyLetters text-4xl">{headerMessage}</h1>
+    <>
+      <h1 className="mb-5 text-center text-2xl">{headerMessage}</h1>
 
       {userMode === "none" && (
         <div className="button-container w-50 flex-col">
@@ -85,7 +85,7 @@ function Authentication({ setCurrentPage }) {
           >
             Yes, Account Mode
           </Button>
-          <Button onClick={() => setCurrentPage("home")}>
+          <Button onClick={() => setCurrentPage("manage")}>
             No, Continue Without Account
           </Button>
         </div>
@@ -141,7 +141,7 @@ function Authentication({ setCurrentPage }) {
           </div>
         </>
       )}
-    </div>
+    </>
   );
 }
 
