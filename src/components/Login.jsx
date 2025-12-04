@@ -17,20 +17,20 @@ function Login({ usernameMessage, passwordMessage, submitMessage, onSubmit }) {
 
   return (
     <>
-      <div className="flex flex-col gap-3">
+      <div className="flex flex-col items-center gap-3">
         <input
           type="text"
           value={username}
           onChange={(event) => setUsername(event.target.value)}
           placeholder={usernameMessage}
-          className="text-input w-50 text-center"
+          className="text-input w-40 text-center"
         />
         <input
           type="password"
           value={password}
           onChange={(event) => setPassword(event.target.value)}
           placeholder={passwordMessage}
-          className="text-input w-50 text-center"
+          className="text-input w-40 text-center"
           onKeyDown={(event) => {
             // 1. check if the key pressed was enter
             if (event.key === "Enter") {
