@@ -2,7 +2,7 @@ import { useState } from "react";
 import DiceDataBlock from "./components/DiceDataBlock";
 import Button from "./components/Button";
 import NavigationMenu from "./components/NavigationMenu";
-import Authentication from "./Authentication";
+import Authentication from "./components/Authentication";
 
 function HomePage({ setCurrentPage }) {
   const [inputValue, setInputValue] = useState("");

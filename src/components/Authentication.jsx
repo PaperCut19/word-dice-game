@@ -1,6 +1,6 @@
-import Login from "./components/Login";
+import Login from "./Login";
 import { useState } from "react";
-import Button from "./components/Button";
+import Button from "./Button";
 import axios from "axios";
 
 function Authentication({ setCurrentPage }) {

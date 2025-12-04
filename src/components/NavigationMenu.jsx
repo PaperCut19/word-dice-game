@@ -22,12 +22,6 @@ function NavigationMenu({ setCurrentPage }) {
       >
         Manage Your Dice
       </Button>
-      <Button
-        className="button-secondary w-full md:w-fit"
-        onClick={() => setCurrentPage("authentication")}
-      >
-        Back To Account Page
-      </Button>
     </div>
   );
 }
