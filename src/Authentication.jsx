@@ -8,12 +8,14 @@ function Authentication({ setCurrentPage }) {
 
   let headerMessage = "";
 
-  if (userMode === "none") {
+  if (userMode === "userAccountMode") {
     headerMessage = "Login or Sign Up";
   } else if (userMode === "login") {
     headerMessage = "Login Page";
   } else if (userMode === "signup") {
     headerMessage = "Sign Up Page";
+  } else if (userMode === "none") {
+    headerMessage = "Do You Want To Use An Account?";
   }
 
   // registration logic
@@ -78,6 +80,20 @@ function Authentication({ setCurrentPage }) {
       {userMode === "none" && (
         <div className="border-main flex w-50 flex-col justify-center gap-2">
           <Button
+            onClick={() => setUserMode("userAccountMode")}
+            className="button-primary"
+          >
+            Yes, Account Mode
+          </Button>
+          <Button onClick={() => setCurrentPage("home")}>
+            No, Continue Without Account
+          </Button>
+        </div>
+      )}
+
+      {userMode === "userAccountMode" && (
+        <div className="border-main flex w-50 flex-col justify-center gap-2">
+          <Button
             onClick={() => setUserMode("login")}
             className="button-primary w-full"
           >
@@ -89,6 +105,7 @@ function Authentication({ setCurrentPage }) {
           >
             Sign Up
           </Button>
+          <Button onClick={() => setUserMode("none")}>Back</Button>
         </div>
       )}
 
@@ -101,7 +118,7 @@ function Authentication({ setCurrentPage }) {
               submitMessage={"Login"}
               onSubmit={handleLogin}
             />
-            <Button onClick={() => setUserMode("none")}>Back</Button>
+            <Button onClick={() => setUserMode("userAccountMode")}>Back</Button>
           </div>
         </>
       )}
@@ -115,7 +132,7 @@ function Authentication({ setCurrentPage }) {
               submitMessage={"Sign Up"}
               onSubmit={handleRegister}
             />
-            <Button onClick={() => setUserMode("none")}>Back</Button>
+            <Button onClick={() => setUserMode("userAccountMode")}>Back</Button>
           </div>
         </>
       )}

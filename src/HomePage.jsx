@@ -56,6 +56,9 @@ function HomePage({ setCurrentPage }) {
       >
         Manage Your Dice
       </Button>
+      <Button onClick={() => setCurrentPage("authentication")}>
+        Back To Account Page
+      </Button>
     </div>
   );
 }
