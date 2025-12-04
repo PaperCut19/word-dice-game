@@ -7,7 +7,7 @@ import AskUser from "./components/AskUser";
 import DiceCreation from "./components/DiceCreation";
 import NavigationMenu from "./components/NavigationMenu";
 
-function ManageDice({ setCurrentPage }) {
+function ManageDice({ setCurrentPage, currentPage }) {
   // State
   const [diceArray, setDiceArray] = useState(() => diceStorage.getAllDice()); // load dice from browser storage
   const [activeSection, setActiveSection] = useState(null); // can be: null, 'create', or 'delete'
@@ -252,7 +252,10 @@ function ManageDice({ setCurrentPage }) {
       </div>
 
       {/* buttons */}
-      <NavigationMenu setCurrentPage={setCurrentPage} />
+      <NavigationMenu
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+      />
     </div>
   );
 }

@@ -10,9 +10,11 @@ function App() {
     <div>
       {currentPage === "home" && <HomePage setCurrentPage={setCurrentPage} />}
       {currentPage === "manage" && (
-        <ManageDice setCurrentPage={setCurrentPage} />
+        <ManageDice currentPage={currentPage} setCurrentPage={setCurrentPage} />
       )}
-      {currentPage === "play" && <PlayArea setCurrentPage={setCurrentPage} />}
+      {currentPage === "play" && (
+        <PlayArea currentPage={currentPage} setCurrentPage={setCurrentPage} />
+      )}
     </div>
   );
 }

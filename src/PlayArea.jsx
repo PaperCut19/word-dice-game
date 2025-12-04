@@ -4,7 +4,7 @@ import { diceStorage } from "./diceStorage";
 import DiceDataBlock from "./components/DiceDataBlock";
 import NavigationMenu from "./components/NavigationMenu";
 
-function PlayArea({ setCurrentPage }) {
+function PlayArea({ setCurrentPage, currentPage }) {
   // load dice from storage
   const [diceArray, setDiceArray] = useState(() => diceStorage.getAllDice());
   // track active dice in play area
@@ -167,7 +167,10 @@ function PlayArea({ setCurrentPage }) {
         </div>
       </div>
 
-      <NavigationMenu setCurrentPage={setCurrentPage} />
+      <NavigationMenu
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+      />
     </div>
   );
 }
