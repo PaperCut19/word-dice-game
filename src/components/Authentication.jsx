@@ -2,9 +2,12 @@ import Login from "./Login";
 import { useState } from "react";
 import Button from "./Button";
 import axios from "axios";
+import { useContext } from "react";
+import { UserContext } from "../UserContext";
 
 function Authentication({ setCurrentPage }) {
   const [userMode, setUserMode] = useState("none");
+  const { currentUser, setCurrentUser } = useContext(UserContext);
 
   let headerMessage = "";
 
@@ -58,6 +61,9 @@ function Authentication({ setCurrentPage }) {
       // 3. store the JWT securely for future use (important for session management)
       localStorage.setItem("userToken", token);
       localStorage.setItem("username", loggedInUsername);
+
+      // Update the main App state so the 'manager' knows we are logged in
+      setCurrentUser({ username: loggedInUsername, token });
 
       alert(`welcome back, ${loggedInUsername}`);
 
