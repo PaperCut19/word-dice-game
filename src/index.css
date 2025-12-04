@@ -45,6 +45,10 @@ body {
   .border-clickable {
     @apply border-6 border-yellow-500 md:border-10;
   }
+
+  .button-container {
+    @apply rounded-lg border-4 border-red-300 p-4 flex flex-col flex-wrap items-center justify-center gap-3 md:flex-row;
+  }
 }
 
 @theme {

@@ -78,10 +78,10 @@ function Authentication({ setCurrentPage }) {
       <h1 className="mb-5 font-fancyLetters text-4xl">{headerMessage}</h1>
 
       {userMode === "none" && (
-        <div className="border-main flex w-50 flex-col justify-center gap-2">
+        <div className="button-container w-50 flex-col">
           <Button
             onClick={() => setUserMode("userAccountMode")}
-            className="button-primary"
+            className="button-primary w-full"
           >
             Yes, Account Mode
           </Button>
@@ -92,7 +92,7 @@ function Authentication({ setCurrentPage }) {
       )}
 
       {userMode === "userAccountMode" && (
-        <div className="border-main flex w-50 flex-col justify-center gap-2">
+        <div className="button-container w-50 flex-col">
           <Button
             onClick={() => setUserMode("login")}
             className="button-primary w-full"
@@ -105,7 +105,12 @@ function Authentication({ setCurrentPage }) {
           >
             Sign Up
           </Button>
-          <Button onClick={() => setUserMode("none")}>Back</Button>
+          <Button
+            className="button-secondary w-full"
+            onClick={() => setUserMode("none")}
+          >
+            Back
+          </Button>
         </div>
       )}
 

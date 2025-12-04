@@ -46,7 +46,7 @@ function HomePage({ setCurrentPage }) {
       <Button onClick={handleSubmit}>Submit</Button>
 
       {/* navigate buttons */}
-      <div className="border-main flex flex-col flex-wrap items-center justify-center gap-3 md:flex-row">
+      <div className="button-container">
         <Button
           className="button-primary"
           onClick={() => setCurrentPage("play")}
