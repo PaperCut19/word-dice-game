@@ -78,7 +78,7 @@ function Authentication({ setCurrentPage }) {
       <h1 className="mb-5 text-center text-2xl">{headerMessage}</h1>
 
       {userMode === "none" && (
-        <div className="button-container w-50 flex-col">
+        <div className="button-container w-50 flex-col border-dashed">
           <Button
             onClick={() => setUserMode("userAccountMode")}
             className="button-primary w-full"
@@ -92,7 +92,7 @@ function Authentication({ setCurrentPage }) {
       )}
 
       {userMode === "userAccountMode" && (
-        <div className="button-container w-50 flex-col">
+        <div className="button-container w-50 flex-col border-dashed">
           <Button
             onClick={() => setUserMode("login")}
             className="button-primary w-full"
@@ -116,7 +116,7 @@ function Authentication({ setCurrentPage }) {
 
       {userMode === "login" && (
         <>
-          <div className="border-main flex flex-col justify-center gap-3">
+          <div className="border-main flex flex-col justify-center gap-3 border-dashed">
             <Login
               usernameMessage={"Enter Username"}
               passwordMessage={"Enter Password"}
@@ -130,7 +130,7 @@ function Authentication({ setCurrentPage }) {
 
       {userMode === "signup" && (
         <>
-          <div className="border-main flex flex-col justify-center gap-3">
+          <div className="border-main flex flex-col justify-center gap-3 border-dashed">
             <Login
               usernameMessage={"Create Username"}
               passwordMessage={"Create Password"}
