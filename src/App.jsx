@@ -1,17 +1,14 @@
+import { AuthProvider } from "./context/AuthContext";
 import { useState } from "react";
 import HomePage from "./HomePage";
 import ManageDice from "./ManageDice";
-import PlayArea from "./PlayArea";
-import { UserContext } from "./UserContext";
+// import PlayArea from "./PlayArea";
 
 function App() {
   const [currentPage, setCurrentPage] = useState("home");
-  const [currentUser, setCurrentUser] = useState(null);
 
   return (
-    // Wrap everything in the Provider.
-    // The "value" prop is what gets teleported.
-    <UserContext.Provider value={{ currentUser, setCurrentUser }}>
+    <AuthProvider>
       <div>
         {currentPage === "home" && <HomePage setCurrentPage={setCurrentPage} />}
         {currentPage === "manage" && (
@@ -20,11 +17,11 @@ function App() {
             setCurrentPage={setCurrentPage}
           />
         )}
-        {currentPage === "play" && (
+        {/* {currentPage === "play" && (
           <PlayArea currentPage={currentPage} setCurrentPage={setCurrentPage} />
-        )}
+        )} */}
       </div>
-    </UserContext.Provider>
+    </AuthProvider>
   );
 }
 

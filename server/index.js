@@ -5,11 +5,41 @@ import cors from "cors";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
-// initialize the app
-const app = express();
-const PORT = process.env.PORT;
+// --- HELPER FUNCTIONS (the translators) ---
+// 1. database -> frontend (used in GET)
+const toFrontend = (row) => {
+  return {
+    id: row.dice_id,
+    name: row.name,
+    text1: row.sides[0] || "",
+    text2: row.sides[1] || "",
+    text3: row.sides[2] || "",
+    text4: row.sides[3] || "",
+    text5: row.sides[4] || "",
+    text6: row.sides[5] || "",
+    mainFace: row.sides[0] || "",
+  };
+};
 
-// database connection pool
+// 2. frontend -> database (used in POST)
+const toBackend = (body) => {
+  // bundle the text fields into the JSON array
+  const sides = JSON.stringify([
+    body.text1 || "",
+    body.text2 || "",
+    body.text3 || "",
+    body.text4 || "",
+    body.text5 || "",
+    body.text6 || "",
+  ]);
+  return { name: body.name, sides: sides, id: body.id };
+};
+
+// --- 1. CONFIGURATION ---
+const app = express();
+const PORT = process.env.PORT || 3000;
+
+// database connection
 const pool = new Pool({
   user: process.env.DB_USER,
   host: process.env.DB_HOST,
@@ -18,40 +48,48 @@ const pool = new Pool({
   port: process.env.DB_PORT,
 });
 
-// middleware -START-
+// --- 2. GLOBAL MIDDLEWARE ---
+app.use(cors({ origin: "http://localhost:5173" })); // allow react frontend
+app.use(express.json()); // parse JSON bodies
 
-// CORS configuration (allows frontend to talk to backend)
-const corsOptions = {
-  // only allow requests from your React app's origin
-  origin: "http://localhost:5173",
+// --- 3. AUTHENTICATION MIDDLEWARE ---
+// this function checks if the user has a valid Token.
+// we will use this to protect the dice routes later
+const authenticateToken = (req, res, next) => {
+  const authHeader = req.headers["authorization"];
+  // header looks like: 'Bearer <token>'
+  const token = authHeader && authHeader.split(" ")[1];
+
+  if (!token) {
+    return res.status(401).json({ error: "access denied. token missing" });
+  }
+
+  jwt.verify(token, process.env.JWT_SECRET, (error, user) => {
+    if (error) {
+      return res.status(403).json({ error: "invalid or expired token" });
+    }
+    // success: attach the user data (id, username) to the request
+    req.user = user;
+    next();
+  });
 };
-app.use(cors(corsOptions));
 
-// JSON body parser
-app.use(express.json());
+// 4. --- PUBLIC ROUTES (login/register) ---
 
-// middleware -FINISHED- above
-
-// test route: verifies express is running
+// test route
 app.get("/", (req, res) => {
-  res.send("Express server is running");
+  res.send("server is up and running");
 });
 
-// sign up route
+// register
 app.post("/api/register", async (req, res) => {
   try {
     const { username, password } = req.body;
+    if (!username || !password)
+      return res.status(400).json({ error: "missing fields" });
 
-    // 1. validation
-    if (!username || !password) {
-      return res
-        .status(400)
-        .json({ error: "Username and password are required" });
-    }
-
-    // 2. hash password
-    const saltRounds = 10;
-    const hashedPassword = await bcrypt.hash(password, saltRounds);
+    // hash the password
+    const hashedPassword = await bcrypt.hash(password, 10);
 
     // insert into database
     const newUser = await pool.query(
@@ -59,74 +97,152 @@ app.post("/api/register", async (req, res) => {
       [username, hashedPassword],
     );
 
-    // respond
     res.json({ message: "User created!", user: newUser.rows[0] });
   } catch (error) {
-    console.error(error.message);
+    console.error("register error:", error.message);
     if (error.code === "23505") {
-      // unique violation code
       return res.status(409).json({ error: "username already exists" });
     }
-    res.status(500).send("server error");
+    res.status(500).json({ error: "server error" });
   }
 });
 
-// login route
+// login
 app.post("/api/login", async (req, res) => {
-  const { username, password } = req.body;
-
   try {
-    // 1. look up user by username
-    // we select the id, username, and the stored hash
-    const userResult = await pool.query(
-      "SELECT id, username, password_hash FROM users WHERE username = $1",
-      [username],
-    );
+    const { username, password } = req.body;
 
-    const user = userResult.rows[0];
+    // find user
+    const result = await pool.query("SELECT * FROM users WHERE username = $1", [
+      username,
+    ]);
+    const user = result.rows[0];
 
-    // checkpoint A: user not found
-    // if the user doesn't exist, we send an authentication error
-    if (!user) {
-      return res.status(401).json({ error: "invalid username or password" });
-    }
+    if (!user) return res.status(401).json({ error: "invalid credentials" });
 
-    // 2. BCRYPT comparison
-    // we compare the submitted password against the hash stored in the database
-    const passwordMatch = await bcrypt.compare(password, user.password_hash);
+    // check password
+    const validPassword = await bcrypt.compare(password, user.password_hash);
+    if (!validPassword)
+      return res.status(401).json({ error: "invalid credentials" });
 
-    // checkpoint B: password does not match
-    if (!passwordMatch) {
-      return res.status(401).json({ error: "invalid username or password" });
-    }
-
-    // JSON web token generation (login successful)
-    // create the token payload with non-sensitive user data
+    // create token
     const token = jwt.sign(
       { userId: user.id, username: user.username },
-      process.env.JWT_SECRET, // the secret key from .env file
-      { expiresIn: "1h" }, // token expires in 1 hour
+      process.env.JWT_SECRET,
+      { expiresIn: "1h" },
     );
 
-    // send success and token
-    res.json({ message: "login successful!", token, username: user.username });
+    // send token + user info (frontend needs both)
+    res.json({
+      message: "login successful",
+      token,
+      user: { id: user.id, username: user.username },
+    });
   } catch (error) {
-    console.error("login error:", error);
-    res.status(500).json({ error: "internal server error" });
+    console.error("login error:", error.message);
+    res.status(500).json({ error: "server error" });
   }
 });
 
-// server start logic
+// -- 5. PRIVATE ROUTES (dice data) ---
+// all these routes require 'authenticateToken'
+
+// GET: fetch all dice for the logged in user
+app.get("/api/dice_objects", authenticateToken, async (req, res) => {
+  try {
+    const result = await pool.query(
+      "SELECT * FROM dice WHERE user_id = $1 ORDER BY dice_id ASC",
+      [req.user.userId],
+    );
+
+    // use toFrontend helper function to translate the database information into something the frontend can use
+    res.json(result.rows.map(toFrontend));
+  } catch (error) {
+    console.error("get dice error:", error.message);
+    res.status(500).json({ error: "failed to fetch dice" });
+  }
+});
+
+// POST: Save Dice (handles both create and update)
+app.post("/api/dice_objects", authenticateToken, async (req, res) => {
+  // translate frontend data into information the database can use by using toBackend helper function
+  const { name, sides, id } = toBackend(req.body);
+  const userId = req.user.userId;
+
+  try {
+    // strategy: try to update first. if no row matches (ID doesn't exist), then INSERT
+
+    // 1. try update
+    const updateQuery = `
+    UPDATE dice
+    SET name=$1, sides=$2::jsonb
+    WHERE dice_id=$3 AND user_id=$4
+    RETURNING dice_id, name, sides
+    `;
+
+    const updateResult = await pool.query(updateQuery, [
+      name,
+      sides,
+      id,
+      userId,
+    ]);
+
+    if (updateResult.rows.length > 0) {
+      // it was an update, return the updated object
+      // translate the backend data into something the frontend can use and give it to the frontend
+      return res.json(toFrontend(updateResult.rows[0]));
+    }
+
+    // 2. if update found nothing, it's a new create (insert)
+    // we ignore the 'id' sent from frontend (likely Date.now()) and let Postgres create a real ID
+    const insertQuery = `
+    INSERT INTO dice (user_id, name, sides)
+    VALUES ($1, $2, $3::jsonb)
+    RETURNING dice_id, name, sides
+    `;
+
+    const insertResult = await pool.query(insertQuery, [userId, name, sides]);
+
+    // translate the data from the database and turn it into a new object the frontend can use (it will contain the new database ID)
+    return res.json(toFrontend(insertResult.rows[0]));
+  } catch (error) {
+    console.error("save dice error:", error.message);
+    res.status(500).json({ error: "failed to save dice" });
+  }
+});
+
+// DELETE: delete a dice
+app.delete("/api/dice_objects/:id", authenticateToken, async (req, res) => {
+  try {
+    const diceId = req.params.id;
+    const userId = req.user.userId;
+
+    const result = await pool.query(
+      "DELETE FROM dice WHERE dice_id = $1 AND user_id = $2",
+      [diceId, userId],
+    );
+
+    if (result.rowCount === 0) {
+      return res
+        .status(404)
+        .json({ error: "dice not found or not authorized" });
+    }
+
+    res.json({ message: "dice deleted successfully" });
+  } catch (error) {
+    console.error("delete dice error:", error.message);
+    res.status(500).json({ error: "failed to delete dice" });
+  }
+});
+
+// --- 6. START SERVER ---
 pool.connect((error) => {
   if (error) {
-    // if the database connection fails, log the error and exit
-    console.error("Database connection failed:", error.message);
-    return;
+    console.error("database connection failed", error.stack);
+  } else {
+    console.log("connected to PostgreSQL database");
+    app.listen(PORT, () => {
+      console.log(`server running on http://localhost:${PORT}`);
+    });
   }
-  console.log("Successfully connected to PostgreSQL.");
-
-  // only start listening for web traffic once the database is connected
-  app.listen(PORT, () => {
-    console.log(`Express server running on http://localhost:${PORT}`);
-  });
 });

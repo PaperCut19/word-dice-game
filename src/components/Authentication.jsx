@@ -1,80 +1,65 @@
 import Login from "./Login";
 import { useState } from "react";
 import Button from "./Button";
-import axios from "axios";
-import { useContext } from "react";
-import { UserContext } from "../UserContext";
+import { useAuth } from "../context/AuthContext";
 
 function Authentication({ setCurrentPage }) {
   const [userMode, setUserMode] = useState("none");
-  const { currentUser, setCurrentUser } = useContext(UserContext);
+  const { login } = useAuth(); // [!] get the login function from our context
 
   let headerMessage = "";
-
-  if (userMode === "userAccountMode") {
-    headerMessage = "Login or Sign Up";
-  } else if (userMode === "login") {
-    headerMessage = "Login Page";
-  } else if (userMode === "signup") {
-    headerMessage = "Sign Up Page";
-  } else if (userMode === "none") {
+  if (userMode === "userAccountMode") headerMessage = "Login or Sign Up";
+  else if (userMode === "login") headerMessage = "Login Section";
+  else if (userMode === "signup") headerMessage = "Sign Up Section";
+  else if (userMode === "none")
     headerMessage = "Do You Want To Use An Account?";
-  }
 
-  // registration logic
+  // --- Registration Logic ---
   const handleRegister = async (username, password) => {
     try {
-      // 1. send the data to your express server running on port 3000
-      const response = await axios.post("http://localhost:3000/api/register", {
-        username: username,
-        password: password,
+      const response = await fetch("http://localhost:3000/api/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, password }),
       });
 
-      // 2. success feedback
-      console.log(response.data.message); // should be 'user created'
-      alert("registration successful");
+      const data = await response.json();
 
-      // 3. switch to the next logical screen (login)
+      if (!response.ok) {
+        throw new Error(data.error || "registration failed");
+      }
+
+      // success feedback
+      alert("registration successful! please log in");
       setUserMode("login");
     } catch (error) {
-      // 4. error feedback
-      const message =
-        error.response?.data?.error ||
-        "registration failed due to a server error.";
-      alert(message);
+      alert(error.message);
       console.error("registration error:", error);
     }
   };
 
-  // logging in logic
+  // --- login logic ---
   const handleLogin = async (username, password) => {
     try {
-      // 1. send the request to express server running on port 3000
-      const response = await axios.post("http://localhost:3000/api/login", {
-        username: username,
-        password: password,
+      const response = await fetch("http://localhost:3000/api/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, password }),
       });
 
-      // 2. success. extract the JWT and username
-      const { token, username: loggedInUsername } = response.data;
+      const data = await response.json();
 
-      // 3. store the JWT securely for future use (important for session management)
-      localStorage.setItem("userToken", token);
-      localStorage.setItem("username", loggedInUsername);
+      if (!response.ok) {
+        throw new Error(data.error || "login failed");
+      }
 
-      // Update the main App state so the 'manager' knows we are logged in
-      setCurrentUser({ username: loggedInUsername, token });
+      // [!] success: we just hand the data to our AuthContext
+      // the context will handle saving user/token to state AND localStorage
+      login(data.user, data.token);
 
-      alert(`welcome back, ${loggedInUsername}`);
-
-      // 4. navigate the user to the main application page
       setCurrentPage("manage");
     } catch (error) {
-      // 5. error handling
-      const message =
-        error.response?.data?.error ||
-        "login failed. check username and password and try again";
-      alert(message);
+      alert(error.message);
       console.error("login error:", error);
     }
   };
@@ -86,12 +71,19 @@ function Authentication({ setCurrentPage }) {
       {userMode === "none" && (
         <div className="button-container w-50 flex-col border-dashed">
           <Button
-            onClick={() => setUserMode("userAccountMode")}
+            onClick={() => {
+              setUserMode("userAccountMode");
+            }}
             className="button-primary w-full"
           >
             Yes, Account Mode
           </Button>
-          <Button onClick={() => setCurrentPage("manage")}>
+
+          <Button
+            onClick={() => {
+              setCurrentPage("manage");
+            }}
+          >
             No, Continue Without Account
           </Button>
         </div>
@@ -100,20 +92,28 @@ function Authentication({ setCurrentPage }) {
       {userMode === "userAccountMode" && (
         <div className="button-container w-50 flex-col border-dashed">
           <Button
-            onClick={() => setUserMode("login")}
+            onClick={() => {
+              setUserMode("login");
+            }}
             className="button-primary w-full"
           >
             Login
           </Button>
+
           <Button
-            onClick={() => setUserMode("signup")}
+            onClick={() => {
+              setUserMode("signup");
+            }}
             className="button-secondary w-full"
           >
             Sign Up
           </Button>
+
           <Button
+            onClick={() => {
+              setUserMode("none");
+            }}
             className="button-secondary w-full"
-            onClick={() => setUserMode("none")}
           >
             Back
           </Button>
@@ -121,31 +121,39 @@ function Authentication({ setCurrentPage }) {
       )}
 
       {userMode === "login" && (
-        <>
-          <div className="border-main flex flex-col justify-center gap-3 border-dashed">
-            <Login
-              usernameMessage={"Enter Username"}
-              passwordMessage={"Enter Password"}
-              submitMessage={"Login"}
-              onSubmit={handleLogin}
-            />
-            <Button onClick={() => setUserMode("userAccountMode")}>Back</Button>
-          </div>
-        </>
+        <div className="border-main flex flex-col justify-center gap-3 border-dashed">
+          <Login
+            usernameMessage={"Enter Username"}
+            passwordMessage={"Enter Password"}
+            submitMessage={"Login"}
+            onSubmit={handleLogin}
+          />
+          <Button
+            onClick={() => {
+              setUserMode("userAccountMode");
+            }}
+          >
+            Back
+          </Button>
+        </div>
       )}
 
       {userMode === "signup" && (
-        <>
-          <div className="border-main flex flex-col justify-center gap-3 border-dashed">
-            <Login
-              usernameMessage={"Create Username"}
-              passwordMessage={"Create Password"}
-              submitMessage={"Sign Up"}
-              onSubmit={handleRegister}
-            />
-            <Button onClick={() => setUserMode("userAccountMode")}>Back</Button>
-          </div>
-        </>
+        <div className="border-main flex flex-col justify-center gap-3 border-dashed">
+          <Login
+            usernameMessage={"Create Username"}
+            passwordMessage={"Create Password"}
+            submitMessage={"Sign Up"}
+            onSubmit={handleRegister}
+          />
+          <Button
+            onClick={() => {
+              setUserMode("userAccountMode");
+            }}
+          >
+            Back
+          </Button>
+        </div>
       )}
     </>
   );

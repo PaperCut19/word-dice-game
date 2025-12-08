@@ -1,39 +1,43 @@
-import { useState, useEffect, useRef } from "react";
-import { diceStorage } from "./diceStorage";
+import { useState } from "react";
+import { useDiceManager } from "./hooks/useDiceManager";
 import DiceDataBlock from "./components/DiceDataBlock";
 import Button from "./components/Button";
 import ManageMenu from "./components/ManageMenu";
-import AskUser from "./components/AskUser";
 import DiceCreation from "./components/DiceCreation";
 import NavigationMenu from "./components/NavigationMenu";
+import { useAuth } from "./context/AuthContext";
 
 function ManageDice({ setCurrentPage, currentPage }) {
-  // State
-  const [diceArray, setDiceArray] = useState(() => diceStorage.getAllDice()); // load dice from browser storage
+  // --- 1. HOOKS INSTEAD OF LOCAL STATE ---
+  // we alias 'diceObjects' to 'diceArray' so we don't have to rename everything below
+  const {
+    diceObjects: diceArray,
+    saveDiceObject,
+    deleteDiceObject,
+    loading,
+  } = useDiceManager();
+
+  const { user } = useAuth(); // get the user for the header
+
+  // --- 2. LOCAL USER INTERFACE STATE ---
   const [activeSection, setActiveSection] = useState(null); // can be: null, 'create', or 'delete'
   const [foundDice, setFoundDice] = useState(null); // For storing the actual dice object
   const [manageMode, setManageMode] = useState("");
 
-  // using ref so we can tell the computer to only upload changes to browser storage after the first render of the local copy, this makes sure that when ManageDice component mounts, an empty array isn't immediately being uploaded to the browser storage
-  const isFirstRender = useRef(true);
-
-  // takes the local copy of the dice and analyzes what the user is currently trying to do with the dice to create a final group of dice to display
+  // --- 3. PREPARE DISPLAY DATA ---
   const displayDiceArray = diceArray.map((dice) => {
     let onClick = () => {};
+    const shouldbeClickable = manageMode === "edit" || manageMode === "delete";
 
-    // checks if dice should be clickable
-    const shouldBeClickable = manageMode === "edit" || manageMode === "delete";
-
-    // checks if dice should have delete handler
     if (manageMode === "delete") {
-      onClick = () => {
-        const newArray = diceArray.filter((d) => d.id !== dice.id);
-        setDiceArray(newArray);
+      onClick = async () => {
+        // [!] use the hook's delete function
+        // we await it just in case we want to add logic later, but strictly not needed here
+        await deleteDiceObject(dice.id);
         console.log(`Dice "${dice.name}" deleted!`);
       };
     }
 
-    // checks if dice should have edit handler
     if (manageMode === "edit") {
       onClick = () => {
         setFoundDice(dice);
@@ -43,24 +47,60 @@ function ManageDice({ setCurrentPage, currentPage }) {
 
     return {
       ...dice,
-      // Pass the computed value to the component prop
-      isClickable: shouldBeClickable,
+      isClickable: shouldbeClickable,
       onClick: onClick,
     };
   });
 
-  // auto-save to browser storage when diceArray changes
-  useEffect(() => {
-    if (isFirstRender.current) {
-      isFirstRender.current = false;
-      return; // Skip saving on first render
-    }
-    diceStorage.uploadAllDice(diceArray);
-  }, [diceArray]);
+  // --- 4. HANDLERS ---
 
-  // handler that will automatically create a bunch of dice
-  const handleAutoCreate = () => {
-    const newDice = [
+  // handler for creating new dice
+  const handleCreateSubmit = async (diceData) => {
+    const newDice = {
+      // if we are on API, the database will overwrite this ID
+      // if local, this ID will be used
+      id: Date.now(),
+      name: diceData.name || Date.now().toString(),
+      ...diceData,
+      mainFace: diceData.text1,
+    };
+
+    // simple client-side duplicate check
+    if (
+      diceArray.some((dice) => {
+        return dice.name === newDice.name;
+      })
+    ) {
+      alert("there's another dice with the same name. use a different name.");
+      return;
+    }
+
+    // [!] send to the manager (pessimistic: user interface won't update until this finishes)
+    await saveDiceObject(newDice);
+    console.log(`Dice ${newDice.name} creation requested`);
+  };
+
+  // handler for editing dice
+  const handleEditSubmit = async (diceData) => {
+    // merge the original ID with new data
+    const updatedDice = {
+      ...foundDice,
+      ...diceData,
+      mainFace: diceData.text1,
+    };
+
+    // [!] send update to manager
+    await saveDiceObject(updatedDice);
+    console.log(`Dice "${diceData.name}" update requested`);
+
+    // close the edit menu immediately
+    setActiveSection(null);
+    setFoundDice(null);
+  };
+
+  // auto-create (batch)
+  const handleAutoCreate = async () => {
+    const newDiceList = [
       {
         id: Date.now(),
         name: "mildred",
@@ -96,25 +136,6 @@ function ManageDice({ setCurrentPage, currentPage }) {
       },
       {
         id: Date.now() + 3,
-        name: "colleen",
-        text1: "c",
-        text2: "o",
-        text3: "l",
-        text4: "l",
-        text5: "e",
-        text6: "e",
-        mainFace: "c",
-      },
-      {
-        id: Date.now() + 4,
-        name: "don",
-        text1: "d",
-        text2: "o",
-        text3: "n",
-        mainFace: "d",
-      },
-      {
-        id: Date.now() + 5,
         name: "alyssa",
         text1: "a",
         text2: "l",
@@ -125,96 +146,113 @@ function ManageDice({ setCurrentPage, currentPage }) {
         mainFace: "a",
       },
       {
-        id: Date.now() + 6,
+        id: Date.now() + 4,
+        name: "don",
+        text1: "d",
+        text2: "o",
+        text3: "n",
+        text4: "d",
+        text5: "o",
+        text6: "n",
+        mainFace: "d",
+      },
+      {
+        id: Date.now() + 5,
         name: "ava",
         text1: "a",
         text2: "v",
         text3: "a",
+        text4: "a",
+        text5: "v",
+        text6: "a",
         mainFace: "a",
       },
       {
-        id: Date.now() + 7,
+        id: Date.now() + 6,
         name: "aiden",
         text1: "a",
         text2: "i",
         text3: "d",
         text4: "e",
         text5: "n",
+        text6: "a",
         mainFace: "a",
+      },
+      {
+        id: Date.now() + 7,
+        name: "colleen",
+        text1: "c",
+        text2: "o",
+        text3: "l",
+        text4: "l",
+        text5: "e",
+        text6: "e",
+        mainFace: "c",
       },
     ];
 
-    setDiceArray([...diceArray, ...newDice]);
+    // loop through and save each one
+    for (const dice of newDiceList) {
+      await saveDiceObject(dice);
+    }
   };
 
-  // handler for edit menu 2, submitting the edited dice to local copy
-  const handleEditSubmit = (diceData) => {
-    const updatedArray = diceArray.map((dice) =>
-      dice.id === foundDice.id
-        ? { ...dice, ...diceData, mainFace: diceData.text1 }
-        : dice,
-    );
-
-    setDiceArray(updatedArray);
-    console.log(`Dice "${diceData.name}" has been updated!`);
+  // delete all (batch)
+  const handleDeleteAll = async () => {
+    // loop through and delete each one
+    for (const dice of diceArray) {
+      await deleteDiceObject(dice.id);
+    }
+    console.log("all dice deletion requested");
   };
 
-  // handler to activate 'edit menu 1'
+  // menu toggles
   const handleEditButton = () => {
     setManageMode("edit");
     setActiveSection("");
   };
-
-  // open create dice section
   const handleCreateDice = () => {
-    setActiveSection("create");
     setManageMode("create");
+    setActiveSection("create");
   };
-
-  // open delete dice section
   const handleDeleteDice = () => {
-    setActiveSection("delete");
     setManageMode("delete");
+    setActiveSection("delete");
   };
-
-  // clear menu handler
   const handleClear = () => {
-    setActiveSection(null);
-    setManageMode("");
-  };
-
-  // handler create new dice
-  const handleCreateSubmit = (diceData) => {
-    const newDice = {
-      id: Date.now(),
-      name: diceData.name || Date.now().toString(),
-      ...diceData,
-      mainFace: diceData.text1,
-    };
-
-    // Check for duplicate names
-    if (diceArray.some((dice) => dice.name === newDice.name)) {
-      alert("there's another dice with the same name. use a different name");
-      return;
-    }
-
-    setDiceArray([...diceArray, newDice]);
-    console.log(`dice "${newDice.name}" has been created!`);
-  };
-
-  // delete all dice - just update React state
-  const handleDeleteAll = () => {
-    setDiceArray([]);
-    console.log("All dice got deleted!");
+    setManageMode(null);
+    setActiveSection("");
   };
 
   return (
     <div className="main-container">
-      <h1 className="font-fancyLetters text-4xl">Manage Your Dice</h1>
+      {/* --- HEADER SECTION --- */}
+      <div className="mb-4 text-center">
+        <h1 className="font-fancyLetters text-4xl">Manage Your Dice</h1>
+
+        {/* [!] Conditional Greeting */}
+        {user ? (
+          <h2 className="mt-5 text-2xl">
+            Welcome{" "}
+            <span className="rounded-lg bg-purple-300 p-1.5">
+              {user.username}
+            </span>
+          </h2>
+        ) : (
+          <div className="mt-5 flex flex-col items-center justify-center">
+            <h1 className="w-fit rounded-lg bg-purple-300 p-2 text-black">
+              Guest Mode
+            </h1>
+            <p className="mt-2 text-lg text-gray-500">
+              (Your dice objects will only be saved to this computer in this
+              browser)
+            </p>
+          </div>
+        )}
+      </div>
 
       {/* Menu Area */}
       <div className="flex flex-col items-center justify-center gap-2">
-        {/* Permanent Menu - always visible */}
         <ManageMenu
           onCreateDice={handleCreateDice}
           onEditDice={handleEditButton}
@@ -225,33 +263,46 @@ function ManageDice({ setCurrentPage, currentPage }) {
         />
       </div>
 
-      {/* create dice section */}
+      {/* create section */}
       {activeSection === "create" && (
         <DiceCreation onSubmit={handleCreateSubmit} />
       )}
 
-      {/* Edit Menu 2 - DiceCreation component */}
+      {/* edit section */}
       {activeSection === "editMenu2" && foundDice && (
         <DiceCreation onSubmit={handleEditSubmit} diceToEdit={foundDice} />
       )}
 
-      {/* delete dice section */}
+      {/* delete section */}
       {activeSection === "delete" && (
         <div className="border-main flex flex-col gap-2">
           <Button onClick={handleDeleteAll}>Delete All</Button>
         </div>
       )}
 
-      {/* display all dice */}
+      {/* display grid */}
       <div className="w-full overflow-x-auto">
-        <div className="mx-auto grid w-max auto-cols-max grid-flow-col grid-rows-2 gap-3">
-          {displayDiceArray.map((dice) => (
-            <DiceDataBlock key={dice.id} dice={dice} />
-          ))}
-        </div>
+        {loading ? (
+          // [!] simple loading state
+          <div className="p-10 text-center font-bold text-gray-400">
+            Loading your dice...
+          </div>
+        ) : (
+          <div className="mx-auto grid w-max auto-cols-max grid-flow-col grid-rows-2 gap-3">
+            {displayDiceArray.length > 0 ? (
+              displayDiceArray.map((dice) => (
+                <DiceDataBlock key={dice.id} dice={dice} />
+              ))
+            ) : (
+              <div className="p-4 text-lg text-gray-500">
+                No dice found. Create one!
+              </div>
+            )}
+          </div>
+        )}
       </div>
 
-      {/* buttons */}
+      {/* footer nav */}
       <NavigationMenu
         currentPage={currentPage}
         setCurrentPage={setCurrentPage}
