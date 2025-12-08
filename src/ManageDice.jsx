@@ -288,10 +288,12 @@ function ManageDice({ setCurrentPage, currentPage }) {
             Loading your dice...
           </div>
         ) : (
-          <div className="mx-auto grid w-max auto-cols-max grid-flow-col grid-rows-2 gap-3">
+          <div className="mx-auto grid w-max grid-flow-col grid-rows-[auto_auto] items-end gap-3">
             {displayDiceArray.length > 0 ? (
               displayDiceArray.map((dice) => (
-                <DiceDataBlock key={dice.id} dice={dice} />
+                <div className="w-25 lg:w-35" key={dice.id}>
+                  <DiceDataBlock dice={dice} />
+                </div>
               ))
             ) : (
               <div className="p-4 text-lg text-gray-500">

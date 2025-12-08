@@ -24,7 +24,9 @@ function DiceDataBlock({ dice, showMetadata = true }) {
     <div className="group flex flex-col items-center" onClick={dice.onClick}>
       {showMetadata && (
         <>
-          <h1>Dice Name: {dice.name || "N/A"}</h1>
+          <h1 className="mx-auto text-center">
+            Dice Name: {dice.name || "N/A"}
+          </h1>
           <h1 className="hidden">Dice ID: {dice.id || ""}</h1>
           {dice.frozen && (
             <h1 className="pb-2 text-xl text-blue-400 underline underline-offset-4">
