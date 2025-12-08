@@ -119,7 +119,7 @@ function PlayArea({ setCurrentPage, currentPage }) {
         <div className="border-main min-w-0">
           <h2 className="yellow-underlined-heading">Your Dice</h2>
 
-          <div className="grid grid-flow-col grid-rows-2 gap-3 overflow-x-auto">
+          <div className="grid h-fit grid-flow-col grid-rows-[auto_auto] gap-3 overflow-x-auto">
             {loading ? (
               <div className="p-4 text-gray-500 italic">
                 Loading collection...
@@ -144,13 +144,13 @@ function PlayArea({ setCurrentPage, currentPage }) {
 
           {/* display active dice */}
           <div className="w-full overflow-x-auto">
-            <div className="mx-auto mb-4 grid min-h-[150px] w-max auto-cols-auto grid-flow-col grid-rows-2 gap-3 pb-2">
+            <div className="mx-auto mb-4 grid h-fit w-max auto-cols-auto grid-flow-col grid-rows-[auto_auto] gap-3 pb-2">
               {displayDiceArray.length > 0 ? (
                 displayDiceArray.map((dice) => (
                   <DiceDataBlock key={dice.playId} dice={dice} />
                 ))
               ) : (
-                <div className="col-span-full flex h-full w-full items-center justify-center p-4 text-gray-400 italic">
+                <div className="col-span-full flex h-full min-h-[150px] w-full items-center justify-center p-4 text-gray-400 italic">
                   Table is empty. Click on your dice in the 'Your Dice' area to
                   add them!
                 </div>
