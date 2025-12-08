@@ -281,14 +281,14 @@ function ManageDice({ setCurrentPage, currentPage }) {
       )}
 
       {/* display grid */}
-      <div className="w-full overflow-x-auto">
+      <div className="grid-wrapper">
         {loading ? (
           // [!] simple loading state
           <div className="p-10 text-center font-bold text-gray-400">
             Loading your dice...
           </div>
         ) : (
-          <div className="mx-auto grid w-max grid-flow-col grid-rows-[auto_auto] items-end gap-3">
+          <div className="dice-grid">
             {displayDiceArray.length > 0 ? (
               displayDiceArray.map((dice) => (
                 <div className="w-25 lg:w-35" key={dice.id}>

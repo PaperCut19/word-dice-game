@@ -53,6 +53,14 @@ body {
   .button-container {
     @apply flex flex-col flex-wrap items-center justify-center gap-3 rounded-lg border-4 border-red-300 p-4 md:flex-row;
   }
+
+  .grid-wrapper {
+    @apply w-full overflow-x-auto;
+  }
+
+  .dice-grid {
+    @apply mx-auto grid w-max grid-flow-col grid-rows-[auto_auto] items-end gap-3;
+  }
 }
 
 @theme {

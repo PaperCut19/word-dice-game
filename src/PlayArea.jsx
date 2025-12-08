@@ -116,10 +116,10 @@ function PlayArea({ setCurrentPage, currentPage }) {
       {/* two sections side by side on desktop */}
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-[7fr_13fr]">
         {/* LEFT SECTION: your collection either from online database or browser storage */}
-        <div className="border-main min-w-0">
+        <div className="border-main grid-wrapper">
           <h2 className="yellow-underlined-heading">Your Dice</h2>
 
-          <div className="grid h-fit grid-flow-col grid-rows-[auto_auto] items-end gap-3 overflow-x-auto">
+          <div className="dice-grid">
             {loading ? (
               <div className="p-4 text-gray-500 italic">
                 Loading collection...
@@ -143,8 +143,8 @@ function PlayArea({ setCurrentPage, currentPage }) {
           <h2 className="yellow-underlined-heading">Play Area</h2>
 
           {/* display active dice */}
-          <div className="w-full overflow-x-auto">
-            <div className="mx-auto mb-4 grid h-fit auto-cols-auto grid-flow-col grid-rows-[auto_auto] items-end gap-3 pb-2">
+          <div className="grid-wrapper">
+            <div className="dice-grid">
               {displayDiceArray.length > 0 ? (
                 displayDiceArray.map((dice) => (
                   <DiceDataBlock key={dice.playId} dice={dice} />
