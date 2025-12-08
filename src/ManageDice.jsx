@@ -291,9 +291,7 @@ function ManageDice({ setCurrentPage, currentPage }) {
           <div className="dice-grid">
             {displayDiceArray.length > 0 ? (
               displayDiceArray.map((dice) => (
-                <div className="w-25 lg:w-35" key={dice.id}>
-                  <DiceDataBlock dice={dice} />
-                </div>
+                <DiceDataBlock dice={dice} key={dice.id} />
               ))
             ) : (
               <div className="p-4 text-lg text-gray-500">

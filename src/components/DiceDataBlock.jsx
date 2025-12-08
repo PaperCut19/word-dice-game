@@ -21,7 +21,10 @@ function DiceDataBlock({ dice, showMetadata = true }) {
   };
 
   return (
-    <div className="group flex flex-col items-center" onClick={dice.onClick}>
+    <div
+      className="group flex w-25 flex-col items-center md:w-30 lg:w-35"
+      onClick={dice.onClick}
+    >
       {showMetadata && (
         <>
           <h1 className="mx-auto text-center">
