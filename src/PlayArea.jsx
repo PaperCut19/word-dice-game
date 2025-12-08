@@ -159,51 +159,52 @@ function PlayArea({ setCurrentPage, currentPage }) {
           </div>
 
           {/* buttons */}
-          <div className="mt-4 flex flex-wrap gap-2">
-            <Button
-              onClick={handleRoll}
-              className="button-secondary bg-purple-300 hover:bg-purple-200"
-            >
-              Roll Dice
-            </Button>
+          <div className="mt-4 flex flex-col items-center justify-center lg:flex-row lg:justify-between">
+            <div className="mb-5 flex gap-2 lg:mb-0">
+              <Button
+                onClick={handleRoll}
+                className="button-secondary bg-purple-300 hover:bg-purple-200"
+              >
+                Roll Dice
+              </Button>
 
-            <Button onClick={handleDeleteAll}>Delete All</Button>
+              <Button className="button-primary" onClick={handleAddAll}>
+                Add All
+              </Button>
+            </div>
 
-            <Button
-              className={
-                manageMode === "delete"
-                  ? "button-secondary bg-yellow-500"
-                  : "button-secondary"
-              }
-              onClick={() => setManageMode("delete")}
-            >
-              Delete
-            </Button>
+            <div className="flex flex-wrap gap-2">
+              <Button onClick={handleDeleteAll}>Delete All</Button>
 
-            <Button
-              className={
-                manageMode === "freeze"
-                  ? "button-secondary bg-yellow-500"
-                  : "button-secondary"
-              }
-              onClick={() => setManageMode("freeze")}
-            >
-              Freeze
-            </Button>
+              <Button
+                className={
+                  manageMode === "delete"
+                    ? "button-secondary bg-yellow-500"
+                    : "button-secondary"
+                }
+                onClick={() => setManageMode("delete")}
+              >
+                Delete
+              </Button>
 
-            <Button
-              className="button-primary"
-              onClick={() => setManageMode("")}
-            >
-              Finished Editing
-            </Button>
+              <Button
+                className={
+                  manageMode === "freeze"
+                    ? "button-secondary bg-yellow-500"
+                    : "button-secondary"
+                }
+                onClick={() => setManageMode("freeze")}
+              >
+                Freeze
+              </Button>
 
-            <Button
-              className="button-secondary bg-purple-300 hover:bg-purple-200"
-              onClick={handleAddAll}
-            >
-              Add All
-            </Button>
+              <Button
+                className="button-primary"
+                onClick={() => setManageMode("")}
+              >
+                Finished Editing
+              </Button>
+            </div>
           </div>
         </div>
       </div>
