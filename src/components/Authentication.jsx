@@ -5,7 +5,7 @@ import { useAuth } from "../context/AuthContext";
 
 function Authentication({ setCurrentPage }) {
   const [userMode, setUserMode] = useState("none");
-  const { login } = useAuth(); // [!] get the login function from our context
+  const { login, logout } = useAuth(); // [!] get the login function from our context
 
   let headerMessage = "";
   if (userMode === "userAccountMode") headerMessage = "Login or Sign Up";
@@ -81,6 +81,9 @@ function Authentication({ setCurrentPage }) {
 
           <Button
             onClick={() => {
+              // force logout to guarantee the user enters into guest mode and doesn't accidentally use an account
+              // from an old web token left in the browser when someone logged in previously
+              logout();
               setCurrentPage("manage");
             }}
           >

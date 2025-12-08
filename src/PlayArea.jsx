@@ -3,12 +3,14 @@ import Button from "./components/Button";
 import DiceDataBlock from "./components/DiceDataBlock";
 import NavigationMenu from "./components/NavigationMenu";
 import { useDiceManager } from "./hooks/useDiceManager";
+import { useAuth } from "./context/AuthContext";
 
 function PlayArea({ setCurrentPage, currentPage }) {
   // --- 1. GET PERSISTENT DATA ---
   // we only need the list of dice (diceObjects) and the loading state
   // we don't need save/delete here because PlayArea only creates temporary copies
   const { diceObjects: diceArray, loading } = useDiceManager();
+  const { user } = useAuth(); // get user info
 
   // --- 2. LOCAL GAME STATE ---
   // this tracks the dice currently 'on the table' for this specific session
@@ -96,6 +98,21 @@ function PlayArea({ setCurrentPage, currentPage }) {
     <div className="main-container">
       <h1 className="mb-8 font-fancyLetters text-4xl">Play Area</h1>
 
+      {user ? (
+        <h2 className="mt-5 mb-5 text-2xl">
+          Welcome{" "}
+          <span className="rounded-lg bg-purple-300 p-1.5">
+            {user.username}
+          </span>
+        </h2>
+      ) : (
+        <div className="mt-5 mb-5 flex flex-col items-center justify-center">
+          <h1 className="w-fit rounded-lg bg-purple-300 p-2 text-black">
+            Guest Mode
+          </h1>
+        </div>
+      )}
+
       {/* two sections side by side on desktop */}
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-[7fr_13fr]">
         {/* LEFT SECTION: your collection either from online database or browser storage */}
@@ -143,31 +160,42 @@ function PlayArea({ setCurrentPage, currentPage }) {
 
           {/* buttons */}
           <div className="mt-4 flex flex-wrap gap-2">
-            <Button onClick={handleRoll}>Roll Dice</Button>
+            <Button
+              onClick={handleRoll}
+              className="button-secondary bg-purple-300 hover:bg-purple-200"
+            >
+              Roll Dice
+            </Button>
+
             <Button onClick={handleDeleteAll}>Delete All</Button>
+
             <Button
               className={
                 manageMode === "delete"
                   ? "button-secondary bg-yellow-500"
                   : "button-secondary"
               }
-              onClick={() =>
-                setManageMode(manageMode === "delete" ? "" : "delete")
-              }
+              onClick={() => setManageMode("delete")}
             >
-              {manageMode === "delete" ? "Done Deleting" : "Delete"}
+              Delete
             </Button>
+
             <Button
               className={
                 manageMode === "freeze"
                   ? "button-secondary bg-yellow-500"
                   : "button-secondary"
               }
-              onClick={() =>
-                setManageMode(manageMode === "freeze" ? "" : "freeze")
-              }
+              onClick={() => setManageMode("freeze")}
             >
-              {manageMode === "freeze" ? "Done Freezing" : "Freeze"}
+              Freeze
+            </Button>
+
+            <Button
+              className="button-primary"
+              onClick={() => setManageMode("")}
+            >
+              Finished Editing
             </Button>
 
             <Button
