@@ -1,0 +1,191 @@
+import { useState } from "react";
+import Button from "./components/Button";
+import DiceDataBlock from "./components/DiceDataBlock";
+import NavigationMenu from "./components/NavigationMenu";
+import { useDiceManager } from "./hooks/useDiceManager";
+
+function PlayArea({ setCurrentPage, currentPage }) {
+  // --- 1. GET PERSISTENT DATA ---
+  // we only need the list of dice (diceObjects) and the loading state
+  // we don't need save/delete here because PlayArea only creates temporary copies
+  const { diceObjects: diceArray, loading } = useDiceManager();
+
+  // --- 2. LOCAL GAME STATE ---
+  // this tracks the dice currently 'on the table' for this specific session
+  // it is ephemeral (lost on refresh), which is standard for a game table
+
+  const [activeDice, setActiveDice] = useState([]);
+  const [manageMode, setManageMode] = useState("");
+
+  // --- 3. GAME LOGIC (unchanged) ---
+  const displayDiceArray = activeDice.map((dice) => {
+    let onClick = () => {};
+    const shouldBeClickable =
+      manageMode === "delete" || manageMode === "freeze";
+
+    if (manageMode === "delete") {
+      onClick = () => {
+        const newArray = activeDice.filter((d) => d.playId !== dice.playId);
+        setActiveDice(newArray);
+      };
+    }
+
+    if (manageMode === "freeze") {
+      onClick = () => {
+        const newArray = activeDice.map((d) =>
+          d.playId === dice.playId ? { ...d, frozen: !d.frozen } : d,
+        );
+        setActiveDice(newArray);
+      };
+    }
+
+    return {
+      ...dice,
+      isClickable: shouldBeClickable,
+      onClick: onClick,
+    };
+  });
+
+  const handleAddAll = () => {
+    // clone all persistent dice into the active game area
+    const newArray = diceArray.map((dice) => ({
+      ...dice,
+      playId: Date.now() + Math.random(), // unique id for the game session
+      frozen: false,
+    }));
+    setActiveDice([...activeDice, ...newArray]);
+  };
+
+  const handleDeleteAll = () => {
+    const newArray = activeDice.filter((dice) => dice.frozen);
+    setActiveDice(newArray);
+  };
+
+  const handleAddDice = (dice) => {
+    const newDice = {
+      ...dice,
+      playId: Date.now() + Math.random(),
+      frozen: false,
+    };
+    setActiveDice([...activeDice, newDice]);
+  };
+
+  const handleRoll = () => {
+    const rolledDice = activeDice.map((dice) => {
+      if (dice.frozen) return dice;
+
+      // get all 6 faces
+      const faces = [
+        dice.text1,
+        dice.text2,
+        dice.text3,
+        dice.text4,
+        dice.text5,
+        dice.text6,
+      ].filter((face) => face && face.trim() !== "");
+
+      if (faces.length === 0) return dice;
+
+      const randomFace = faces[Math.floor(Math.random() * faces.length)];
+      return { ...dice, mainFace: randomFace };
+    });
+    setActiveDice(rolledDice);
+  };
+
+  return (
+    <div className="main-container">
+      <h1 className="mb-8 font-fancyLetters text-4xl">Play Area</h1>
+
+      {/* two sections side by side on desktop */}
+      <div className="grid grid-cols-1 gap-4 lg:grid-cols-[7fr_13fr]">
+        {/* LEFT SECTION: your collection either from online database or browser storage */}
+        <div className="border-main min-w-0">
+          <h2 className="yellow-underlined-heading">Your Dice</h2>
+
+          <div className="grid grid-flow-col grid-rows-2 gap-3 overflow-x-auto">
+            {loading ? (
+              <div className="p-4 text-gray-500 italic">
+                Loading collection...
+              </div>
+            ) : diceArray.length === 0 ? (
+              <div className="p-4 text-gray-500 italic">
+                No dice found. Go to 'Manage' to create some!
+              </div>
+            ) : (
+              diceArray.map((dice) => (
+                <div key={dice.id} onClick={() => handleAddDice(dice)}>
+                  <DiceDataBlock dice={dice} />
+                </div>
+              ))
+            )}
+          </div>
+        </div>
+
+        {/* RIGHT SECTION: the table (active game) */}
+        <div className="border-main min-w-0 overflow-hidden">
+          <h2 className="yellow-underlined-heading">Play Area</h2>
+
+          {/* display active dice */}
+          <div className="w-full overflow-x-auto">
+            <div className="mx-auto mb-4 grid min-h-[150px] w-max auto-cols-auto grid-flow-col grid-rows-2 gap-3 pb-2">
+              {displayDiceArray.length > 0 ? (
+                displayDiceArray.map((dice) => (
+                  <DiceDataBlock key={dice.playId} dice={dice} />
+                ))
+              ) : (
+                <div className="col-span-full flex h-full w-full items-center justify-center p-4 text-gray-400 italic">
+                  Table is empty. Click on your dice in the 'Your Dice' area to
+                  add them!
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* buttons */}
+          <div className="mt-4 flex flex-wrap gap-2">
+            <Button onClick={handleRoll}>Roll Dice</Button>
+            <Button onClick={handleDeleteAll}>Delete All</Button>
+            <Button
+              className={
+                manageMode === "delete"
+                  ? "button-secondary bg-yellow-500"
+                  : "button-secondary"
+              }
+              onClick={() =>
+                setManageMode(manageMode === "delete" ? "" : "delete")
+              }
+            >
+              {manageMode === "delete" ? "Done Deleting" : "Delete"}
+            </Button>
+            <Button
+              className={
+                manageMode === "freeze"
+                  ? "button-secondary bg-yellow-500"
+                  : "button-secondary"
+              }
+              onClick={() =>
+                setManageMode(manageMode === "freeze" ? "" : "freeze")
+              }
+            >
+              {manageMode === "freeze" ? "Done Freezing" : "Freeze"}
+            </Button>
+
+            <Button
+              className="button-secondary bg-purple-300 hover:bg-purple-200"
+              onClick={handleAddAll}
+            >
+              Add All
+            </Button>
+          </div>
+        </div>
+      </div>
+
+      <NavigationMenu
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+      />
+    </div>
+  );
+}
+
+export default PlayArea;

@@ -21,7 +21,7 @@ function NavigationMenu({ setCurrentPage, currentPage }) {
       >
         Home/Log Out
       </Button>
-      {/* <Button
+      <Button
         className={
           currentPage === "play"
             ? "button-secondary w-full bg-yellow-500 md:w-fit"
@@ -30,7 +30,7 @@ function NavigationMenu({ setCurrentPage, currentPage }) {
         onClick={() => setCurrentPage("play")}
       >
         Play with Dice
-      </Button> */}
+      </Button>
 
       <Button
         className={

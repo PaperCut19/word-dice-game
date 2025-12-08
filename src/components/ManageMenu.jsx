@@ -43,7 +43,12 @@ function ManageMenu({
       <Button className="button-primary" onClick={onClear}>
         Clear
       </Button>
-      <Button onClick={autoCreate}>Auto-Create</Button>
+      <Button
+        className="button-secondary bg-purple-300 hover:bg-purple-200"
+        onClick={autoCreate}
+      >
+        Auto-Create
+      </Button>
     </div>
   );
 }

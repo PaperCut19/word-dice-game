@@ -2,7 +2,7 @@ import { AuthProvider } from "./context/AuthContext";
 import { useState } from "react";
 import HomePage from "./HomePage";
 import ManageDice from "./ManageDice";
-// import PlayArea from "./PlayArea";
+import PlayArea from "./PlayArea";
 
 function App() {
   const [currentPage, setCurrentPage] = useState("home");
@@ -17,9 +17,9 @@ function App() {
             setCurrentPage={setCurrentPage}
           />
         )}
-        {/* {currentPage === "play" && (
+        {currentPage === "play" && (
           <PlayArea currentPage={currentPage} setCurrentPage={setCurrentPage} />
-        )} */}
+        )}
       </div>
     </AuthProvider>
   );
