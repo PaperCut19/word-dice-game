@@ -14,7 +14,7 @@ function NavigationMenu({ setCurrentPage, currentPage }) {
   };
 
   return (
-    <div className="button-container border-6 border-dashed border-red-400">
+    <div className="button-container border-6 border-dashed border-purple-400">
       <Button
         className="button-primary w-full md:w-fit"
         onClick={handleHomeClick}
