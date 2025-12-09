@@ -170,7 +170,7 @@ function PlayArea({ setCurrentPage, currentPage }) {
               </Button>
             </div>
 
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap justify-center gap-2">
               <Button onClick={handleDeleteAll}>Delete All</Button>
 
               <Button
