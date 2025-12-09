@@ -63,7 +63,7 @@ body {
   }
 
   .dice-grid {
-    @apply mx-auto grid w-max grid-flow-col grid-rows-[auto_auto] items-end gap-3;
+    @apply grid-rows-[auto] mx-auto grid w-max grid-flow-col items-end gap-3;
   }
 }
 
