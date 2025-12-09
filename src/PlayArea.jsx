@@ -114,7 +114,7 @@ function PlayArea({ setCurrentPage, currentPage }) {
 
   return (
     <div className="main-container">
-      <h1 className="mb-8 font-fancyLetters text-4xl">Play Area</h1>
+      <h1 className="font-fancyLetters text-4xl">Play Area</h1>
 
       {user ? (
         <h2 className="mt-5 mb-5 text-2xl">
