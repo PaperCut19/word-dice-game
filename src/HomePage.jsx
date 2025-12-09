@@ -19,6 +19,7 @@ function HomePage({ setCurrentPage }) {
       text5: "",
       text6: "",
       mainFace: char, // start showing the actual letter
+      showExtraInfo: false, //initialize as not showing the extra info
     };
   };
 
@@ -26,6 +27,17 @@ function HomePage({ setCurrentPage }) {
   const [frontPageDice, setFrontPageDice] = useState(() =>
     "WORDS".split("").map((char, index) => createDiceObject(char, index)),
   );
+
+  // handler to toggle the info state
+  const handleDiceClick = (id) => {
+    const newDiceArray = frontPageDice.map((dice) => {
+      if (dice.id === id) {
+        return { ...dice, showExtraInfo: !dice.showExtraInfo };
+      }
+      return dice;
+    });
+    setFrontPageDice(newDiceArray);
+  };
 
   const handleSubmit = () => {
     if (!inputValue.trim()) {
@@ -88,7 +100,20 @@ function HomePage({ setCurrentPage }) {
           {/* front page dice blocks */}
           <div className="flex flex-wrap items-center justify-center gap-3">
             {frontPageDice.map((dice) => {
-              return <DiceDataBlock key={dice.id} dice={dice} />;
+              // merge the click handler into the dice object
+              // DiceDataBlock expects 'dice.onClick' to exist
+              const diceWithHandler = {
+                ...dice,
+                onClick: () => handleDiceClick(dice.id),
+              };
+
+              return (
+                <DiceDataBlock
+                  key={dice.id}
+                  dice={diceWithHandler}
+                  showMetadata={false}
+                />
+              );
             })}
           </div>
 

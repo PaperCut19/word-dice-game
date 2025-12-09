@@ -36,17 +36,17 @@ function DiceDataBlock({ dice, showMetadata = true }) {
               Frozen
             </h1>
           )}
-          {dice.showExtraInfo && (
-            <div>
-              <p>Side 1: {dice.text1}</p>
-              <p>Side 2: {dice.text2}</p>
-              <p>Side 3: {dice.text3}</p>
-              <p>Side 4: {dice.text4}</p>
-              <p>Side 5: {dice.text5}</p>
-              <p>Side 6: {dice.text6}</p>
-            </div>
-          )}
         </>
+      )}
+      {dice.showExtraInfo && (
+        <div>
+          <p>Side 1: {dice.text1}</p>
+          <p>Side 2: {dice.text2}</p>
+          <p>Side 3: {dice.text3}</p>
+          <p>Side 4: {dice.text4}</p>
+          <p>Side 5: {dice.text5}</p>
+          <p>Side 6: {dice.text6}</p>
+        </div>
       )}
       <div
         className={`dice-box ${getDiceBoxColor()} ${dice.isClickable && "border-clickable"}`}
