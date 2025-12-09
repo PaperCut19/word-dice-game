@@ -1,12 +1,31 @@
 import { useState } from "react";
 import DiceDataBlock from "./components/DiceDataBlock";
 import Button from "./components/Button";
-import NavigationMenu from "./components/NavigationMenu";
 import Authentication from "./components/Authentication";
+
+const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
 function HomePage({ setCurrentPage }) {
   const [inputValue, setInputValue] = useState("");
-  const [frontPageDice, setFrontPageDice] = useState(["W", "O", "R", "D", "S"]);
+
+  // helper to create a dice object from a letter
+  const createDiceObject = (char, index) => {
+    return {
+      id: Date.now() + index,
+      text1: char, // side 1 is the actual letter
+      text2: "",
+      text3: "",
+      text4: "",
+      text5: "",
+      text6: "",
+      mainFace: char, // start showing the actual letter
+    };
+  };
+
+  // initialize with 'WORDS' as objects
+  const [frontPageDice, setFrontPageDice] = useState(() =>
+    "WORDS".split("").map((char, index) => createDiceObject(char, index)),
+  );
 
   const handleSubmit = () => {
     if (!inputValue.trim()) {
@@ -14,10 +33,48 @@ function HomePage({ setCurrentPage }) {
       return;
     }
 
-    // Convert input to array of letters
-    const newLetters = inputValue.toUpperCase().split("");
-    setFrontPageDice(newLetters);
+    // use createDiceObject so we store objects, not strings
+    const newDiceArray = inputValue
+      .toUpperCase()
+      .split("")
+      .map((char, index) => createDiceObject(char, index));
+
+    setFrontPageDice(newDiceArray);
     setInputValue(""); // Clear input after submit
+  };
+
+  const handleRoll = () => {
+    const rolledDice = frontPageDice.map((dice) => {
+      // 1. generate 5 random letters for sides 2-6
+      const randomSides = Array.from({ length: 5 }, () =>
+        ALPHABET.charAt(Math.floor(Math.random() * ALPHABET.length)),
+      );
+      // 2. create the pool of faces (side 1 + 5 randoms)
+      const allFaces = [dice.text1, ...randomSides];
+
+      // 3. pick a random face from the 6 options
+      const newMainFace = allFaces[Math.floor(Math.random() * allFaces.length)];
+
+      return {
+        ...dice,
+        text2: randomSides[0],
+        text3: randomSides[1],
+        text4: randomSides[2],
+        text5: randomSides[3],
+        text6: randomSides[4],
+        mainFace: newMainFace,
+      };
+    });
+    setFrontPageDice(rolledDice);
+  };
+
+  const handleReset = () => {
+    // reset mainFace back to text1 (the original letter)
+    const resetDice = frontPageDice.map((dice) => ({
+      ...dice,
+      mainFace: dice.text1,
+    }));
+    setFrontPageDice(resetDice);
   };
 
   return (
@@ -30,15 +87,17 @@ function HomePage({ setCurrentPage }) {
 
           {/* front page dice blocks */}
           <div className="flex flex-wrap items-center justify-center gap-3">
-            {frontPageDice.map((letter, index) => {
-              return (
-                <DiceDataBlock
-                  key={index}
-                  dice={{ text1: letter }}
-                  showMetadata={false}
-                />
-              );
+            {frontPageDice.map((dice) => {
+              return <DiceDataBlock key={dice.id} dice={dice} />;
             })}
+          </div>
+
+          {/* Action Buttons */}
+          <div className="flex w-full flex-wrap justify-center gap-2">
+            <Button className="button-third" onClick={handleRoll}>
+              Roll Dice
+            </Button>
+            <Button onClick={handleReset}>Reset Dice</Button>
           </div>
 
           {/* input */}
