@@ -18,6 +18,10 @@ body {
     @apply rounded-lg bg-gray-300 p-2 duration-200 hover:cursor-pointer hover:bg-gray-200;
   }
 
+  .button-third {
+    @apply rounded-lg bg-purple-300 p-2 duration-200 hover:cursor-pointer hover:bg-purple-200;
+  }
+
   .dice-box {
     @apply flex h-20 w-20 items-center justify-center rounded-xl duration-400 hover:cursor-pointer md:h-30 md:w-30;
   }

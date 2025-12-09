@@ -161,10 +161,7 @@ function PlayArea({ setCurrentPage, currentPage }) {
           {/* buttons */}
           <div className="mt-4 flex flex-col items-center justify-center lg:flex-row lg:justify-between">
             <div className="mb-5 flex gap-2 lg:mb-0">
-              <Button
-                onClick={handleRoll}
-                className="button-secondary bg-purple-300 hover:bg-purple-200"
-              >
+              <Button onClick={handleRoll} className="button-third">
                 Roll Dice
               </Button>
 
