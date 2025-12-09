@@ -25,6 +25,18 @@ function PlayArea({ setCurrentPage, currentPage }) {
     const shouldBeClickable =
       manageMode === "delete" || manageMode === "freeze";
 
+    if (manageMode === "") {
+      onClick = () => {
+        const newArray = activeDice.map((d) =>
+          // if this is the one we clicked, flip the showExtraInfo boolean
+          d.playId === dice.playId
+            ? { ...d, showExtraInfo: !d.showExtraInfo }
+            : d,
+        );
+        setActiveDice(newArray);
+      };
+    }
+
     if (manageMode === "delete") {
       onClick = () => {
         const newArray = activeDice.filter((d) => d.playId !== dice.playId);
