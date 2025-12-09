@@ -125,19 +125,21 @@ function HomePage({ setCurrentPage }) {
             <Button onClick={handleReset}>Reset Dice</Button>
           </div>
 
-          {/* input */}
-          <input
-            type="text"
-            value={inputValue}
-            onChange={(event) => setInputValue(event.target.value)}
-            onKeyDown={(event) => event.key === "Enter" && handleSubmit()}
-            placeholder="Change 'words' to what?"
-            className="text-input w-50 text-center"
-          />
+          <div className="button-container flex-col border-dashed">
+            {/* input */}
+            <input
+              type="text"
+              value={inputValue}
+              onChange={(event) => setInputValue(event.target.value)}
+              onKeyDown={(event) => event.key === "Enter" && handleSubmit()}
+              placeholder="Change 'words' to what?"
+              className="text-input w-50 text-center"
+            />
 
-          <Button className="button-secondary w-50" onClick={handleSubmit}>
-            Submit
-          </Button>
+            <Button className="button-primary w-50" onClick={handleSubmit}>
+              Submit
+            </Button>
+          </div>
         </div>
 
         <div className="">
