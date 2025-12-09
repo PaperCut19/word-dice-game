@@ -23,11 +23,26 @@ function ManageDice({ setCurrentPage, currentPage }) {
   const [activeSection, setActiveSection] = useState(null); // can be: null, 'create', or 'delete'
   const [foundDice, setFoundDice] = useState(null); // For storing the actual dice object
   const [manageMode, setManageMode] = useState("");
+  const [diceExtraInfoList, setDiceExtraInfoList] = useState([]);
 
   // --- 3. PREPARE DISPLAY DATA ---
   const displayDiceArray = diceArray.map((dice) => {
     let onClick = () => {};
     const shouldbeClickable = manageMode === "edit" || manageMode === "delete";
+    const showExtraInfo = diceExtraInfoList.includes(dice.id);
+
+    if (manageMode === "") {
+      onClick = () => {
+        // if it's already showing extra info (included), remove it, if not, then add it to the list
+        if (diceExtraInfoList.includes(dice.id)) {
+          setDiceExtraInfoList(
+            diceExtraInfoList.filter((id) => id !== dice.id),
+          );
+        } else {
+          setDiceExtraInfoList([...diceExtraInfoList, dice.id]);
+        }
+      };
+    }
 
     if (manageMode === "delete") {
       onClick = async () => {
@@ -49,6 +64,7 @@ function ManageDice({ setCurrentPage, currentPage }) {
       ...dice,
       isClickable: shouldbeClickable,
       onClick: onClick,
+      showExtraInfo: showExtraInfo,
     };
   });
 
@@ -220,7 +236,7 @@ function ManageDice({ setCurrentPage, currentPage }) {
     setActiveSection("delete");
   };
   const handleClear = () => {
-    setManageMode(null);
+    setManageMode("");
     setActiveSection("");
   };
 
