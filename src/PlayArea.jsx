@@ -61,11 +61,15 @@ function PlayArea({ setCurrentPage, currentPage }) {
   });
 
   const handleAddAll = () => {
+    const batchTimestamp = Date.now();
     // clone all persistent dice into the active game area
-    const newArray = diceArray.map((dice) => ({
+    const newArray = diceArray.map((dice, index) => ({
       ...dice,
-      playId: Date.now() + Math.random(), // unique id for the game session
+      // [!] FIX: Use string format with index to guarantee uniqueness
+      // This prevents the "duplicate key" error when adding many dice at once
+      playId: `${batchTimestamp}-${index}-${Math.random()}`,
       frozen: false,
+      showExtraInfo: false,
     }));
     setActiveDice([...activeDice, ...newArray]);
   };
@@ -78,8 +82,10 @@ function PlayArea({ setCurrentPage, currentPage }) {
   const handleAddDice = (dice) => {
     const newDice = {
       ...dice,
-      playId: Date.now() + Math.random(),
+      // [!] FIX: Consistent string format
+      playId: `${Date.now()}-${Math.random()}`,
       frozen: false,
+      showExtraInfo: false,
     };
     setActiveDice([...activeDice, newDice]);
   };
