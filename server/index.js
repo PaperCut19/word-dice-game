@@ -39,17 +39,36 @@ const toBackend = (body) => {
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// database connection
-const pool = new Pool({
-  user: process.env.DB_USER,
-  host: process.env.DB_HOST,
-  database: process.env.DB_NAME,
-  password: process.env.DB_PASSWORD,
-  port: process.env.DB_PORT,
-});
+// [!] DATABASE CONNECTION (Updated for Production)
+const isProduction = process.env.NODE_ENV === "production";
+
+const poolConfig = isProduction
+  ? {
+      // Production (Railway)
+      connectionString: process.env.DATABASE_URL,
+      ssl: {
+        rejectUnauthorized: false, // Required for most cloud Postgres providers
+      },
+    }
+  : {
+      // Local Development
+      user: process.env.DB_USER,
+      host: process.env.DB_HOST,
+      database: process.env.DB_NAME,
+      password: process.env.DB_PASSWORD,
+      port: process.env.DB_PORT,
+    };
+
+const pool = new Pool(poolConfig);
 
 // --- 2. GLOBAL MIDDLEWARE ---
-app.use(cors({ origin: "http://localhost:5173" })); // allow react frontend
+// [!] CORS (Updated for Production)
+// We allow either the local React port OR the production Netlify URL
+const allowedOrigin = isProduction
+  ? process.env.FRONTEND_URL // We will set this in Railway later!
+  : "http://localhost:5173";
+
+app.use(cors({ origin: allowedOrigin }));
 app.use(express.json()); // parse JSON bodies
 
 // --- 3. AUTHENTICATION MIDDLEWARE ---
@@ -242,7 +261,7 @@ pool.connect((error) => {
   } else {
     console.log("connected to PostgreSQL database");
     app.listen(PORT, () => {
-      console.log(`server running on http://localhost:${PORT}`);
+      console.log(`server running on ${PORT}`);
     });
   }
 });
