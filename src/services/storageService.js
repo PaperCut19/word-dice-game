@@ -65,8 +65,11 @@ const localAdapter = {
 };
 
 // --- 2. API adapter (user mode) ---
-// base URL for your API endpoint
-const API_BASE_URL = "http://localhost:3000/api/dice_objects";
+// get the server URL from the environment (or default to localhost)
+const SERVER_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
+
+// build the specific endpoint URL
+const API_BASE_URL = `${SERVER_URL}/api/dice_objects`;
 
 // [!] NEW HELPER FUNCTION: centralized response handler
 // this handles the 'token expired' check for all API calls below
