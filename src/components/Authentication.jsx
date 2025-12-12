@@ -7,6 +7,9 @@ function Authentication({ setCurrentPage }) {
   const [userMode, setUserMode] = useState("none");
   const { login, logout } = useAuth(); // [!] get the login function from our context
 
+  // [!] Get server URL dynamically
+  const SERVER_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
+
   let headerMessage = "";
   if (userMode === "userAccountMode") headerMessage = "Login or Sign Up";
   else if (userMode === "login") headerMessage = "Login Section";
@@ -17,7 +20,8 @@ function Authentication({ setCurrentPage }) {
   // --- Registration Logic ---
   const handleRegister = async (username, password) => {
     try {
-      const response = await fetch("http://localhost:3000/api/register", {
+      // use SERVER_URL
+      const response = await fetch(`${SERVER_URL}/api/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, password }),
@@ -41,7 +45,7 @@ function Authentication({ setCurrentPage }) {
   // --- login logic ---
   const handleLogin = async (username, password) => {
     try {
-      const response = await fetch("http://localhost:3000/api/login", {
+      const response = await fetch(`${SERVER_URL}/api/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, password }),
